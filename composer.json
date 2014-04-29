@@ -6,9 +6,6 @@
             "email": "wa.milton@gmail.com"
         }
     ],
-    "require": {
-
-    }
     "autoload": {
         "psr-4": {
             "Drupal\\ParseComposer\\": ""
