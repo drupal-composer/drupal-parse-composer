@@ -1,0 +1,5 @@
+suites:
+  default:
+    namespace: Drupal\ParseComposer
+    psr4_prefix: Drupal\ParseComposer
+    src_path: .
