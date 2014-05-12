@@ -15,7 +15,6 @@ class InfoFile
     {
         $this->name = $name;
         $this->info = \drupal_parse_info_format($info);
-        /* $this->info['core'] = isset($this->info['core']) ? $this->info['core'] : $core; */
     }
 
     /**
@@ -32,7 +31,7 @@ class InfoFile
         list($all, $project, $v, $versionConstraints) = array_pad($matches, 4, '');
         $project = trim($project);
         if (empty($versionConstraints)) {
-            return ['drupal/'.$project => '*'];
+            return array('drupal/'.$project => Constraint::loose(new Version($this->info['core'][0])));
         }
         foreach (preg_split('/[, ]+/', $versionConstraints) as $versionConstraint) {
             preg_match(
@@ -41,20 +40,11 @@ class InfoFile
                 $matches
             );
             list($all, $symbols, $version) = $matches;
-            $versionParts = preg_split('/[-\.x]+/', $version);
-            $versionNumbers = array_filter($versionParts, 'is_numeric');
-            $extra = array_diff($versionParts, $versionNumbers);
-            if (count($versionNumbers) > 2 ) {
-                array_shift($versionNumbers);
-            }
-            else {
-                $versionNumbers = array_pad($versionNumbers, 2, 0);
-            }
-            $versionString = implode('.', array_merge($versionNumbers, $extra));
+            $versionString = (string) new Version($version);
             $version = str_replace('unstable', 'patch', $versionString);
-            $constraints[] = $symbols.$version.($extra ? '-'.$extra : '');
+            $constraints[] = $symbols.$version;
         }
-        return ['drupal/'.$project => implode(',', $constraints)];
+        return array('drupal/'.$project => implode(',', $constraints));
     }
 
     /**
@@ -62,14 +52,14 @@ class InfoFile
      */
     public function packageInfo()
     {
-        $deps = isset($this->info['dependencies']) ? $this->info['dependencies'] : [];
-        $deps = is_array($deps) ? $deps : [$deps];
-        $info = [
-            'name' => 'drupal/'.$this->name,
-            'description' => $this->info['description'],
-            'require' => $this->constraint('drupal'),
-        ];
-        foreach($deps as $dep) {;
+        $deps = isset($this->info['dependencies']) ? $this->info['dependencies'] : array();
+        $deps = is_array($deps) ? $deps : array($deps);
+        $info = array(
+          'name' => 'drupal/'.$this->name,
+          'description' => $this->info['description'],
+          'require' => $this->constraint('drupal'),
+        );
+        foreach($deps as $dep) {
             $info['require'] += $this->constraint($dep);
         }
         return $info;

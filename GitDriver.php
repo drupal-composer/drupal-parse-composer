@@ -12,7 +12,7 @@ class GitDriver extends BaseDriver
      */
     public function getComposerInformation($identifier)
     {
-        $composer = [];
+        $composer = array();
         try {
             $composer = parent::getComposerInformation($identifier);
         } catch (TransportException $e) {
@@ -21,15 +21,19 @@ class GitDriver extends BaseDriver
 
         if (NULL != ($drupalInformation = $this->getDrupalInformation($identifier))) {
             $topInformation = $drupalInformation[$this->drupalProjectName];
-            $composer['require'] = isset($composer['require']) ? $composer['require'] : [];
+            $composer['require'] = isset($composer['require']) ? $composer['require'] : array();
             foreach ($drupalInformation as $name => $info) {
                 $composer['require'] = array_merge($composer['require'], $info['require']);
             }
-            unset($drupalInformation[$this->drupalProjectName]);
             foreach (array_keys($drupalInformation) as $name) {
-                $composer['replace'][$name] = 'self.version';
+                if (isset($composer['require']["drupal/$name"])) {
+                    unset($composer['require']["drupal/$name"]);
+                }
+                if ($name != $this->drupalProjectName) {
+                    $composer['replace']["drupal/$name"] = 'self.version';
+                }
             }
-            foreach (['name', 'description'] as $top) {
+            foreach (array('name', 'description') as $top) {
                 $composer[$top] = isset($composer[$top]) ? $composer[$top] : $topInformation[$top];
             }
             unset($composer['require'][$composer['name']]);
@@ -78,45 +82,53 @@ class GitDriver extends BaseDriver
 
     private function getDrupalInformation($identifier)
     {
-        list($projectNames, $paths) = [[], []];
+        $projectMap = $projectNames = $paths = $make = array();
         $this->process->execute(
             sprintf('git ls-tree -r %s --name-only', $identifier),
             $out,
             $this->repoDir
         );
-        $paths = [];
         foreach ($this->process->splitLines($out) as $path) {
             $parts = explode('.', $path);
-            if (end($parts) == 'info') {
-                $paths[] = $path;
+            $projectName = @current(explode('.', end(explode('/', $path))));
+            if (end($parts) === 'info' && !strpos($projectName, 'test')) {
+                $projectMap[$projectName] = new InfoFile(
+                    $projectName,
+                    $this->fileContents($identifier, $path)
+                );
+            }
+            if (end($parts) === 'make') {
+                $make[$projectName] = new MakeFile(
+                    $this->fileContents($identifier, $path)
+                );
             }
         }
-        $projectMap = [];
-        foreach ($paths as $path) {
-            $projectName = @current(explode('.', end(explode('/', $path))));
-            $resource = sprintf("%s:$path", escapeshellarg($identifier));
-            $this->process->execute(
-                "git show $resource",
-                $out,
-                $this->repoDir
-            );
-            $projectMap[$projectName] = new InfoFile($this->drupalProjectName, $out);
+        if ('drupal' == $this->drupalProjectName) {
+            $projectMap['drupal'] = clone($projectMap['system']);
         }
-        if (empty($projectMap)) {
-            return;
-        }
-        $drupal = $projectMap[$this->drupalProjectName]->drupalInfo();
-        if (!isset($drupal['core'])) {
-            return;
-        }
-        $major = $projectMap[$this->drupalProjectName]->drupalInfo()['core'][0];
         foreach ($projectMap as $name => $info) {
             $composerMap[$name] = $info->packageInfo();
             foreach ($composerMap[$name]['require'] as $dep => $constraint) {
-                $composerMap[$name]['require'][$dep] = $major.'.'.$constraint;
+                $composerMap[$name]['require'][$dep] = $constraint;
+            }
+            foreach ($make as $makefile) {
+                foreach ($makefile->getMakeInfo('projects') as $name => $project) {
+                    $composerMap[$this->drupalProjectName]['require']['drupal/'.$name] = $makefile->getConstraint($name);
+                }
             }
         }
         return $composerMap;
+    }
+
+    private function fileContents($identifier, $path)
+    {
+        $resource = sprintf("%s:%s", escapeshellarg($identifier), $path);
+        $this->process->execute(
+            "git show $resource",
+            $out,
+            $this->repoDir
+        );
+        return $out;
     }
 
     /**
@@ -125,7 +137,7 @@ class GitDriver extends BaseDriver
     public function getDist($identifier)
     {
         $distVersion = FALSE;
-        foreach (['tags', 'branches'] as $refs) {
+        foreach (array('tags', 'branches') as $refs) {
             $map = array_flip($this->$refs);
             if (!$distVersion) {
                 $distVersion = isset($map[$identifier]) ? $map[$identifier] : FALSE;

@@ -6,9 +6,37 @@
             "email": "wa.milton@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "dp.prometdev.com"
+        },
+        {
+            "type": "composer",
+            "url": "http://packages.zendframework.com/"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/winmillwill/packagist-bundle"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Drupal\\ParseComposer\\": ""
-        }
+        },
+        "files": [
+            "vendor/drupal/drupal/includes/common.inc"
+        ]
+    },
+    "require": {
+        "drupal/views": "7.*",
+        "symfony/symfony": "*@dev",
+        "composer/composer": "*@dev",
+        "winmillwill/packagist": "*@dev"
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpspec/phpspec": "dev-develop",
+        "phpunit/phpunit": "*"
     }
 }
