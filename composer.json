@@ -29,14 +29,14 @@
         ]
     },
     "require": {
-        "drupal/views": "7.*",
-        "symfony/symfony": "*@dev",
-        "composer/composer": "*@dev",
-        "winmillwill/packagist": "*@dev"
+        "drupal/views": "7.*"
     },
     "minimum-stability": "dev",
     "require-dev": {
         "phpspec/phpspec": "dev-develop",
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "*",
+        "symfony/symfony": "*@dev",
+        "composer/composer": "*@dev",
+        "winmillwill/packagist": "*@dev"
     }
 }
