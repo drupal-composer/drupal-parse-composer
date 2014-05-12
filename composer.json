@@ -25,7 +25,7 @@
             "Drupal\\ParseComposer\\": ""
         },
         "files": [
-            "vendor/drupal/drupal/includes/common.inc"
+            "bootstrap.php"
         ]
     },
     "require": {
