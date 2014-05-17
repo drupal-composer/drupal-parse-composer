@@ -54,11 +54,21 @@ class Project
                 }
             }
         }
-        if (($core = $projectMap[$this->name]->drupalInfo()['core'][0]) > 6) {
-            $releaseInfo = new ReleaseInfo($this->name, $core);
+        if (
+            $releaseInfo = $this->getReleaseInfo(
+                $projectMap[$this->name]->drupalInfo()['core'][0]
+            )
+        ) {
             $composerMap[$this->name]['type'] = $releaseInfo->getProjectType();
             $composerMap[$this->name]['require']['composer/installers'] = '~1.0';
         }
         return $composerMap;
+    }
+
+    public function getReleaseInfo($core)
+    {
+        if (($core  > 6) && ($this->name !== 'drupal')) {
+            return new ReleaseInfo($this->name, $core);
+        }
     }
 }

@@ -35,11 +35,12 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                     $composer['replace']["drupal/$name"] = 'self.version';
                 }
             }
-            foreach (array('name', 'description') as $top) {
+            foreach (array('name', 'description', 'type') as $top) {
                 $composer[$top] = isset($composer[$top]) ? $composer[$top] : $topInformation[$top];
             }
             unset($composer['require'][$composer['name']]);
         }
+        var_dump($composer);
         return $composer;
     }
 
