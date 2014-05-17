@@ -19,11 +19,6 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             // There is not composer.json file in the root
         }
         $composer = is_array($composer) ? $composer : array();
-        $composer += array(
-            'description' => null,
-            'require' => array(),
-            'type' => 'library'
-        );
 
         $project = new Project($this->drupalProjectName, $this);
         if (NULL != ($drupalInformation = $project->getDrupalInformation())) {
@@ -32,14 +27,26 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             foreach ($drupalInformation as $name => $info) {
                 $composer['require'] = array_merge($composer['require'], $info['require']);
             }
-            foreach (array_keys($drupalInformation) as $name) {
-                if (isset($composer['require']["drupal/$name"])) {
-                    unset($composer['require']["drupal/$name"]);
+            $keys = array_filter(
+                array_keys($composer['require']),
+                function($name) use ($name) {
+                    return (strpos($name, $this->drupalProjectName) === false);
                 }
+            );
+            $composer['require'] = array_intersect_key(
+                $composer['require'],
+                $keys
+            );
+            foreach (array_keys($drupalInformation) as $name) {
                 if ($name != $this->drupalProjectName) {
                     $composer['replace']["drupal/$name"] = 'self.version';
                 }
             }
+            $composer += array(
+                'description' => null,
+                'require' => array(),
+                'type' => 'library'
+            );
             foreach (array('name', 'description', 'type') as $top) {
                 $composer[$top] = isset($topInformation[$top]) ? $topInformation[$top] : $composer[$top];
             }

@@ -49,7 +49,7 @@ class Project
         foreach ($projectMap as $name => $info) {
             $composerMap[$name] = $info->packageInfo();
             foreach ($make as $makefile) {
-                foreach ($makefile->getMakeInfo('projects') as $name => $project) {
+                foreach (($makefile->getMakeInfo('projects') ?: []) as $name => $project) {
                     $composerMap[$this->name]['require']['drupal/'.$name] = $makefile->getConstraint($name);
                 }
             }
