@@ -40,7 +40,6 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             }
             unset($composer['require'][$composer['name']]);
         }
-        var_dump($composer);
         return $composer;
     }
 
