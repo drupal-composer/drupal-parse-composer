@@ -5,10 +5,15 @@ namespace Drupal\ParseComposer;
 class Project
 {
 
-    public function __construct($name, FileFinderInterface $finder)
+    public function __construct(
+        $name,
+        FileFinderInterface $finder,
+        array $releases = array()
+    )
     {
-        $this->name = $name;
-        $this->finder = $finder;
+        $this->name     = $name;
+        $this->finder   = $finder;
+        $this->releases = $releases;
     }
 
     public function getName()
@@ -67,8 +72,11 @@ class Project
 
     public function getReleaseInfo($core)
     {
-        if (($core  > 6) && ($this->name !== 'drupal')) {
-            return new ReleaseInfo($this->name, $core);
+        if (($core > 6) && ($this->name !== 'drupal')) {
+            if (!isset($this->releases[$core])) {
+                $this->releases[$core] = new ReleaseInfo($this->name, $core);
+            }
+            return $this->releases[$core];
         }
     }
 }

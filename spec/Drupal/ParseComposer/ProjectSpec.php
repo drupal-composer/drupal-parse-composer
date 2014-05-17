@@ -5,29 +5,21 @@ namespace spec\Drupal\ParseComposer;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-use Drupal\ParseComposer\GitDriver;
+use Drupal\ParseComposer\FileFinderInterface as Finder;
+use Drupal\ParseComposer\ReleaseInfo;
 use Composer\IO\IOInterface;
 use Composer\IO\BufferIO;
 use Composer\Config;
 
 class ProjectSpec extends ObjectBehavior
 {
-    function let(
-        BufferIO $io,
-        Config $config,
-        GitDriver $driver
+    function it_knows_its_name(
+        ReleaseInfo $release,
+        Finder $finder
     )
     {
-        $driver->beConstructedWith(
-            array(),
-            $io,
-            $config->getWrappedObject()
-        );
-        $this->beConstructedWith('foo', $driver);
-    }
-
-    function it_knows_its_name($driver)
-    {
+        $release->getProjectType()->willReturn('drupal-module');
+        $this->beConstructedWith('foo', $finder, [6 => $release, 7 => $release]);
         $this->getName()->shouldReturn('foo');
     }
 }

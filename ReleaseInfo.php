@@ -15,13 +15,11 @@ class ReleaseInfo
     public function load($projectName, $version)
     {
         $this->xml = $this->client->get(
-            implode(
-                '/',
-                [
-                    $this->releaseUrl,
-                    $projectName,
-                    $version
-                ]
+            sprintf(
+                '%s/%s/%d.x',
+                $this->releaseUrl,
+                $projectName,
+                $version
             )
         );
     }
@@ -34,8 +32,7 @@ class ReleaseInfo
             'module' => 'Modules',
             'theme' => 'Themes'
         );
-        $typesXpath = '/project/terms/term[name="Projects" and (value="'
-            . implode('" or value="', $projectTypes) . '")]';
+        $typesXpath = '/project/terms/term[name="Projects"]';
         $type = 'module';
         if ($types = $this->xml->xpath($typesXpath)) {
             $type = array_search($types[0]->value, $projectTypes);

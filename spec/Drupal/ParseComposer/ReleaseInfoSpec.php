@@ -18,12 +18,27 @@ class ReleaseInfoSpec extends ObjectBehavior
         $this->load('foo', 7);
     }
 
-    function it_translates_project_types(Client $client)
+    function it_translates_module_type_projects(Client $client)
     {
         $client->get('http://updates.drupal.org/release-history/foo/7.x')
-            ->willReturn(file_get_contents(__DIR__.'/../../../res/update.xml'));
+            ->willReturn(
+                new \SimpleXMLElement(
+                    file_get_contents(__DIR__.'/../../../res/update.xml')
+                )
+            );
         $this->beConstructedWith('foo', 7, $client);
         $this->getProjectType()->shouldReturn('drupal-module');
     }
 
+    function it_translates_theme_type_projects(Client $client)
+    {
+        $client->get('http://updates.drupal.org/release-history/foo-theme/7.x')
+            ->willReturn(
+                new \SimpleXMLElement(
+                    file_get_contents(__DIR__.'/../../../res/update-theme.xml')
+                )
+            );
+        $this->beConstructedWith('foo-theme', 7, $client);
+        $this->getProjectType()->shouldReturn('drupal-theme');
+    }
 }
