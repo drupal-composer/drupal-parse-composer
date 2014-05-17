@@ -13,12 +13,12 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     public function getComposerInformation($identifier)
     {
         $this->identifier = $identifier;
-        $composer = array();
         try {
             $composer = parent::getComposerInformation($identifier);
         } catch (TransportException $e) {
             // There is not composer.json file in the root
         }
+        $composer = is_array($composer) ? $composer : array();
         $composer += array(
             'description' => null,
             'require' => array(),
