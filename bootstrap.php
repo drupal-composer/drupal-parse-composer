@@ -26,5 +26,3 @@ if (!includeIfExists(__DIR__.'/vendor/drupal/drupal/includes/common.inc')
         'curl -s http://getcomposer.org/installer | php'.PHP_EOL.
         'php composer.phar install'.PHP_EOL);
 }
-
-return $loader;

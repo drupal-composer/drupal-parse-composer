@@ -17,7 +17,6 @@ class Repository extends VcsRepository
         $parts = preg_split('{[/:]}', $this->url);
         $last = end($parts);
         $this->drupalProjectName = current(explode('.', $last));
-        $this->verbose = TRUE;
     }
 
     public static function create(VcsRepository $repository)

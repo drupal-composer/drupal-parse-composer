@@ -29,7 +29,8 @@
         ]
     },
     "require": {
-        "drupal/views": "7.*"
+        "drupal/views": "7.*",
+        "guzzle/guzzle": "*"
     },
     "minimum-stability": "dev",
     "require-dev": {

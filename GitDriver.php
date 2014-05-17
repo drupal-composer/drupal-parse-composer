@@ -4,7 +4,7 @@ namespace Drupal\ParseComposer;
 
 use Composer\Repository\Vcs\GitDriver as BaseDriver;
 
-class GitDriver extends BaseDriver
+class GitDriver extends BaseDriver implements FileFinderInterface
 {
 
     /**
@@ -12,6 +12,7 @@ class GitDriver extends BaseDriver
      */
     public function getComposerInformation($identifier)
     {
+        $this->identifier = $identifier;
         $composer = array();
         try {
             $composer = parent::getComposerInformation($identifier);
@@ -19,7 +20,8 @@ class GitDriver extends BaseDriver
             // There is not composer.json file in the root
         }
 
-        if (NULL != ($drupalInformation = $this->getDrupalInformation($identifier))) {
+        $project = new Project($this->drupalProjectName, $this);
+        if (NULL != ($drupalInformation = $project->getDrupalInformation())) {
             $topInformation = $drupalInformation[$this->drupalProjectName];
             $composer['require'] = isset($composer['require']) ? $composer['require'] : array();
             foreach ($drupalInformation as $name => $info) {
@@ -77,55 +79,42 @@ class GitDriver extends BaseDriver
         $parts = preg_split('/[.x-]+/', $version);
         $numbers = array_filter($parts, 'is_numeric');
         $extra = implode('', array_diff($parts, $numbers));
-        return implode('.', $numbers) . (empty($extra) ? '' : "-$extra");
+        return implode('.', $numbers)
+          . trim((empty($extra) ? '' : "-$extra"), '-');
     }
 
-    private function getDrupalInformation($identifier)
+    private function getPaths()
     {
-        $projectMap = $projectNames = $paths = $make = array();
-        $this->process->execute(
-            sprintf('git ls-tree -r %s --name-only', $identifier),
-            $out,
-            $this->repoDir
-        );
-        foreach ($this->process->splitLines($out) as $path) {
-            $parts = explode('.', $path);
-            $projectName = @current(explode('.', end(explode('/', $path))));
-            if (end($parts) === 'info' && !strpos($projectName, 'test')) {
-                $projectMap[$projectName] = new InfoFile(
-                    $projectName,
-                    $this->fileContents($identifier, $path)
-                );
-            }
-            if (end($parts) === 'make') {
-                $make[$projectName] = new Makefile(
-                    $this->fileContents($identifier, $path)
-                );
-            }
+        if (!isset($this->paths[$this->identifier])) {
+            $this->process->execute(
+                sprintf('git ls-tree -r %s --name-only', $this->identifier),
+                $out,
+                $this->repoDir
+            );
+            $this->paths[$this->identifier] = $this->process->splitLines($out);
         }
-        if (empty($projectMap)) {
-            return;
-        }
-        if ('drupal' == $this->drupalProjectName) {
-            $projectMap['drupal'] = clone($projectMap['system']);
-        }
-        foreach ($projectMap as $name => $info) {
-            $composerMap[$name] = $info->packageInfo();
-            foreach ($composerMap[$name]['require'] as $dep => $constraint) {
-                $composerMap[$name]['require'][$dep] = $constraint;
-            }
-            foreach ($make as $makefile) {
-                foreach ($makefile->getMakeInfo('projects') as $name => $project) {
-                    $composerMap[$this->drupalProjectName]['require']['drupal/'.$name] = $makefile->getConstraint($name);
+        return $this->paths[$this->identifier];
+    }
+
+    public function pathMatch($pattern)
+    {
+        $paths = array();
+        foreach ($this->getPaths() as $path) {
+            if (is_callable($pattern)) {
+                if ($pattern($path)) {
+                    $paths[] = $path;
                 }
             }
+            elseif (preg_match($pattern, $path)) {
+                $paths[] = $path;
+            }
         }
-        return $composerMap;
+        return $paths;
     }
 
-    private function fileContents($identifier, $path)
+    public function fileContents($path)
     {
-        $resource = sprintf("%s:%s", escapeshellarg($identifier), $path);
+        $resource = sprintf("%s:%s", escapeshellarg($this->identifier), $path);
         $this->process->execute(
             "git show $resource",
             $out,

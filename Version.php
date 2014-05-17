@@ -10,8 +10,9 @@ class Version
     private $minor = 0;
     private $extra;
 
-    public function __construct($version)
+    public function __construct($version, $isCore = false)
     {
+        $this->isCore = $isCore;
         if (strlen($version) === 1) {
             $this->core = (int) $version;
         }
@@ -50,7 +51,12 @@ class Version
             list($version) = $parts;
             break;
         }
-        list($this->major, $this->minor) = explode('.', $version);
+        if ($this->isCore) {
+            list($this->core, $this->major) = explode('.', $version);
+        }
+        else {
+            list($this->major, $this->minor) = explode('.', $version);
+        }
         if ($this->minor === 'x') {
             $this->extra = 'dev';
         }
