@@ -19,6 +19,11 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         } catch (TransportException $e) {
             // There is not composer.json file in the root
         }
+        $composer += array(
+            'description' => null,
+            'require' => array(),
+            'type' => 'library'
+        );
 
         $project = new Project($this->drupalProjectName, $this);
         if (NULL != ($drupalInformation = $project->getDrupalInformation())) {
@@ -36,7 +41,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 }
             }
             foreach (array('name', 'description', 'type') as $top) {
-                $composer[$top] = isset($composer[$top]) ? $composer[$top] : $topInformation[$top];
+                $composer[$top] = isset($topInformation[$top]) ? $topInformation[$top] : $composer[$top];
             }
             unset($composer['require'][$composer['name']]);
         }
