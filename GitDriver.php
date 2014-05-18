@@ -29,13 +29,13 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             }
             $keys = array_filter(
                 array_keys($composer['require']),
-                function($name) use ($name) {
+                function($name) {
                     return (strpos($name, $this->drupalProjectName) === false);
                 }
             );
             $composer['require'] = array_intersect_key(
                 $composer['require'],
-                $keys
+                array_combine($keys, $keys)
             );
             foreach (array_keys($drupalInformation) as $name) {
                 if ($name != $this->drupalProjectName) {
