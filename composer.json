@@ -45,7 +45,7 @@
         "phpspec/phpspec": "dev-develop",
         "phpunit/phpunit": "*",
         "symfony/symfony": "*",
-        "composer/composer": "*@",
+        "composer/composer": "*",
         "winmillwill/packagist": "*"
     }
 }
