@@ -9,15 +9,23 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "dp.prometdev.com"
-        },
-        {
-            "type": "composer",
             "url": "http://packages.zendframework.com/"
         },
         {
             "type": "vcs",
             "url": "https://github.com/winmillwill/packagist-bundle"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "drupal/drupal",
+                "version": "7.28.0",
+                "dist":
+                {
+                    "url": "http://ftp.drupal.org/files/projects/drupal-7.28.zip",
+                    "type": "zip"
+                }
+            }
         }
     ],
     "autoload": {
@@ -29,15 +37,15 @@
         ]
     },
     "require": {
-        "drupal/views": "7.*",
+        "drupal/drupal": "7.*",
         "guzzle/guzzle": "*"
     },
     "minimum-stability": "dev",
     "require-dev": {
         "phpspec/phpspec": "dev-develop",
         "phpunit/phpunit": "*",
-        "symfony/symfony": "*@dev",
-        "composer/composer": "*@dev",
-        "winmillwill/packagist": "*@dev"
+        "symfony/symfony": "*",
+        "composer/composer": "*@",
+        "winmillwill/packagist": "*"
     }
 }
