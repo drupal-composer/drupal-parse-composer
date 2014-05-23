@@ -21,7 +21,9 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         }
         $composer = is_array($composer) ? $composer : array();
 
-        $version = $this->lookUpRef();
+        $version = strlen($this->identifier) == 40
+            ? $this->lookUpRef($this->identifier)
+            : $this->identifier;
         if (Version::valid($version)) {
             $version = new Version(
                 $version,
@@ -75,12 +77,11 @@ class GitDriver extends BaseDriver implements FileFinderInterface
 
     public function lookUpRef($ref = null)
     {
-        $refMap = array_flip(
-            array_merge(
-                $this->getBranches(),
-                $this->getTags()
-            )
+        $refs = array_merge(
+            $this->getBranches(),
+            $this->getTags()
         );
+        $refMap = array_flip($refs);
         $ref = $ref ?: $this->identifier;
         return isset($refMap[$ref]) ? $refMap[$ref] : null;
     }
@@ -97,7 +98,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                     $tag,
                     $this->drupalProjectName === 'drupal'
                 );
-                $tags[] = $hash;
+                $tags[$version] = $hash;
             }
         }
         return $tags;
@@ -108,6 +109,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
      */
     public function initialize()
     {
+        $this->drupalProjectName = $this->repoConfig['drupalProjectName'];
         $this->drupalDistUrlPattern = 'http://ftp.drupal.org/files/projects/%s-%s.zip';
         parent::initialize();
     }

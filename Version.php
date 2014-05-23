@@ -53,7 +53,12 @@ class Version
             list($version) = $parts;
             break;
         case 2:
-            list($this->core, $version) = $parts;
+            if ($this->core) {
+                list($version, $extra) = $parts;
+            }
+            else {
+                list($this->core, $version) = $parts;
+            }
             break;
         case 3:
         default:
