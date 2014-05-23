@@ -23,25 +23,27 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         $project = new Project($this->drupalProjectName, $this);
         if (NULL != ($drupalInformation = $project->getDrupalInformation())) {
             $topInformation = $drupalInformation[$this->drupalProjectName];
-            $composer['require'] = isset($composer['require']) ? $composer['require'] : array();
-            foreach ($drupalInformation as $name => $info) {
-                $composer['require'] = array_merge($composer['require'], $info['require']);
+            foreach (array('replace', 'require') as $link) {
+                $composer[$link] = isset($composer[$link])
+                    ? $composer[$link]
+                    : array();
             }
-            $keys = array_filter(
-                array_keys($composer['require']),
-                function($name) {
-                    return (strpos($name, $this->drupalProjectName) === false);
-                }
-            );
-            $composer['require'] = array_intersect_key(
-                $composer['require'],
-                array_combine($keys, $keys)
-            );
             foreach (array_keys($drupalInformation) as $name) {
                 if ($name != $this->drupalProjectName) {
                     $composer['replace']["drupal/$name"] = 'self.version';
                 }
             }
+            foreach ($drupalInformation as $info) {
+                $composer['require'] = array_merge($composer['require'], $info['require']);
+            }
+            $keys = array_diff(
+                array_keys($composer['require']),
+                array_keys($composer['replace'])
+            );
+            $composer['require'] = array_intersect_key(
+                $composer['require'],
+                array_combine($keys, $keys)
+            );
             $composer += array(
                 'description' => null,
                 'require' => array(),
