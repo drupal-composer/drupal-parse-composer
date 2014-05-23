@@ -23,7 +23,10 @@ class GitDriver extends BaseDriver implements FileFinderInterface
 
         $version = $this->lookUpRef();
         if (Version::valid($version)) {
-            $version = new Version($version);
+            $version = new Version(
+                $version,
+                $this->drupalProjectName === 'drupal'
+            );
             $core = $version->getCore();
         }
         elseif ($this->validateTag($version)) {
@@ -61,9 +64,10 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 'require' => array(),
                 'type' => 'library'
             );
-            foreach (array('name', 'description', 'type') as $top) {
+            foreach (array('description', 'type') as $top) {
                 $composer[$top] = isset($topInformation[$top]) ? $topInformation[$top] : $composer[$top];
             }
+            $composer['name'] = 'drupal/'.$this->drupalProjectName;
             unset($composer['require'][$composer['name']]);
         }
         return $composer;
@@ -84,22 +88,15 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     /**
      * {@inheritDoc}
      */
-    /* public function getBranches() */
-    /* { */
-    /*     foreach (parent::getBranches() as $branch => $hash) { */
-    /*         $branches[(string) new Version($branch)] = $hash; */
-    /*     } */
-    /*     return $branches; */
-    /* } */
-
-    /**
-     * {@inheritDoc}
-     */
     public function getTags()
     {
         foreach (parent::getTags() as $tag => $hash) {
             if (Version::valid($tag)) {
-                $tags[(string) new Version($tag)] = $hash;
+                $version = (string) new Version(
+                    $tag,
+                    $this->drupalProjectName === 'drupal'
+                );
+                $tags[] = $hash;
             }
         }
         return $tags;
