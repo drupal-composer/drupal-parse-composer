@@ -64,7 +64,8 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             $composer += array(
                 'description' => null,
                 'require' => array(),
-                'type' => 'library'
+                'type' => 'library',
+                'minimum-stability' => 'stable'
             );
             foreach (array('description', 'type', 'minimum-stability') as $top) {
                 $composer[$top] = isset($topInformation[$top]) ? $topInformation[$top] : $composer[$top];
@@ -176,10 +177,12 @@ class GitDriver extends BaseDriver implements FileFinderInterface
 
     private function validateTag($version)
     {
-        $parser = new VersionParser();
-        try {
-            return $parser->normalize($version);
-        } catch (\Exception $e) {
+        if (is_numeric($version[0])) {
+            $parser = new VersionParser();
+            try {
+                return $parser->normalize($version);
+            } catch (\Exception $e) {
+            }
         }
 
         return false;
