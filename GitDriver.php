@@ -90,6 +90,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
      */
     public function getTags()
     {
+        $tags = [];
         foreach (parent::getTags() as $tag => $hash) {
             if (Version::valid($tag)) {
                 $version = (string) new Version(
