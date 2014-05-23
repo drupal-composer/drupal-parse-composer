@@ -39,5 +39,6 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $updater->update($package, $repository);
         $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/apps'], $io, $config);
         $updater->update($package, $repository);
+        print $io->getOutput();
     }
 }
