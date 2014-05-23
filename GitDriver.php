@@ -30,6 +30,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 $this->drupalProjectName === 'drupal'
             );
             $core = $version->getCore();
+            $version = $version->getSemVer();
         }
         elseif ($this->validateTag($version)) {
             $core = $version[0];
@@ -76,6 +77,9 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             }
             $composer['name'] = 'drupal/'.$this->drupalProjectName;
             unset($composer['require'][$composer['name']]);
+            list($core, $major) = explode('.', $version);
+            $devBranch = 'dev-'.$core.'.x-'.$major.'.x';
+            $composer['extra']['branch-alias'][$devBranch] = $core.'.'.$major.'.x';
         }
         return $composer;
     }
