@@ -7,6 +7,7 @@ use Composer\IO\BufferIO;
 use Composer\Repository\VcsRepository;
 use Doctrine\ORM\EntityManager;
 use Packagist\WebBundle\Entity\Package;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdaterTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,9 +25,10 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $collection = new \Doctrine\Common\Collections\ArrayCollection();
         $package = new Package();
         $config = Factory::createConfig();
-        $io = new BufferIO('');
-        $io->loadConfiguration($config);
-        $config = Factory::createConfig();
+        $io = new BufferIO('', OutputInterface::VERBOSITY_VERBOSE);
+        $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/libraries'], $io, $config);
+        $updater->update($package, $repository);
+        print $io->getOutput();
         $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/views'], $io, $config);
         $updater->update($package, $repository);
         $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/panopoly'], $io, $config);
