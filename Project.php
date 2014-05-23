@@ -42,7 +42,7 @@ class Project
                     $this->core
                 );
             }
-            if (end($parts) === 'make') {
+            if (end($parts) === 'make' && empty(array_intersect($parts, ['dev', 'release', 'build']))) {
                 $make[$projectName] = new Makefile(
                     $this->finder->fileContents($path)
                 );
@@ -59,6 +59,7 @@ class Project
             foreach ($make as $makefile) {
                 foreach (($makefile->getMakeInfo('projects') ?: []) as $name => $project) {
                     $composerMap[$this->name]['require']['drupal/'.$name] = $makefile->getConstraint($name);
+                    $composerMap[$this->name]['minimum-stability'] = 'dev';
                 }
             }
         }
