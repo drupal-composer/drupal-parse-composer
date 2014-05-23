@@ -41,15 +41,15 @@ class Version
     {
         $parts = explode('-', $versionString);
         switch (count($parts)) {
-        case 3:
-            list($this->core, $version, $this->extra) = $parts;
-            break;
-        case 2:
-            list($version, $this->extra) = $parts;
-            break;
         case 1:
             list($version) = $parts;
             break;
+        case 2:
+            list($this->core, $version) = $parts;
+            break;
+        case 3:
+        default:
+            list($this->core, $version, $this->extra) = $parts;
         }
         if ($this->isCore) {
             list($this->core, $this->major) = explode('.', $version);
@@ -60,5 +60,6 @@ class Version
         if ($this->minor === 'x') {
             $this->extra = 'dev';
         }
+        $this->core = intval($this->core);
     }
 }
