@@ -8,12 +8,14 @@ class Project
     public function __construct(
         $name,
         FileFinderInterface $finder,
+        $core,
         array $releases = array()
     )
     {
         $this->name     = $name;
         $this->finder   = $finder;
         $this->releases = $releases;
+        $this->core     = $core;
     }
 
     public function getName()
@@ -36,7 +38,8 @@ class Project
             if (end($parts) === 'info' && !strpos($projectName, 'test')) {
                 $projectMap[$projectName] = new InfoFile(
                     $projectName,
-                    $this->finder->fileContents($path)
+                    $this->finder->fileContents($path),
+                    $this->core
                 );
             }
             if (end($parts) === 'make') {
@@ -61,7 +64,7 @@ class Project
         }
         if (
             $releaseInfo = $this->getReleaseInfo(
-                $projectMap[$this->name]->drupalInfo()['core'][0]
+                $this->core
             )
         ) {
             $composerMap[$this->name]['type'] = $releaseInfo->getProjectType();
