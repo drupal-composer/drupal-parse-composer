@@ -3,6 +3,7 @@
 namespace Drupal\ParseComposer;
 
 use Composer\Repository\Vcs\GitDriver as BaseDriver;
+use Composer\Package\Version\VersionParser;
 
 class GitDriver extends BaseDriver implements FileFinderInterface
 {
@@ -20,7 +21,18 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         }
         $composer = is_array($composer) ? $composer : array();
 
-        $project = new Project($this->drupalProjectName, $this);
+        $version = $this->lookUpRef();
+        if (preg_match('/^\d+\.[0-9x]+(-\d+\.[0-9x]+)*(-[a-z])*$/', $version)) {
+            $version = new Version($version);
+            $core = $version->getCore();
+        }
+        elseif ($this->validateTag($version)) {
+            $core = $version[0];
+        }
+        else {
+            return [];
+        }
+        $project = new Project($this->drupalProjectName, $this, $core);
         if (NULL != ($drupalInformation = $project->getDrupalInformation())) {
             $topInformation = $drupalInformation[$this->drupalProjectName];
             foreach (array('replace', 'require') as $link) {
@@ -57,16 +69,28 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         return $composer;
     }
 
+    public function lookUpRef($ref = null)
+    {
+        $refMap = array_flip(
+            array_merge(
+                $this->getBranches(),
+                $this->getTags()
+            )
+        );
+        $ref = $ref ?: $this->identifier;
+        return isset($refMap[$ref]) ? $refMap[$ref] : null;
+    }
+
     /**
      * {@inheritDoc}
      */
-    public function getBranches()
-    {
-        foreach (parent::getBranches() as $branch => $hash) {
-            $branches[$this->drupalSemVer($branch)] = $hash;
-        }
-        return $branches;
-    }
+    /* public function getBranches() */
+    /* { */
+    /*     foreach (parent::getBranches() as $branch => $hash) { */
+    /*         $branches[(string) new Version($branch)] = $hash; */
+    /*     } */
+    /*     return $branches; */
+    /* } */
 
     /**
      * {@inheritDoc}
@@ -74,7 +98,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     public function getTags()
     {
         foreach (parent::getTags() as $tag => $hash) {
-            $tags[$this->drupalSemVer($tag)] = $hash;
+            $tags[(string) new Version($tag)] = $hash;
         }
         return $tags;
     }
@@ -86,15 +110,6 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     {
         $this->drupalDistUrlPattern = 'http://ftp.drupal.org/files/projects/%s-%s.zip';
         parent::initialize();
-    }
-
-    private function drupalSemVer($version)
-    {
-        $parts = preg_split('/[.x-]+/', $version);
-        $numbers = array_filter($parts, 'is_numeric');
-        $extra = implode('', array_diff($parts, $numbers));
-        return implode('.', $numbers)
-          . trim((empty($extra) ? '' : "-$extra"), '-');
     }
 
     private function getPaths()
@@ -155,5 +170,16 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 'url' => sprintf($this->drupalDistUrlPattern, $this->drupalProjectName, $distVersion)
             );
         }
+    }
+
+    private function validateTag($version)
+    {
+        $parser = new VersionParser();
+        try {
+            return $parser->normalize($version);
+        } catch (\Exception $e) {
+        }
+
+        return false;
     }
 }
