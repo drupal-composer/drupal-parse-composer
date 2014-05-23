@@ -59,7 +59,6 @@ class Project
             foreach ($make as $makefile) {
                 foreach (($makefile->getMakeInfo('projects') ?: []) as $name => $project) {
                     $composerMap[$this->name]['require']['drupal/'.$name] = $makefile->getConstraint($name);
-                    $composerMap[$this->name]['minimum-stability'] = 'dev';
                 }
             }
         }

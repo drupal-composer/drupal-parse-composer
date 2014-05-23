@@ -61,13 +61,17 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 $composer['require'],
                 array_combine($keys, $keys)
             );
+            foreach ($composer['require'] as $name => $constraint) {
+                if (preg_match('/^\d+\.\d+\.\d+$/', $constraint)) {
+                    $composer['require'][$name] = "~$constraint";
+                }
+            }
             $composer += array(
                 'description' => null,
                 'require' => array(),
-                'type' => 'library',
-                'minimum-stability' => 'stable'
+                'type' => 'library'
             );
-            foreach (array('description', 'type', 'minimum-stability') as $top) {
+            foreach (array('description', 'type') as $top) {
                 $composer[$top] = isset($topInformation[$top]) ? $topInformation[$top] : $composer[$top];
             }
             $composer['name'] = 'drupal/'.$this->drupalProjectName;
