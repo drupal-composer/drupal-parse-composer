@@ -26,6 +26,14 @@ class Version
         return $this->getSemver();
     }
 
+    public static function valid($version)
+    {
+        return !!preg_match(
+            '/^\d+\.[0-9x]+(-\d+\.[0-9x]+)*(-[a-z])*$/',
+            $version
+        );
+    }
+
     public function getCore()
     {
         return $this->core;

@@ -22,7 +22,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         $composer = is_array($composer) ? $composer : array();
 
         $version = $this->lookUpRef();
-        if (preg_match('/^\d+\.[0-9x]+(-\d+\.[0-9x]+)*(-[a-z])*$/', $version)) {
+        if (Version::valid($version)) {
             $version = new Version($version);
             $core = $version->getCore();
         }
@@ -98,7 +98,9 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     public function getTags()
     {
         foreach (parent::getTags() as $tag => $hash) {
-            $tags[(string) new Version($tag)] = $hash;
+            if (Version::valid($tag)) {
+                $tags[(string) new Version($tag)] = $hash;
+            }
         }
         return $tags;
     }
