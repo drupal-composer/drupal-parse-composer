@@ -5,6 +5,9 @@ namespace Drupal\ParseComposer;
 class Project
 {
 
+    private $makeFiles = [];
+    private $infoFiles = [];
+
     public function __construct(
         $name,
         FileFinderInterface $finder,
@@ -59,7 +62,7 @@ class Project
                 $this->finder->fileContents($infoPath),
                 $this->core
             );
-            $projectMap[$InfoFile->getProjectName()] = $info;
+            $projectMap[$info->getProjectName()] = $info;
         }
         foreach ($this->makeFiles as $makePath) {
             $make[$projectName] = new Makefile(
