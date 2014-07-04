@@ -15,29 +15,35 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     {
         $doctrine = $this->getMock('Symfony\Bridge\Doctrine\RegistryInterface');
         $em = $this->getMockBuilder('Doctrine\ORM\EntityManager')
-          ->disableOriginalConstructor()
-          ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $doctrine->expects($this->any())
-          ->method('getManager')
-          ->will($this->returnValue($em));
+            ->method('getManager')
+            ->will($this->returnValue($em));
         \date_default_timezone_set('UTC');
         $updater = new Updater($doctrine);
         $collection = new \Doctrine\Common\Collections\ArrayCollection();
-        $package = new Package();
         $config = Factory::createConfig();
         $io = new BufferIO('', OutputInterface::VERBOSITY_VERBOSE);
-        $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/libraries'], $io, $config);
-        $updater->update($package, $repository);
-        $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/views'], $io, $config);
-        $updater->update($package, $repository);
-        $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/panopoly'], $io, $config);
-        $updater->update($package, $repository);
-        $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/omega'], $io, $config);
-        $updater->update($package, $repository);
-        $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/drupal'], $io, $config);
-        $updater->update($package, $repository);
-        $repository = new VcsRepository(['url' => 'http://git.drupal.org/project/apps'], $io, $config);
-        $updater->update($package, $repository);
-        print $io->getOutput();
+        $projects = [
+            'libraries',
+            'views',
+            'panopoly',
+            'omega',
+            'drupal',
+            'apps',
+            'entity',
+            'node_clone'
+        ];
+        foreach ($projects as $project) {
+            $repository = new VcsRepository(
+                ['url' => "http://git.drupal.org/project/$project"],
+                $io,
+                $config
+            );
+            $package = new Package();
+            $updater->update($package, $repository);
+            print $io->getOutput();
+        }
     }
 }
