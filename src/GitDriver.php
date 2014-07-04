@@ -127,6 +127,42 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         parent::initialize();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getDist($identifier)
+    {
+        $distVersion = FALSE;
+        foreach (array('tags', 'branches') as $refs) {
+            $map = array_flip($this->$refs);
+            if (!$distVersion) {
+                $distVersion = isset($map[$identifier]) ? $map[$identifier] : FALSE;
+            }
+        }
+        if ($distVersion) {
+            return array(
+                'type' => 'zip',
+                'url' => sprintf($this->drupalDistUrlPattern, $this->drupalProjectName, $distVersion)
+            );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    private function validateTag($version)
+    {
+        if (is_numeric($version[0])) {
+            $parser = new VersionParser();
+            try {
+                return $parser->normalize($version);
+            } catch (\Exception $e) {
+            }
+        }
+
+        return false;
+    }
+
     private function getPaths()
     {
         if (!isset($this->paths[$this->identifier])) {
@@ -165,38 +201,5 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             $this->repoDir
         );
         return $out;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDist($identifier)
-    {
-        $distVersion = FALSE;
-        foreach (array('tags', 'branches') as $refs) {
-            $map = array_flip($this->$refs);
-            if (!$distVersion) {
-                $distVersion = isset($map[$identifier]) ? $map[$identifier] : FALSE;
-            }
-        }
-        if ($distVersion) {
-            return array(
-                'type' => 'zip',
-                'url' => sprintf($this->drupalDistUrlPattern, $this->drupalProjectName, $distVersion)
-            );
-        }
-    }
-
-    private function validateTag($version)
-    {
-        if (is_numeric($version[0])) {
-            $parser = new VersionParser();
-            try {
-                return $parser->normalize($version);
-            } catch (\Exception $e) {
-            }
-        }
-
-        return false;
     }
 }
