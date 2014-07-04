@@ -2,6 +2,8 @@
 
 namespace Drupal\ParseComposer;
 
+use Symfony\Component\Yaml\Yaml;
+
 class InfoFile
 {
     private $name;
@@ -11,11 +13,23 @@ class InfoFile
      * @param string $name machine name of Drupal project
      * @param string $info valid Drupal .info file contents
      */
-    public function __construct($name, $info, $core)
+    public function __construct($filename, $info, $core)
     {
-        $this->name = $name;
-        $this->info = \drupal_parse_info_format($info);
+        $this->filename = $filename;
+        list($this->name, , $isYaml) = array_pad(
+            explode('.', $this->filename),
+            3,
+            false
+        );
+        $this->info = $isYaml
+            ? Yaml::parse($info)
+            : \drupal_parse_info_format($info);
         $this->core = $core;
+    }
+
+    public function getProjectName()
+    {
+        return $this->name;
     }
 
     /**

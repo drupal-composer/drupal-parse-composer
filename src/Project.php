@@ -26,27 +26,45 @@ class Project
     public function getDrupalInformation()
     {
         $projectMap = $projectNames = $paths = $make = array();
+        $drush = $module = false;
         $paths = $this->finder->pathMatch(
             function($path) {
                 $parts = explode('.', basename($path));
-                return in_array(end($parts), ['info', 'make']);
+                if (
+                  end($parts) === 'info'
+                  || array_slice($parts, -2) == ['info', 'yml']
+                ) {
+                  $this->infoFiles[] = $path;
+                  return true;
+                }
+                elseif (end($parts) === 'make') {
+                  $this->makeFiles[] = $path;
+                  return true;
+                }
+                elseif (
+                  end($parts) === 'module'
+                ) {
+                  $module = true;
+                }
+                elseif (
+                  array_slice($parts, -2) == ['drush', 'inc']
+                ) {
+                  $drush = true;
+                }
             }
         );
-        foreach ($paths as $path) {
-            $parts = explode('.', $path);
-            $projectName = @current(explode('.', end(explode('/', $path))));
-            if (end($parts) === 'info' && !strpos($projectName, 'test')) {
-                $projectMap[$projectName] = new InfoFile(
-                    $projectName,
-                    $this->finder->fileContents($path),
-                    $this->core
-                );
-            }
-            if (end($parts) === 'make' && empty(array_intersect($parts, ['dev', 'release', 'build']))) {
-                $make[$projectName] = new Makefile(
-                    $this->finder->fileContents($path)
-                );
-            }
+        foreach ($this->infoFiles as $infoPath) {
+            $info = new InfoFile(
+                basename($infoPath),
+                $this->finder->fileContents($infoPath),
+                $this->core
+            );
+            $projectMap[$InfoFile->getProjectName()] = $info;
+        }
+        foreach ($this->makeFiles as $makePath) {
+            $make[$projectName] = new Makefile(
+                $this->finder->fileContents($makePath)
+            );
         }
         if (empty($projectMap)) {
             return;
@@ -67,8 +85,12 @@ class Project
                 $this->core
             )
         ) {
-            $composerMap[$this->name]['type'] = $releaseInfo->getProjectType();
-            $composerMap[$this->name]['require']['composer/installers'] = '~1.0';
+            if (!$module && $drush) {
+                $composerMap[$this->name]['type'] = 'drupal-drush';
+            }
+            else {
+                $composerMap[$this->name]['type'] = $releaseInfo->getProjectType();
+            }
         }
         return $composerMap;
     }

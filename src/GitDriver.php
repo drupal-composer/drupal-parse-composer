@@ -79,7 +79,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             unset($composer['require'][$composer['name']]);
             list($core, $major) = explode('.', $version);
             $devBranch = 'dev-'.$core.'.x-'.$major.'.x';
-            $composer['extra']['branch-alias'][$devBranch] = $core.'.'.$major.'.x';
+            $composer['extra']['branch-alias'][$devBranch] = $core.'.'.$major.'.x-dev';
         }
         return $composer;
     }

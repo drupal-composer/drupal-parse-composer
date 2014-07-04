@@ -30,7 +30,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Drupal\\ParseComposer\\": ""
+            "Drupal\\ParseComposer\\": "src/"
         },
         "files": [
             "bootstrap.php"
