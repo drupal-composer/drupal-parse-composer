@@ -38,6 +38,10 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         else {
             return [];
         }
+        // TODO: make configurable?
+        if ($core < 7) {
+            return [];
+        }
         $project = new Project($this->drupalProjectName, $this, $core);
         if (NULL != ($drupalInformation = $project->getDrupalInformation())) {
             $topInformation = $drupalInformation[$this->drupalProjectName];
