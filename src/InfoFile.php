@@ -39,7 +39,7 @@ class InfoFile
     {
         $matches = array();
         preg_match(
-            '/([a-z_]*)\s*(\(([^\)]+)*\))*/',
+            '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
             $dependency,
             $matches
         );
