@@ -29,7 +29,7 @@ class Project
     public function getDrupalInformation()
     {
         $projectMap = $projectNames = $paths = $make = array();
-        $drush = $module = false;
+        $this->hasDrush = $this->hasModule = false;
         $paths = $this->finder->pathMatch(
             function($path) {
                 $parts = explode('.', basename($path));
@@ -47,12 +47,12 @@ class Project
                 elseif (
                   end($parts) === 'module'
                 ) {
-                  $module = true;
+                  $this->hasModule = true;
                 }
                 elseif (
                   array_slice($parts, -2) == ['drush', 'inc']
                 ) {
-                  $drush = true;
+                  $this->hasDrush = true;
                 }
             }
         );
@@ -69,7 +69,7 @@ class Project
                 $this->finder->fileContents($makePath)
             );
         }
-        if (empty($projectMap)) {
+        if (empty($projectMap) && !$this->hasDrush) {
             return;
         }
         if ('drupal' == $this->name) {
@@ -83,13 +83,10 @@ class Project
                 }
             }
         }
-        if (
-            $releaseInfo = $this->getReleaseInfo(
-                $this->core
-            )
-        ) {
-            if (!$module && $drush) {
+        if ($releaseInfo = $this->getReleaseInfo($this->core)) {
+            if (!$this->hasModule && $this->hasDrush) {
                 $composerMap[$this->name]['type'] = 'drupal-drush';
+                    $composerMap[$this->name]['require']['drush/drush'] = '6.*';
             }
             else {
                 $composerMap[$this->name]['type'] = $releaseInfo->getProjectType();
