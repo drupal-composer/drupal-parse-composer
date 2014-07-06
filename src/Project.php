@@ -17,8 +17,8 @@ class Project
     {
         $this->name     = $name;
         $this->finder   = $finder;
-        $this->releases = $releases;
         $this->core     = $core;
+        $this->releaseFactory = new ReleaseInfoFactory;
     }
 
     public function getName()
@@ -32,27 +32,30 @@ class Project
         $this->hasDrush = $this->hasModule = false;
         $paths = $this->finder->pathMatch(
             function($path) {
+                if (strpos($path, 'test') !== false) {
+                    return false;
+                }
                 $parts = explode('.', basename($path));
                 if (
-                  end($parts) === 'info'
-                  || array_slice($parts, -2) == ['info', 'yml']
+                    end($parts) === 'info'
+                    || array_slice($parts, -2) == ['info', 'yml']
                 ) {
-                  $this->infoFiles[] = $path;
-                  return true;
+                    $this->infoFiles[] = $path;
+                    return true;
                 }
                 elseif (end($parts) === 'make') {
-                  $this->makeFiles[] = $path;
-                  return true;
+                    $this->makeFiles[] = $path;
+                    return true;
                 }
                 elseif (
-                  end($parts) === 'module'
+                    end($parts) === 'module'
                 ) {
-                  $this->hasModule = true;
+                    $this->hasModule = true;
                 }
                 elseif (
-                  array_slice($parts, -2) == ['drush', 'inc']
+                    array_slice($parts, -2) == ['drush', 'inc']
                 ) {
-                  $this->hasDrush = true;
+                    $this->hasDrush = true;
                 }
             }
         );
@@ -100,6 +103,6 @@ class Project
 
     public function getReleaseInfo($core)
     {
-        return $this->releaseFactory->getReleaseInfo($core, $this->name);
+        return $this->releaseFactory->getReleasesForCore($this->name, $core);
     }
 }

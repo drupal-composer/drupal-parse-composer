@@ -16,10 +16,11 @@ class ReleaseInfoFactory{
 
     public function getReleasesForCore($name, $core)
     {
+        $core = "$core";
         if (isset($this->releases[$core])) {
             if (!isset($this->releases[$core][$name])) {
                 $release = new ReleaseInfo(
-                    $this->name,
+                    $name,
                     $core
                 );
                 $this->releases[$core][$name] = $release->exists()
@@ -28,6 +29,7 @@ class ReleaseInfoFactory{
             }
             return $this->releases[$core][$name];
         }
+        return false;
     }
 
     public function getReleaseInfo($name, array $cores = [])
