@@ -9,7 +9,13 @@ use Composer\Config;
 
 class Repository extends VcsRepository
 {
-    public function __construct(array $repoConfig, IOInterface $io, Config $config, EventDispatcher $dispatcher = null, array $drivers = null)
+    public function __construct(
+        array $repoConfig,
+        IOInterface $io,
+        Config $config,
+        EventDispatcher $dispatcher = null,
+        array $drivers = null
+    )
     {
         $drivers = array('git' => 'Drupal\ParseComposer\GitDriver');
         $repoConfig['type'] = 'git';
