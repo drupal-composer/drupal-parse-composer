@@ -72,7 +72,7 @@ class Project
         if (empty($projectMap) && !$this->hasDrush) {
             return;
         }
-        if ('drupal' == $this->name) {
+        if ('drupal' === $this->name) {
             $projectMap['drupal'] = clone($projectMap['system']);
         }
         foreach ($projectMap as $name => $info) {
@@ -83,13 +83,16 @@ class Project
                 }
             }
         }
-        if ($releaseInfo = $this->getReleaseInfo($this->core)) {
-            if (!$this->hasModule && $this->hasDrush) {
-                $composerMap[$this->name]['type'] = 'drupal-drush';
+        if ('drupal' !== $this->name) {
+            if ($releaseInfo = $this->getReleaseInfo($this->core)) {
+                if (!$this->hasModule && $this->hasDrush) {
+                    $composerMap[$this->name]['type'] = 'drupal-drush';
                     $composerMap[$this->name]['require']['drush/drush'] = '6.*';
-            }
-            else {
-                $composerMap[$this->name]['type'] = $releaseInfo->getProjectType();
+                }
+                else {
+                    $composerMap[$this->name]['type'] = $releaseInfo
+                        ->getProjectType();
+                }
             }
         }
         return $composerMap;
@@ -97,11 +100,6 @@ class Project
 
     public function getReleaseInfo($core)
     {
-        if (($core > 6) && ($this->name !== 'drupal')) {
-            if (!isset($this->releases[$core])) {
-                $this->releases[$core] = new ReleaseInfo($this->name, $core);
-            }
-            return $this->releases[$core];
-        }
+        return $this->releaseFactory->getReleaseInfo($core, $this->name);
     }
 }
