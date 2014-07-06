@@ -19,7 +19,7 @@ dependencies[] = views
 files[] = views_ui.module
 files[] = plugins/views_wizard/views_ui_base_views_wizard.class.php
 EOF;
-        $this->beConstructedWith('views_ui', $viewsUiInfo);
+        $this->beConstructedWith('views_ui', $viewsUiInfo, 7);
         $this->constraint('views')->shouldReturn(['drupal/views' => '7.*']);
     }
 
@@ -34,7 +34,7 @@ configure = admin/structure/foo
 dependencies[] = bar (7.x-2.x-dev)
 files[] = plugins/foo_wizard/foo_base_foo_wizard.class.php
 EOF;
-        $this->beConstructedWith('foo', $fooInfo);
+        $this->beConstructedWith('foo', $fooInfo, 7);
         $this->constraint('bar (7.x-2.x-dev)')->shouldReturn(['drupal/bar' => '7.2.x-dev']);
     }
 }
