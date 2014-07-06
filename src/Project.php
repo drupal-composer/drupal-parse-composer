@@ -68,7 +68,7 @@ class Project
             $projectMap[$info->getProjectName()] = $info;
         }
         foreach ($this->makeFiles as $makePath) {
-            $make[$projectName] = new Makefile(
+            $make[] = new Makefile(
                 $this->finder->fileContents($makePath)
             );
         }
