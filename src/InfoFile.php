@@ -46,9 +46,9 @@ class InfoFile
         list($all, $project, $v, $versionConstraints) = array_pad($matches, 4, '');
         $project = trim($project);
         if (empty($versionConstraints)) {
-          return array(
-            'drupal/'.$project => Constraint::loose(new Version($this->core))
-          );
+            return array(
+                'drupal/'.$project => Constraint::loose(new Version($this->core))
+            );
         }
         foreach (preg_split('/[, ]+/', $versionConstraints) as $versionConstraint) {
             preg_match(
@@ -57,6 +57,12 @@ class InfoFile
                 $matches
             );
             list($all, $symbols, $version) = $matches;
+            if (
+                strpos($version, "{$this->core}.x") !== 0
+                && strpos($version, '-') === false
+            ) {
+                $version = "{$this->core}.x-$version";
+            }
             $versionString = (string) new Version($version);
             $version = str_replace('unstable', 'patch', $versionString);
             $constraints[] = $symbols.$version;
