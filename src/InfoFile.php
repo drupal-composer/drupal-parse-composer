@@ -59,13 +59,9 @@ class InfoFile
                 $matches
             );
             list($all, $symbols, $version) = $matches;
-            if (
-                strpos($version, "{$this->core}.x") !== 0
-                && strpos($version, '-') === false
-            ) {
-                $version = "{$this->core}.x-$version";
-            }
-            $versionString = $this->versionFactory->create($version)->getSemVer();
+            $versionString = $this->versionFactory
+                ->create([$this->core, $version], $project === 'drupal')
+                ->getSemVer();
             $version = str_replace('unstable', 'patch', $versionString);
             $constraints[] = $symbols.$version;
         }
