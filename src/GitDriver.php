@@ -21,19 +21,15 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         }
         $composer = is_array($composer) ? $composer : array();
 
-        $version = strlen($this->identifier) == 40
+        $ref = strlen($this->identifier) == 40
             ? $this->lookUpRef($this->identifier)
             : $this->identifier;
-        if (Version::valid($version)) {
-            $version = new Version(
-                $version,
-                $this->drupalProjectName === 'drupal'
-            );
+        if ($version = $this->getVersion($ref)) {
             $core = $version->getCore();
-            $version = $version->getSemVer();
-        }
-        elseif ($this->validateTag($version)) {
-            $core = $version[0];
+            $majorSlug = $this->isCore ? '' : "{$version->getMajor()}.x";
+            $devBranch = "dev-$core.x-$majorSlug";
+            $composer['extra']['branch-alias'][$devBranch] = $core.'.'
+                .($majorSlug ?: 'x').'-dev';
         }
         else {
             return [];
@@ -81,11 +77,20 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             }
             $composer['name'] = 'drupal/'.$this->drupalProjectName;
             unset($composer['require'][$composer['name']]);
-            list($core, $major) = explode('.', $version);
-            $devBranch = 'dev-'.$core.'.x-'.$major.'.x';
-            $composer['extra']['branch-alias'][$devBranch] = $core.'.'.$major.'.x-dev';
         }
         return $composer;
+    }
+
+    private function getVersion($ref)
+    {
+        $version = false;
+        if (Version::valid($ref, $this->isCore)) {
+            $version = new Version($ref, $this->isCore);
+        }
+        elseif ($this->validateTag($ref)) {
+            $version = Version::fromSemVer($ref);
+        }
+        return $version;
     }
 
     public function lookUpRef($ref = null)
@@ -106,12 +111,8 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     {
         $tags = [];
         foreach (parent::getTags() as $tag => $hash) {
-            if (Version::valid($tag)) {
-                $version = (string) new Version(
-                    $tag,
-                    $this->drupalProjectName === 'drupal'
-                );
-                $tags[$version] = $hash;
+            if ($version = $this->getVersion($tag)) {
+                $tags[$version->getSemVer()] = $hash;
             }
         }
         return $tags;
@@ -124,6 +125,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     {
         $this->drupalProjectName = $this->repoConfig['drupalProjectName'];
         $this->drupalDistUrlPattern = 'http://ftp.drupal.org/files/projects/%s-%s.zip';
+        $this->isCore = ($this->drupalProjectName === 'drupal');
         parent::initialize();
     }
 

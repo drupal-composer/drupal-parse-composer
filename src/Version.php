@@ -26,12 +26,11 @@ class Version
         return $this->getSemver();
     }
 
-    public static function valid($version)
+    public static function valid($version, $isCore = false)
     {
-        return !!preg_match(
-            '/^(\d+\.[0-9x]){1}(-\d+\.[0-9x]+){1}(-[a-z]+\d*)?$/',
-            $version
-        );
+        $pattern = '/^(\d+\.([0-9]+|x))'
+            .($isCore ? '$/' : '(-\d+\.[0-9x]+){1}(-[a-z]+\d*)?$/');
+        return !!preg_match($pattern, $version);
     }
 
     public function getCore()
@@ -39,10 +38,30 @@ class Version
         return $this->core;
     }
 
+    public function getMajor()
+    {
+        return $this->major;
+    }
+
+    public function getMinor()
+    {
+        return $this->minor;
+    }
+
     public function getSemver()
     {
         return sprintf('%d.%d.%s', $this->core, $this->major, $this->minor)
             . ($this->extra ? "-{$this->extra}" : '');
+    }
+
+    public static function fromSemVer($semver)
+    {
+        list($core, $major, $minor, $extra) = array_pad(
+            preg_split('/[\.-]/', $semver),
+            4,
+            ''
+        );
+        return new static("$core.x-$major.$minor" . ($extra ? "-$extra" : ''));
     }
 
     public function parse($versionString)
