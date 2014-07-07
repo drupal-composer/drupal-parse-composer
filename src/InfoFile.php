@@ -25,6 +25,7 @@ class InfoFile
             ? Yaml::parse($info)
             : \drupal_parse_info_format($info);
         $this->core = $core;
+        $this->versionFactory = new VersionFactory();
     }
 
     public function getProjectName()
@@ -46,8 +47,9 @@ class InfoFile
         list($all, $project, $v, $versionConstraints) = array_pad($matches, 4, '');
         $project = trim($project);
         if (empty($versionConstraints)) {
+            $constraint = "{$this->core}.*";
             return array(
-                'drupal/'.$project => Constraint::loose(new Version($this->core))
+                'drupal/'.$project => $constraint
             );
         }
         foreach (preg_split('/[, ]+/', $versionConstraints) as $versionConstraint) {
@@ -63,7 +65,7 @@ class InfoFile
             ) {
                 $version = "{$this->core}.x-$version";
             }
-            $versionString = (string) new Version($version);
+            $versionString = $this->versionFactory->create($version)->getSemVer();
             $version = str_replace('unstable', 'patch', $versionString);
             $constraints[] = $symbols.$version;
         }

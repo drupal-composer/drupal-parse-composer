@@ -8,6 +8,8 @@ use Composer\Package\Version\VersionParser;
 class GitDriver extends BaseDriver implements FileFinderInterface
 {
 
+    private $versionFactory = false;
+
     /**
      * {@inheritDoc}
      */
@@ -84,11 +86,14 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     private function getVersion($ref)
     {
         $version = false;
-        if (Version::valid($ref, $this->isCore)) {
-            $version = new Version($ref, $this->isCore);
+        if (!$this->versionFactory) {
+            $this->versionFactory = new VersionFactory();
         }
-        elseif ($this->validateTag($ref)) {
-            $version = Version::fromSemVer($ref);
+        if ($this->validateTag($ref)) {
+            $version = $this->versionFactory->fromSemVer($ref, $this->isCore);
+        }
+        else {
+            $version = $this->versionFactory->create($ref, $this->isCore);
         }
         return $version;
     }

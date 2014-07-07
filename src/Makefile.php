@@ -51,7 +51,7 @@ class Makefile
 
     public function coreConstraint()
     {
-        return Constraint::loose(new Version($this->makeInfo['core'][0]));
+        return $this->makeInfo['core'][0].'.*';
     }
 
     public function getConstraint($project)
@@ -76,8 +76,10 @@ class Makefile
 
     private function makeVersion($versionString, $name = null)
     {
-        $version = new Version($this->makeInfo['core'][0], ($name == 'drupal'));
-        $version->parse($versionString);
-        return (string) $version;
+        $versionFactory = new VersionFactory();
+        return $versionFactory->create(
+            [$this->makeInfo['core'][0], $versionString],
+            ($name == 'drupal')
+        )->getSemVer();
     }
 }

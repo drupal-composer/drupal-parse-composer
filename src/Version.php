@@ -2,93 +2,31 @@
 
 namespace Drupal\ParseComposer;
 
-class Version
+class Version extends AbstractVersion
 {
-
-    private $core;
-    private $major = 0;
-    private $minor = 0;
-    private $extra;
-
-    public function __construct($version, $isCore = false)
+    public static function valid($version)
     {
-        $this->isCore = $isCore;
-        if (strlen($version) === 1) {
-            $this->core = (int) $version;
-        }
-        else {
-            $this->parse($version);
-        }
-    }
-
-    public function __toString()
-    {
-        return $this->getSemver();
-    }
-
-    public static function valid($version, $isCore = false)
-    {
-        $pattern = '/^(\d+\.([0-9]+|x))'
-            .($isCore ? '$/' : '(-\d+\.[0-9x]+){1}(-[a-z]+\d*)?$/');
-        return !!preg_match($pattern, $version);
-    }
-
-    public function getCore()
-    {
-        return $this->core;
-    }
-
-    public function getMajor()
-    {
-        return $this->major;
-    }
-
-    public function getMinor()
-    {
-        return $this->minor;
-    }
-
-    public function getSemver()
-    {
-        return sprintf('%d.%d.%s', $this->core, $this->major, $this->minor)
-            . ($this->extra ? "-{$this->extra}" : '');
-    }
-
-    public static function fromSemVer($semver)
-    {
-        list($core, $major, $minor, $extra) = array_pad(
-            preg_split('/[\.-]/', $semver),
-            4,
-            ''
+        return !!preg_match(
+            sprintf(
+                '/^%s(-\d+\.[0-9x]+)%s$/',
+                static::CORE_PATTERN,
+                static::EXTRA_PATTERN
+            ),
+            $version
         );
-        return new static("$core.x-$major.$minor" . ($extra ? "-$extra" : ''));
     }
 
     public function parse($versionString)
     {
-        $parts = explode('-', $versionString);
-        switch (count($parts)) {
-        case 1:
-            list($version) = $parts;
-            break;
+        switch (count($parts = explode('-', $versionString))) {
         case 2:
-            if ($this->core || $this->isCore) {
-                list($version, $extra) = $parts;
-            }
-            else {
-                list($this->core, $version) = $parts;
-            }
+            list($this->core, $version) = $parts;
             break;
         case 3:
-        default:
             list($this->core, $version, $this->extra) = $parts;
+            break;
         }
-        if ($this->isCore) {
-            list($this->core, $this->major) = explode('.', $version);
-        }
-        else {
-            list($this->major, $this->minor) = explode('.', $version);
-        }
+        list($this->major, $this->minor) = explode('.', $version);
         if ($this->minor === 'x') {
             $this->extra = 'dev';
         }

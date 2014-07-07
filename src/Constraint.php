@@ -5,7 +5,7 @@ namespace Drupal\ParseComposer;
 class Constraint
 {
 
-    public function __construct(Version $version)
+    public function __construct(VersionInterface $version)
     {
         $this->version = $version;
     }
@@ -15,7 +15,7 @@ class Constraint
         return "{$this->version->getCore()}.*";
     }
 
-    public static function loose(Version $version)
+    public static function loose(VersionInterface $version)
     {
         $constraint = new static($version);
         return $constraint->getLoose();
