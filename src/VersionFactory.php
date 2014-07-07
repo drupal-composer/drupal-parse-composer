@@ -12,6 +12,7 @@ class VersionFactory
                 $drupalVersion = $fragment;
             }
             else {
+                $fragment = strpos($fragment, '.') ? $fragment : "$fragment.x";
                 $drupalVersion = "$core.x-$fragment";
             }
         }
