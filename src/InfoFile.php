@@ -54,7 +54,7 @@ class InfoFile
         }
         foreach (preg_split('/(,\s*)+/', $versionConstraints) as $versionConstraint) {
             preg_match(
-                '/([><=]*)\s*([0-9a-z\.\-]*)/',
+                '/([><!=]*)\s*([0-9a-z\.\-]*)/',
                 $versionConstraint,
                 $matches
             );
