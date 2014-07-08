@@ -52,9 +52,9 @@ class InfoFile
                 'drupal/'.$project => $constraint
             );
         }
-        foreach (preg_split('/[, ]+/', $versionConstraints) as $versionConstraint) {
+        foreach (preg_split('/(,\s*)+/', $versionConstraints) as $versionConstraint) {
             preg_match(
-                '/([><=]*)([0-9a-z\.\-]*)/',
+                '/([><=]*)\s*([0-9a-z\.\-]*)/',
                 $versionConstraint,
                 $matches
             );
