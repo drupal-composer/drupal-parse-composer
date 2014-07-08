@@ -25,6 +25,23 @@ class Makefile
         return $info;
     }
 
+    public function getDrupalProjects()
+    {
+        $drupalProjects = [];
+        foreach ($this->getMakeInfo('projects') ?: [] as $projectName => $project) {
+            $url = $this->getMakeInfo(
+                ['projects', $projectName, 'download', 'url']
+            );
+            if (
+                $url
+                && strpos(parse_url($url, PHP_URL_HOST), 'drupal.org') !== false
+            ) {
+                $drupalProjects[$projectName] = $project;
+            }
+        }
+        return $drupalProjects;
+    }
+
     public function getVersion($project)
     {
         return $this->getVersionFromPath(
@@ -74,7 +91,7 @@ class Makefile
         return false;
     }
 
-    private function makeVersion($versionString, $name = null)
+    private function makeVersion($versionString, $name)
     {
         $versionFactory = new VersionFactory();
         return $versionFactory->create(
