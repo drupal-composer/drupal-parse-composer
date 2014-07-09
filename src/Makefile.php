@@ -94,9 +94,10 @@ class Makefile
     private function makeVersion($versionString, $name)
     {
         $versionFactory = new VersionFactory();
-        return $versionFactory->create(
+        $version = $versionFactory->create(
             [$this->makeInfo['core'][0], $versionString],
             ($name == 'drupal')
-        )->getSemVer();
+        );
+        return $version ? $version->getSemVer() : $version;
     }
 }
