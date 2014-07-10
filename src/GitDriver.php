@@ -42,7 +42,12 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         }
         $project = new Project($this->drupalProjectName, $this, $core);
         if (NULL != ($drupalInformation = $project->getDrupalInformation())) {
-            $topInformation = $drupalInformation[$this->drupalProjectName];
+            if (isset($drupalInformation[$this->drupalProjectName])) {
+                $topInformation = $drupalInformation[$this->drupalProjectName];
+            }
+            else {
+                $topInformation = current($drupalInformation);
+            }
             foreach (array('replace', 'require') as $link) {
                 $composer[$link] = isset($composer[$link])
                     ? $composer[$link]

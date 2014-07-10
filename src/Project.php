@@ -28,9 +28,9 @@ class Project
 
     public function getDrupalInformation()
     {
-        $projectMap = $projectNames = $paths = $make = array();
+        $projectMap = $make = array();
         $this->hasDrush = $this->hasModule = false;
-        $paths = $this->finder->pathMatch(
+        $this->finder->pathMatch(
             function($path) {
                 if (strpos($path, 'test') !== false) {
                     return false;
@@ -88,12 +88,13 @@ class Project
         }
         if ('drupal' !== $this->name) {
             if ($releaseInfo = $this->getReleaseInfo($this->core)) {
+                $top = isset($composerMap[$this->name]) ? $this->name : current(array_keys($composerMap));
                 if (!$this->hasModule && $this->hasDrush) {
-                    $composerMap[$this->name]['type'] = 'drupal-drush';
-                    $composerMap[$this->name]['require']['drush/drush'] = '6.*';
+                    $composerMap[$top]['type'] = 'drupal-drush';
+                    $composerMap[$top]['require']['drush/drush'] = '6.*';
                 }
                 else {
-                    $composerMap[$this->name]['type'] = $releaseInfo
+                    $composerMap[$top]['type'] = $releaseInfo
                         ->getProjectType();
                 }
             }
