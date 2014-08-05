@@ -52,6 +52,9 @@ class Project
                 ) {
                     $this->hasModule = true;
                 }
+                elseif (basename($path) === 'template.php') {
+                    $this->isTheme = true;
+                }
                 elseif (
                     array_slice($parts, -2) == ['drush', 'inc']
                 ) {
@@ -89,13 +92,16 @@ class Project
         if ('drupal' !== $this->name) {
             if ($releaseInfo = $this->getReleaseInfo($this->core)) {
                 $top = isset($composerMap[$this->name]) ? $this->name : current(array_keys($composerMap));
-                if (!$this->hasModule && $this->hasDrush) {
+                $composerMap[$top]['type'] = $releaseInfo->getProjectType();
+                if (
+                    $composerMap[$top]['type'] === 'drupal-module'
+                    && !$this->hasModule && !$this->isTheme && $this->hasDrush
+                )
+                {
                     $composerMap[$top]['type'] = 'drupal-drush';
                     $composerMap[$top]['require']['drush/drush'] = '6.*';
                 }
                 else {
-                    $composerMap[$top]['type'] = $releaseInfo
-                        ->getProjectType();
                 }
             }
         }
