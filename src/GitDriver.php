@@ -105,11 +105,10 @@ class GitDriver extends BaseDriver implements FileFinderInterface
 
     public function lookUpRef($ref = null)
     {
-        $refs = array_merge(
+        $refMap = array_flip(array_merge(
             $this->getBranches(),
             $this->getTags()
-        );
-        $refMap = array_flip($refs);
+        ));
         $ref = $ref ?: $this->identifier;
         return isset($refMap[$ref]) ? $refMap[$ref] : null;
     }
@@ -129,7 +128,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Override parent to get all branches and filter out those without version.
      */
     public function getBranches()
     {
@@ -138,13 +137,15 @@ class GitDriver extends BaseDriver implements FileFinderInterface
 
             $this->process->execute('git branch -a --no-color --no-abbrev -v', $output, $this->repoDir);
             foreach ($this->process->splitLines($output) as $branch) {
-                if ($branch && !preg_match('{^ *[^/]+/HEAD }', $branch)) {
-                    if (preg_match('{^(?:\* )? *(\S+) *([a-f0-9]+) .*$}', $branch, $match)) {
-                       @$branches[end(explode('/', $match[1]))] = $match[2];
-                    }
+                if (
+                    $branch
+                    && !preg_match('{^ *[^/]+/HEAD }', $branch)
+                    && preg_match('{^(?:\* )? *(\S+) *([a-f0-9]+) .*$}', $branch, $match)
+                    && $this->getVersion($name = @end(explode('/', $match[1])))
+                ) {
+                    $branches[$name] = $match[2];
                 }
             }
-
             $this->branches = $branches;
         }
 

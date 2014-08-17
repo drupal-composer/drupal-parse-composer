@@ -33,7 +33,8 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
             'drupal',
             'apps',
             'entity',
-            'node_clone'
+            'node_clone',
+            'flood_sem'
         ];
         foreach ($projects as $project) {
             $repository = new VcsRepository(
