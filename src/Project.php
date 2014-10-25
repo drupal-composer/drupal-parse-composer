@@ -89,13 +89,13 @@ class Project
                 }
             }
         }
+        $top = isset($composerMap[$this->name])
+          ? $this->name
+          : current(array_keys($composerMap));
         if ('drupal' === $this->name) {
             $composerMap[$top]['type'] = 'drupal-core';
         }
         elseif ($releaseInfo = $this->getReleaseInfo($this->core)) {
-            $top = isset($composerMap[$this->name])
-                ? $this->name
-                : current(array_keys($composerMap));
             $composerMap[$top]['type'] = $releaseInfo->getProjectType();
             if (
                 $composerMap[$top]['type'] === 'drupal-module'
