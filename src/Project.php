@@ -7,6 +7,8 @@ class Project
 
     private $makeFiles = [];
     private $infoFiles = [];
+    private $isTheme;
+    private $hasDrush;
 
     public function __construct(
         $name,
@@ -28,7 +30,7 @@ class Project
 
     public function getDrupalInformation()
     {
-        $projectMap = $make = array();
+        $projectMap = $composerMap = $make = array();
         $this->hasDrush = $this->hasModule = false;
         $this->finder->pathMatch(
             function($path) {
