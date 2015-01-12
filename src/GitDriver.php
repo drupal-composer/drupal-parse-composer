@@ -48,7 +48,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             else {
                 $topInformation = current($drupalInformation);
             }
-            foreach (array('replace', 'require') as $link) {
+            foreach (array('replace', 'require', 'suggest') as $link) {
                 $composer[$link] = isset($composer[$link])
                     ? $composer[$link]
                     : array();
@@ -58,8 +58,18 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                     $composer['replace']["drupal/$name"] = 'self.version';
                 }
             }
+            $composer['require'] = $topInformation['require'];
             foreach ($drupalInformation as $info) {
-                $composer['require'] = array_merge($composer['require'], $info['require']);
+                if ($info['name'] != $topInformation['name']) {
+                    foreach ($info['require'] as $package => $version) {
+                        if (!isset($composer['suggest'][$package])) {
+                            $composer['suggest'][$package] = 'Required by ' . $info['name'];
+                        }
+                        else {
+                            $composer['suggest'][$package] .= ', ' . $info['name'];
+                        }
+                    }
+                }
             }
             $keys = array_diff(
                 array_keys($composer['require']),
@@ -82,8 +92,11 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             foreach (array('description', 'type') as $top) {
                 $composer[$top] = isset($topInformation[$top]) ? $topInformation[$top] : $composer[$top];
             }
-            $composer['name'] = 'drupal/'.$this->drupalProjectName;
+
+            $composer['name'] = 'drupal/' . $this->drupalProjectName;
             unset($composer['require'][$composer['name']]);
+            unset($composer['suggest'][$composer['name']]);
+            unset($composer['suggest']['drupal/drupal']);
         }
         return $composer;
     }
