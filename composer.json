@@ -37,6 +37,7 @@
         ]
     },
     "require": {
+        "php": ">=5.4",
         "drupal/drupal": "7.*",
         "guzzle/guzzle": "*"
     },
