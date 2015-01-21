@@ -12,10 +12,6 @@
             "url": "http://packages.zendframework.com/"
         },
         {
-            "type": "vcs",
-            "url": "https://github.com/winmillwill/packagist-bundle"
-        },
-        {
             "type": "package",
             "package": {
                 "name": "drupal/drupal",
@@ -43,10 +39,9 @@
     },
     "minimum-stability": "dev",
     "require-dev": {
-        "phpspec/phpspec": "dev-develop",
-        "phpunit/phpunit": "*",
-        "symfony/symfony": "*",
-        "composer/composer": "*",
-        "winmillwill/packagist": "*"
+        "phpspec/phpspec": "2.*",
+        "phpunit/phpunit": "4.4.*",
+        "symfony/symfony": "2.3.*",
+        "composer/composer": "dev-master"
     }
 }
