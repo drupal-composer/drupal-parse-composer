@@ -17,62 +17,22 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
     private static $composerHome;
     private static $gitRepoDir;
-    private static $projects;
     private $skipped;
 
     protected function initialize()
     {
         self::$composerHome = sys_get_temp_dir() . '/composer-home-'.mt_rand().'/';
-        self::$gitRepoDir = sys_get_temp_dir() . '/composer-git-'.mt_rand();
-
-        $locator = new ExecutableFinder();
-        if (!$locator->find('git')) {
-            $this->skipped = 'This test needs a git binary in the PATH to be able to run';
-
-            return;
-        }
-        if (!@mkdir(self::$gitRepoDir, 0777, true) || !@chdir(self::$gitRepoDir)) {
-            $this->skipped = 'Could not create and move into the temp git repo '.self::$gitRepoDir;
-            return;
-        }
-        $process = new ProcessExecutor;
-        $exec = function ($command) use ($process) {
-            $cwd = getcwd();
-            if ($process->execute($command, $output, $cwd) !== 0) {
-                throw new \RuntimeException('Failed to execute '.$command.': '.$process->getErrorOutput());
-            }
-        };
-        self::$projects = array(
-            array(
-                'url' => 'http://git.drupal.org/project/omega',
-                'name' => 'omega'
-            ),
-            array(
-                'url' => 'http://git.drupal.org/project/flood_sem',
-                'name' => 'flood_sem'
-            )
-        );
-        foreach (self::$projects as $project) {
-            $exec("git clone ".$project['url'].' '.self::$gitRepoDir.'/'.$project['name']);
-        }
+        self::$gitRepoDir = __DIR__ . '/../res';
     }
 
     public function setUp()
     {
-        if (!self::$gitRepoDir) {
-            $this->initialize();
-        }
+        $this->initialize();
+
         if ($this->skipped) {
             $this->markTestSkipped($this->skipped);
         }
         $this->dumper = new ArrayDumper();
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $fs = new Filesystem;
-        $fs->removeDirectory(self::$composerHome);
-        $fs->removeDirectory(self::$gitRepoDir);
     }
 
     public function testLoadVersions()
