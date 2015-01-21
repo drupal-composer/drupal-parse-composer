@@ -52,6 +52,7 @@ EOF;
         $this->constraint('bar (>1.0)')->shouldReturn(['drupal/bar' => '>7.1.0']);
         $this->constraint('bar (>7.x-1.5)')->shouldReturn(['drupal/bar' => '>7.1.5']);
         $this->constraint('system (>=7.53)')->shouldReturn(['drupal/system' => '>=7.53.0']);
+        $this->constraint('menu (>7.11)')->shouldReturn(['drupal/menu' => '>7.11.0']);
         $this->constraint('not_core (>=7.53)')->shouldReturn(['drupal/not_core' => '>=7.7.53']);
     }
 }
