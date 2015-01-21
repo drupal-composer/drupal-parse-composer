@@ -7,3 +7,6 @@ before_install:
 install:
   - composer install --no-interaction --prefer-source
   - ./scripts/fixtures.sh
+script:
+  - ./vendor/bin/phpspec run
+  - ./vendor/bin/phpunit
