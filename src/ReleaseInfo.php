@@ -27,7 +27,8 @@ class ReleaseInfo
 
     public function exists()
     {
-        return empty($this->xml->xpath('/error'));
+        $test = $this->xml->xpath('/error');
+        return empty($test);
     }
 
     private function fetch()
