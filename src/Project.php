@@ -104,6 +104,9 @@ class Project
                 && !$this->hasModule && !$this->isTheme && $this->hasDrush
             )
             {
+                if (!isset($composerMap[$top]['name'])) {
+                    $composerMap[$top]['name'] = $this->getName();
+                }
                 $composerMap[$top]['type'] = 'drupal-drush';
                 $composerMap[$top]['require']['drush/drush'] = '6.*';
             }
