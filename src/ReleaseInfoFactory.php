@@ -2,7 +2,8 @@
 
 namespace Drupal\ParseComposer;
 
-class ReleaseInfoFactory{
+class ReleaseInfoFactory
+{
 
     private $releases = [
         '4'   => [],
@@ -14,7 +15,8 @@ class ReleaseInfoFactory{
         '9'   => [],
     ];
 
-    private function drupalizeName($name) {
+    private function drupalizeName($name)
+    {
         if (strpos($name, '/')) {
             list(, $name) = explode('/', $name);
         }

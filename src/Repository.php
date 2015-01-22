@@ -15,8 +15,7 @@ class Repository extends VcsRepository
         Config $config,
         EventDispatcher $dispatcher = null,
         array $drivers = null
-    )
-    {
+    ) {
         $drivers = array('git' => 'Drupal\ParseComposer\GitDriver');
         $repoConfig['type'] = 'git';
         parent::__construct($repoConfig, $io, $config, $dispatcher, $drivers);
@@ -36,6 +35,6 @@ class Repository extends VcsRepository
 
     public function hadInvalidBranches()
     {
-        return FALSE;
+        return false;
     }
 }

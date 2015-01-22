@@ -32,8 +32,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             $devBranch = "dev-$core.x-$majorSlug";
             $composer['extra']['branch-alias'][$devBranch] = $core.'.'
                 .($majorSlug ?: 'x').'-dev';
-        }
-        else {
+        } else {
             return [];
         }
         // TODO: make configurable?
@@ -41,11 +40,10 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             return [];
         }
         $project = new Project($this->drupalProjectName, $this, $core);
-        if (NULL != ($drupalInformation = $project->getDrupalInformation())) {
+        if (null != ($drupalInformation = $project->getDrupalInformation())) {
             if (isset($drupalInformation[$this->drupalProjectName])) {
                 $topInformation = $drupalInformation[$this->drupalProjectName];
-            }
-            else {
+            } else {
                 $topInformation = current($drupalInformation);
             }
             foreach (array('replace', 'require', 'suggest') as $link) {
@@ -64,8 +62,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                     foreach ($info['require'] as $package => $version) {
                         if (!isset($composer['suggest'][$package])) {
                             $composer['suggest'][$package] = 'Required by ' . $info['name'];
-                        }
-                        else {
+                        } else {
                             $composer['suggest'][$package] .= ', ' . $info['name'];
                         }
                     }
@@ -109,8 +106,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         }
         if ($this->validateTag($ref)) {
             $version = $this->versionFactory->fromSemVer($ref, $this->isCore);
-        }
-        else {
+        } else {
             $version = $this->versionFactory->create($ref, $this->isCore);
         }
         return $version;
@@ -150,8 +146,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
 
             $this->process->execute('git branch -a --no-color --no-abbrev -v', $output, $this->repoDir);
             foreach ($this->process->splitLines($output) as $branch) {
-                if (
-                    $branch
+                if ($branch
                     && !preg_match('{^ *[^/]+/HEAD }', $branch)
                     && preg_match('{^(?:\* )? *(\S+) *([a-f0-9]+) .*$}', $branch, $match)
                     && $this->getVersion($name = @end(explode('/', $match[1])))
@@ -181,11 +176,11 @@ class GitDriver extends BaseDriver implements FileFinderInterface
      */
     public function getDist($identifier)
     {
-        $distVersion = FALSE;
+        $distVersion = false;
         foreach (array('tags', 'branches') as $refs) {
             $map = array_flip($this->$refs);
             if (!$distVersion) {
-                $distVersion = isset($map[$identifier]) ? $map[$identifier] : FALSE;
+                $distVersion = isset($map[$identifier]) ? $map[$identifier] : false;
             }
         }
         if ($distVersion) {
@@ -233,8 +228,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 if ($pattern($path)) {
                     $paths[] = $path;
                 }
-            }
-            elseif (preg_match($pattern, $path)) {
+            } elseif (preg_match($pattern, $path)) {
                 $paths[] = $path;
             }
         }
