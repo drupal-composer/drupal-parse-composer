@@ -8,6 +8,6 @@ install:
   - composer install --no-interaction --prefer-source
   - ./scripts/fixtures.sh
 script:
-  - ./vendor/bin/phpcs --standard=PSR2 src
+  - ./vendor/bin/phpcs
   - ./vendor/bin/phpspec run
   - ./vendor/bin/phpunit
