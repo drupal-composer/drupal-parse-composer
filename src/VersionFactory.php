@@ -10,19 +10,16 @@ class VersionFactory
             list($core, $fragment) = $versionInfo;
             if (strpos($fragment, "$core.x") === 0 || $isCore) {
                 $drupalVersion = $fragment;
-            }
-            else {
+            } else {
                 $fragment = strpos($fragment, '.') ? $fragment : "$fragment.x";
                 $drupalVersion = "$core.x-$fragment";
             }
-        }
-        else {
+        } else {
             $drupalVersion = $versionInfo;
         }
         if ($isCore && CoreVersion::valid($drupalVersion)) {
             return new CoreVersion($drupalVersion);
-        }
-        elseif (!$isCore && Version::valid($drupalVersion)) {
+        } elseif (!$isCore && Version::valid($drupalVersion)) {
             return new Version($drupalVersion);
         }
     }
@@ -39,8 +36,7 @@ class VersionFactory
             if (CoreVersion::valid($versionString)) {
                 return new CoreVersion($versionString);
             }
-        }
-        else {
+        } else {
             $versionString = "$core.x-$major.$minor" . ($extra ? "-$extra" : '');
             if (Version::valid($versionString)) {
                 return new Version($versionString);

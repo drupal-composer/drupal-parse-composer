@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset name="drupal-parse-composer">
+    <description>The coding standard for Drupal Parse Composer.</description>
+    <file>src</file>
+    <arg name="warning-severity" value="0"/>
+    <rule ref="PSR2"/>
+</ruleset>

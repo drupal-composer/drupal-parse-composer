@@ -8,7 +8,7 @@ class ReleaseInfo
     private $projectName;
     private $client;
     private $version;
-    private $xml = FALSE;
+    private $xml = false;
 
     public function __construct($projectName, $version, Client $client = null)
     {

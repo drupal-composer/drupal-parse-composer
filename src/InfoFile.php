@@ -80,9 +80,9 @@ class InfoFile
           'require' => $this->constraint('drupal'),
         );
         if (isset($this->info['description'])) {
-          $info['description'] = $this->info['description'];
+            $info['description'] = $this->info['description'];
         }
-        foreach($deps as $dep) {
+        foreach ($deps as $dep) {
             $info['require'] += $this->constraint($dep);
         }
         return $info;

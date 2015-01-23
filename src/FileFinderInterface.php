@@ -4,6 +4,6 @@ namespace Drupal\ParseComposer;
 
 interface FileFinderInterface
 {
-    function pathMatch($pattern);
-    function fileContents($pattern);
+    public function pathMatch($pattern);
+    public function fileContents($pattern);
 }

@@ -18,18 +18,18 @@ class Version extends AbstractVersion
 
     public function parse($versionString)
     {
-        $this->core = NULL;
+        $this->core = null;
         $this->major = 0;
         $this->minor = 0;
-        $this->extra = NULL;
+        $this->extra = null;
 
         switch (count($parts = explode('-', $versionString))) {
-        case 2:
-            list($this->core, $version) = $parts;
-            break;
-        case 3:
-            list($this->core, $version, $this->extra) = $parts;
-            break;
+            case 2:
+                list($this->core, $version) = $parts;
+                break;
+            case 3:
+                list($this->core, $version, $this->extra) = $parts;
+                break;
         }
         list($this->major, $this->minor) = explode('.', $version);
         if ($this->minor === 'x') {

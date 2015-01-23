@@ -17,8 +17,7 @@ class Makefile
         foreach ($path as $key) {
             if (isset($info[$key])) {
                 $info = $info[$key];
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -32,8 +31,7 @@ class Makefile
             $url = $this->getMakeInfo(
                 ['projects', $projectName, 'download', 'url']
             );
-            if (
-                $url
+            if ($url
                 && strpos(parse_url($url, PHP_URL_HOST), 'drupal.org') !== false
             ) {
                 $drupalProjects[$projectName] = $project;
@@ -74,12 +72,12 @@ class Makefile
     public function getConstraint($project)
     {
         switch (true) {
-        case ($constraint = $this->getVersion($project)):
-        case ($constraint = $this->getVersionFromTag($project)):
-        case ($constraint = $this->getVersionFromBranch($project)):
-        case ($constraint = $this->coreConstraint()):
-        default:
-            return $constraint;
+            case ($constraint = $this->getVersion($project)):
+            case ($constraint = $this->getVersionFromTag($project)):
+            case ($constraint = $this->getVersionFromBranch($project)):
+            case ($constraint = $this->coreConstraint()):
+            default:
+                return $constraint;
         }
     }
 

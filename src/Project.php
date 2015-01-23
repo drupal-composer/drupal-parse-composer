@@ -15,8 +15,7 @@ class Project
         FileFinderInterface $finder,
         $core,
         array $releases = array()
-    )
-    {
+    ) {
         $this->name     = $name;
         $this->finder   = $finder;
         $this->core     = $core;
@@ -38,27 +37,20 @@ class Project
                     return false;
                 }
                 $parts = explode('.', basename($path));
-                if (
-                    end($parts) === 'info'
+                if (end($parts) === 'info'
                     || array_slice($parts, -2) == ['info', 'yml']
                 ) {
                     $this->infoFiles[] = $path;
                     return true;
-                }
-                elseif (end($parts) === 'make') {
+                } elseif (end($parts) === 'make') {
                     $this->makeFiles[] = $path;
                     return true;
-                }
-                elseif (
-                    end($parts) === 'module'
+                } elseif (end($parts) === 'module'
                 ) {
                     $this->hasModule = true;
-                }
-                elseif (basename($path) === 'template.php') {
+                } elseif (basename($path) === 'template.php') {
                     $this->isTheme = true;
-                }
-                elseif (
-                    array_slice($parts, -2) == ['drush', 'inc']
+                } elseif (array_slice($parts, -2) == ['drush', 'inc']
                 ) {
                     $this->hasDrush = true;
                 }
@@ -96,14 +88,11 @@ class Project
           : current(array_keys($composerMap));
         if ('drupal' === $this->name) {
             $composerMap[$top]['type'] = 'drupal-core';
-        }
-        elseif ($releaseInfo = $this->getReleaseInfo($this->core)) {
+        } elseif ($releaseInfo = $this->getReleaseInfo($this->core)) {
             $composerMap[$top]['type'] = $releaseInfo->getProjectType();
-            if (
-                $composerMap[$top]['type'] === 'drupal-module'
+            if ($composerMap[$top]['type'] === 'drupal-module'
                 && !$this->hasModule && !$this->isTheme && $this->hasDrush
-            )
-            {
+            ) {
                 if (!isset($composerMap[$top]['name'])) {
                     $composerMap[$top]['name'] = $this->getName();
                 }

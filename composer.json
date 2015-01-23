@@ -42,6 +42,7 @@
         "phpspec/phpspec": "2.*",
         "phpunit/phpunit": "4.4.*",
         "symfony/symfony": "2.3.*",
-        "composer/composer": "dev-master"
+        "composer/composer": "dev-master",
+        "squizlabs/php_codesniffer": "2.*"
     }
 }
