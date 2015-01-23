@@ -8,6 +8,11 @@ use Composer\Package\Version\VersionParser;
 class GitDriver extends BaseDriver implements FileFinderInterface
 {
 
+    /**
+     * @var VersionFactory
+     *
+     * @todo Fix default and implementations below.
+     */
     private $versionFactory = false;
 
     /**
@@ -98,6 +103,15 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         return $composer;
     }
 
+    /**
+     * Get version object from reference.
+     *
+     * @param string $ref
+     *
+     * @return AbstractVersion
+     *
+     * @todo Specify parameters.
+     */
     private function getVersion($ref)
     {
         $version = false;
@@ -112,6 +126,14 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         return $version;
     }
 
+    /**
+     * Retrieve commit reference from any branch or tag reference.
+     *
+     * @param string $ref Branch or tag reference:
+     *   Defaults to the current identifier.
+     *
+     * @return string|null
+     */
     public function lookUpRef($ref = null)
     {
         $refMap = array_flip(array_merge(
@@ -137,7 +159,9 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     }
 
     /**
-     * Override parent to get all branches and filter out those without version.
+     * {@inheritdoc}
+     *
+     * Overrides parent to get all branches and filter out those without version.
      */
     public function getBranches()
     {
@@ -191,9 +215,6 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     private function validateTag($version)
     {
         if (is_numeric($version[0])) {
@@ -206,6 +227,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
 
         return false;
     }
+
 
     private function getPaths()
     {
@@ -220,6 +242,9 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         return $this->paths[$this->identifier];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function pathMatch($pattern)
     {
         $paths = array();
@@ -235,6 +260,9 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         return $paths;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fileContents($path)
     {
         $resource = sprintf("%s:%s", escapeshellarg($this->identifier), $path);
