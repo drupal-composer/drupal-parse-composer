@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "73216c6859e85f3612b71a47fd74921a",
+    "hash": "5aab04c7859e64237497b2ebe603d1d2",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -903,6 +903,45 @@
                 "schema"
             ],
             "time": "2014-08-25 02:48:14"
+        },
+        {
+            "name": "leaphub/phpcs-symfony2-standard",
+            "version": "dev-phpcs-version",
+            "target-dir": "leaphub/phpcs/Symfony2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/derhasi/phpcs-symfony2-standard.git",
+                "reference": "99d566fad8d38d048a90b8caa93c1c4e3c9489f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/derhasi/phpcs-symfony2-standard/zipball/99d566fad8d38d048a90b8caa93c1c4e3c9489f4",
+                "reference": "99d566fad8d38d048a90b8caa93c1c4e3c9489f4",
+                "shasum": ""
+            },
+            "require": {
+                "squizlabs/php_codesniffer": "^2.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A PHP_CodeSniffer standard for Symfony 2 applications",
+            "homepage": "https://github.com/leaphub/phpcs-symfony2-standard",
+            "keywords": [
+                "Symfony 2",
+                "coding standard",
+                "phpcs"
+            ],
+            "support": {
+                "source": "https://github.com/derhasi/phpcs-symfony2-standard/tree/phpcs-version"
+            },
+            "time": "2015-01-23 14:21:45"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1929,7 +1968,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "composer/composer": 20
+        "composer/composer": 20,
+        "leaphub/phpcs-symfony2-standard": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
