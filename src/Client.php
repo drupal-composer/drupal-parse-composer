@@ -4,6 +4,9 @@ namespace Drupal\ParseComposer;
 
 use Guzzle\Http\Client as BaseClient;
 
+/**
+ * Modified guzzle client to parse xml.
+ */
 class Client extends BaseClient
 {
     /**

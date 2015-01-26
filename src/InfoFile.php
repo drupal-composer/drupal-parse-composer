@@ -4,14 +4,25 @@ namespace Drupal\ParseComposer;
 
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Representation of a Drupal project's .info(.yml) file.
+ */
 class InfoFile
 {
+    /**
+     * @var string
+     */
     private $name;
+
+    /**
+     * @var array
+     */
     private $info;
 
     /**
-     * @param string $name machine name of Drupal project
-     * @param string $info valid Drupal .info file contents
+     * @param string  $filename File name of Drupal project main file
+     * @param string  $info     Valid Drupal .info file contents
+     * @param integer $core     Drupal core version.
      */
     public function __construct($filename, $info, $core)
     {
@@ -28,13 +39,20 @@ class InfoFile
         $this->versionFactory = new VersionFactory();
     }
 
+    /**
+     * @return string
+     */
     public function getProjectName()
     {
         return $this->name;
     }
 
     /**
-     * @param string $dependency a valid .info dependencies value
+     * Build composer constraint out of given dependency.
+     *
+     * @param string $dependency A valid .info dependency value
+     *
+     * @return array
      */
     public function constraint($dependency)
     {
@@ -48,10 +66,12 @@ class InfoFile
         $project = trim($project);
         if (empty($versionConstraints)) {
             $constraint = "{$this->core}.*";
+
             return array(
                 'drupal/'.$project => $constraint
             );
         }
+
         foreach (preg_split('/(,\s*)+/', $versionConstraints) as $versionConstraint) {
             preg_match(
                 '/([><!=]*)\s*([0-9a-z\.\-]*)/',
@@ -65,6 +85,7 @@ class InfoFile
             $version = str_replace('unstable', 'patch', $versionString);
             $constraints[] = $symbols.$version;
         }
+
         return array('drupal/'.$project => implode(',', $constraints));
     }
 
@@ -85,9 +106,13 @@ class InfoFile
         foreach ($deps as $dep) {
             $info['require'] += $this->constraint($dep);
         }
+
         return $info;
     }
 
+    /**
+     * @return array
+     */
     public function drupalInfo()
     {
         return $this->info;

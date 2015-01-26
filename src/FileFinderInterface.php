@@ -2,6 +2,9 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Interface for retrieving information from a list of files.
+ */
 interface FileFinderInterface
 {
     /**

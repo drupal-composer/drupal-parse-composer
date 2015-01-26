@@ -2,14 +2,17 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Wrapper for creating version objects of different type.
+ */
 class VersionFactory
 {
     /**
      * Creates a version object from version information.
      *
      * @param string|array $versionInfo Either a version string or an array of
-     *   core version and rest of version string.
-     * @param bool $isCore
+     *                                  core version and rest of version string.
+     * @param bool         $isCore      Indicator if version is core.
      *
      * @return AbstractVersion
      *
@@ -39,7 +42,7 @@ class VersionFactory
      * Creates a version object from semver string.
      *
      * @param string $semver Version string formatted in semantic version.
-     * @param bool $isCore Indicator if version is core.
+     * @param bool   $isCore Indicator if version is core.
      *
      * @return AbstractVersion
      */
