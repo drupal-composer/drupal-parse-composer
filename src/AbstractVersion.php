@@ -2,9 +2,11 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Abstract definition of version as base for CoreVersion and Version.
+ */
 abstract class AbstractVersion implements VersionInterface
 {
-
     const CORE_PATTERN  = '\d+\.([0-9]+|x)';
     const EXTRA_PATTERN = '(-[a-z]+\d*)?';
 
@@ -49,9 +51,7 @@ abstract class AbstractVersion implements VersionInterface
     }
 
     /**
-     * Gets core version.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getCore()
     {
@@ -59,9 +59,7 @@ abstract class AbstractVersion implements VersionInterface
     }
 
     /**
-     * Gets major version.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getMajor()
     {
@@ -69,9 +67,7 @@ abstract class AbstractVersion implements VersionInterface
     }
 
     /**
-     * Gets minor version.
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getMinor()
     {
@@ -79,9 +75,7 @@ abstract class AbstractVersion implements VersionInterface
     }
 
     /**
-     * Builds semver string from version information.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getSemver()
     {
@@ -90,11 +84,7 @@ abstract class AbstractVersion implements VersionInterface
     }
 
     /**
-     * Tests if the given version string will construct a valid version string.
-     *
-     * @param string $version A version string
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public static function valid($version)
     {
@@ -102,9 +92,7 @@ abstract class AbstractVersion implements VersionInterface
     }
 
     /**
-     * Builds up properties for the current object out of a version string.
-     *
-     * @param string $versionString A version string
+     * {@inheritdoc}
      */
     abstract public function parse($versionString);
 }

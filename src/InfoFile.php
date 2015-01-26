@@ -4,9 +4,19 @@ namespace Drupal\ParseComposer;
 
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Representation of a Drupal project's .info(.yml) file.
+ */
 class InfoFile
 {
+    /**
+     * @var string
+     */
     private $name;
+
+    /**
+     * @var array
+     */
     private $info;
 
     protected $core_components = [
@@ -65,8 +75,9 @@ class InfoFile
     ];
 
     /**
-     * @param string $name machine name of Drupal project
-     * @param string $info valid Drupal .info file contents
+     * @param string  $filename File name of Drupal project main file
+     * @param string  $info     Valid Drupal .info file contents
+     * @param integer $core     Drupal core version.
      */
     public function __construct($filename, $info, $core)
     {
@@ -83,13 +94,20 @@ class InfoFile
         $this->versionFactory = new VersionFactory();
     }
 
+    /**
+     * @return string
+     */
     public function getProjectName()
     {
         return $this->name;
     }
 
     /**
-     * @param string $dependency a valid .info dependencies value
+     * Build composer constraint out of given dependency.
+     *
+     * @param string $dependency A valid .info dependency value
+     *
+     * @return array
      */
     public function constraint($dependency)
     {
@@ -109,8 +127,8 @@ class InfoFile
               'drupal/'.$project => $constraint,
             );
         }
-        foreach (preg_split('/(,\s*)+/',
-          $versionConstraints) as $versionConstraint) {
+
+        foreach (preg_split('/(,\s*)+/', $versionConstraints) as $versionConstraint) {
             preg_match(
               '/([><!=]*)\s*([0-9a-z\.\-]*)/',
               $versionConstraint,
@@ -156,6 +174,9 @@ class InfoFile
         return $info;
     }
 
+    /**
+     * @return array
+     */
     public function drupalInfo()
     {
         return $this->info;

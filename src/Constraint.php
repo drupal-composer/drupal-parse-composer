@@ -2,6 +2,9 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Helper class to convert version constraints.
+ */
 class Constraint
 {
 
@@ -35,6 +38,7 @@ class Constraint
     public static function loose(VersionInterface $version)
     {
         $constraint = new static($version);
+
         return $constraint->getLoose();
     }
 }

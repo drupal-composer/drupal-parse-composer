@@ -2,6 +2,9 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Wrapper for drupal.org release information,
+ */
 class ReleaseInfo
 {
     private $releaseUrl = 'http://updates.drupal.org/release-history';
@@ -10,6 +13,12 @@ class ReleaseInfo
     private $version;
     private $xml = false;
 
+    /**
+     * @param string $projectName Drupal org project name.
+     * @param string $version     Drupal project version string.
+     * @param Client $client      Optionally you can pass a specific guzzle
+     *                            client to fetch data with.
+     */
     public function __construct($projectName, $version, Client $client = null)
     {
         $this->projectName  = $projectName;
@@ -18,6 +27,14 @@ class ReleaseInfo
         $this->load($projectName, $version);
     }
 
+    /**
+     * Loads necessary data for the given project and version.
+     *
+     * @param string $projectName
+     * @param string $version
+     *
+     * @todo Params not needed anymore.
+     */
     public function load($projectName, $version)
     {
         if (!$this->xml) {
@@ -25,12 +42,23 @@ class ReleaseInfo
         }
     }
 
+    /**
+     * Checks if release exists.
+     *
+     * @return bool
+     */
     public function exists()
     {
         $test = $this->xml->xpath('/error');
+
         return empty($test);
     }
 
+    /**
+     * Fetch release history for given project information from drupal.org.
+     *
+     * @return \Guzzle\Http\Message\RequestInterface|\SimpleXMLElement
+     */
     private function fetch()
     {
         return $this->client->get(
@@ -43,6 +71,11 @@ class ReleaseInfo
         );
     }
 
+    /**
+     * Retrieve project type from xml.
+     *
+     * @return string
+     */
     public function getProjectType()
     {
         $projectTypes = array(

@@ -5,6 +5,9 @@ namespace Drupal\ParseComposer;
 use Composer\Repository\Vcs\GitDriver as BaseDriver;
 use Composer\Package\Version\VersionParser;
 
+/**
+ * Drupal.org specific Git driver.
+ */
 class GitDriver extends BaseDriver implements FileFinderInterface
 {
 
@@ -100,6 +103,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             unset($composer['suggest'][$composer['name']]);
             unset($composer['suggest']['drupal/drupal']);
         }
+
         return $composer;
     }
 
@@ -123,6 +127,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         } else {
             $version = $this->versionFactory->create($ref, $this->isCore);
         }
+
         return $version;
     }
 
@@ -141,6 +146,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             $this->getTags()
         ));
         $ref = $ref ?: $this->identifier;
+
         return isset($refMap[$ref]) ? $refMap[$ref] : null;
     }
 
@@ -155,6 +161,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 $tags[$version->getSemVer()] = $hash;
             }
         }
+
         return $tags;
     }
 
@@ -215,6 +222,15 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         }
     }
 
+    /**
+     * Check if the given version string can be parsed by composer.
+     *
+     * @param string $version Version string
+     *
+     * @return bool|string
+     *
+     * @todo: change name and return value.
+     */
     private function validateTag($version)
     {
         if (is_numeric($version[0])) {
@@ -228,7 +244,11 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         return false;
     }
 
-
+    /**
+     * Retrieve list of paths for the current commit.
+     *
+     * @return string[]
+     */
     private function getPaths()
     {
         if (!isset($this->paths[$this->identifier])) {
@@ -239,6 +259,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             );
             $this->paths[$this->identifier] = $this->process->splitLines($out);
         }
+
         return $this->paths[$this->identifier];
     }
 
@@ -257,6 +278,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 $paths[] = $path;
             }
         }
+
         return $paths;
     }
 
@@ -271,6 +293,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             $out,
             $this->repoDir
         );
+
         return $out;
     }
 }

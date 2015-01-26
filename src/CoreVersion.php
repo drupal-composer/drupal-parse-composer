@@ -2,6 +2,9 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Version representation for Drupal core.
+ */
 class CoreVersion extends AbstractVersion
 {
     /**
