@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "bbe3872fa565bbf7318f28830dc25903",
+    "hash": "5932baa74d73600854ea09ee6777bee9",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -906,17 +906,17 @@
         },
         {
             "name": "leaphub/phpcs-symfony2-standard",
-            "version": "dev-comment-scope",
+            "version": "dev-master",
             "target-dir": "leaphub/phpcs/Symfony2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/derhasi/phpcs-symfony2-standard.git",
-                "reference": "feabe90fda1b6f005d1393bc64011c68255b50bc"
+                "url": "https://github.com/leaphub/phpcs-symfony2-standard.git",
+                "reference": "52a03f9a48f30fd97de09a94b2500a0a2aaa1bcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/derhasi/phpcs-symfony2-standard/zipball/feabe90fda1b6f005d1393bc64011c68255b50bc",
-                "reference": "feabe90fda1b6f005d1393bc64011c68255b50bc",
+                "url": "https://api.github.com/repos/leaphub/phpcs-symfony2-standard/zipball/52a03f9a48f30fd97de09a94b2500a0a2aaa1bcd",
+                "reference": "52a03f9a48f30fd97de09a94b2500a0a2aaa1bcd",
                 "shasum": ""
             },
             "require": {
@@ -928,20 +928,18 @@
                     "dev-master": "2.1-dev"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "A PHP_CodeSniffer standard for Symfony 2 applications",
             "homepage": "https://github.com/leaphub/phpcs-symfony2-standard",
             "keywords": [
-                "Symfony 2",
-                "coding standard",
-                "phpcs"
+                "Coding Standard",
+                "phpcs",
+                "symfony 2"
             ],
-            "support": {
-                "source": "https://github.com/derhasi/phpcs-symfony2-standard/tree/comment-scope"
-            },
-            "time": "2015-01-26 09:04:15"
+            "time": "2015-01-26 12:03:38"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1109,12 +1107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "8a7ca9c1843eaaa174b9c43d9a3e1adc5b1a0595"
+                "reference": "d647e27524f9f7edc37baf63a114b52f5975808f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/8a7ca9c1843eaaa174b9c43d9a3e1adc5b1a0595",
-                "reference": "8a7ca9c1843eaaa174b9c43d9a3e1adc5b1a0595",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/d647e27524f9f7edc37baf63a114b52f5975808f",
+                "reference": "d647e27524f9f7edc37baf63a114b52f5975808f",
                 "shasum": ""
             },
             "require": {
@@ -1161,7 +1159,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2015-01-25 18:14:25"
+            "time": "2015-01-26 10:50:16"
         },
         {
             "name": "phpunit/php-code-coverage",
