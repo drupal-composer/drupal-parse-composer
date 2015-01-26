@@ -3,6 +3,12 @@
     <description>The coding standard for Drupal Parse Composer.</description>
     <file>src</file>
     <arg name="warning-severity" value="0"/>
-    <rule ref="PSR2"/>
-    <rule ref="./vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2/Sniffs/Commenting/FunctionCommentSniff.php"/>
+    <rule ref="./vendor/leaphub/phpcs-symfony2-standard/leaphub/phpcs/Symfony2">
+        <exclude name="Squiz.Strings.DoubleQuoteUsage"/>
+    </rule>
+    <rule ref="Symfony2.Commenting.FunctionComment">
+        <properties>
+            <property name="requiredScopes" value="public, protected, private"></property>
+        </properties>
+    </rule>
 </ruleset>

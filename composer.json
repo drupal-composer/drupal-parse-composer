@@ -48,6 +48,6 @@
         "symfony/symfony": "2.3.*",
         "composer/composer": "dev-master",
         "squizlabs/php_codesniffer": "2.*",
-        "leaphub/phpcs-symfony2-standard": "dev-phpcs-version"
+        "leaphub/phpcs-symfony2-standard": "dev-comment-scope"
     }
 }
