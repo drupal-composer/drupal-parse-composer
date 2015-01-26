@@ -22,10 +22,6 @@
                     "type": "zip"
                 }
             }
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/derhasi/phpcs-symfony2-standard.git"
         }
     ],
     "autoload": {
@@ -48,6 +44,6 @@
         "symfony/symfony": "2.3.*",
         "composer/composer": "dev-master",
         "squizlabs/php_codesniffer": "2.*",
-        "leaphub/phpcs-symfony2-standard": "dev-comment-scope"
+        "leaphub/phpcs-symfony2-standard": "dev-master"
     }
 }
