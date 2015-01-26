@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5aab04c7859e64237497b2ebe603d1d2",
+    "hash": "bbe3872fa565bbf7318f28830dc25903",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -216,12 +216,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "b44549dcc98a18f0728df05df523bdf179edb90b"
+                "reference": "56360cc13bfd13893731c6c4d1d82005a61d7694"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/b44549dcc98a18f0728df05df523bdf179edb90b",
-                "reference": "b44549dcc98a18f0728df05df523bdf179edb90b",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/56360cc13bfd13893731c6c4d1d82005a61d7694",
+                "reference": "56360cc13bfd13893731c6c4d1d82005a61d7694",
                 "shasum": ""
             },
             "require": {
@@ -281,7 +281,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2015-01-13 17:44:22"
+            "time": "2015-01-23 18:43:22"
         },
         {
             "name": "doctrine/inflector",
@@ -556,12 +556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "7be7e62cfcc2775262374686f2950d704596ea90"
+                "reference": "975b8a8f7d87fab5f51f77877a26567b3af12318"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/7be7e62cfcc2775262374686f2950d704596ea90",
-                "reference": "7be7e62cfcc2775262374686f2950d704596ea90",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/975b8a8f7d87fab5f51f77877a26567b3af12318",
+                "reference": "975b8a8f7d87fab5f51f77877a26567b3af12318",
                 "shasum": ""
             },
             "require": {
@@ -655,7 +655,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-01-20 23:58:45"
+            "time": "2015-01-25 14:17:32"
         },
         {
             "name": "twig/twig",
@@ -663,12 +663,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "ae72b5dccf7d05d3b2bc9980aa75ed17e9e0bf3b"
+                "reference": "6b434f4521e74bb5022e7e9e441189356fea137b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ae72b5dccf7d05d3b2bc9980aa75ed17e9e0bf3b",
-                "reference": "ae72b5dccf7d05d3b2bc9980aa75ed17e9e0bf3b",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/6b434f4521e74bb5022e7e9e441189356fea137b",
+                "reference": "6b434f4521e74bb5022e7e9e441189356fea137b",
                 "shasum": ""
             },
             "require": {
@@ -712,7 +712,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-01-21 15:28:26"
+            "time": "2015-01-25 17:35:14"
         }
     ],
     "packages-dev": [
@@ -906,17 +906,17 @@
         },
         {
             "name": "leaphub/phpcs-symfony2-standard",
-            "version": "dev-phpcs-version",
+            "version": "dev-comment-scope",
             "target-dir": "leaphub/phpcs/Symfony2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/derhasi/phpcs-symfony2-standard.git",
-                "reference": "99d566fad8d38d048a90b8caa93c1c4e3c9489f4"
+                "reference": "feabe90fda1b6f005d1393bc64011c68255b50bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/derhasi/phpcs-symfony2-standard/zipball/99d566fad8d38d048a90b8caa93c1c4e3c9489f4",
-                "reference": "99d566fad8d38d048a90b8caa93c1c4e3c9489f4",
+                "url": "https://api.github.com/repos/derhasi/phpcs-symfony2-standard/zipball/feabe90fda1b6f005d1393bc64011c68255b50bc",
+                "reference": "feabe90fda1b6f005d1393bc64011c68255b50bc",
                 "shasum": ""
             },
             "require": {
@@ -939,9 +939,9 @@
                 "phpcs"
             ],
             "support": {
-                "source": "https://github.com/derhasi/phpcs-symfony2-standard/tree/phpcs-version"
+                "source": "https://github.com/derhasi/phpcs-symfony2-standard/tree/comment-scope"
             },
-            "time": "2015-01-23 14:21:45"
+            "time": "2015-01-26 09:04:15"
         },
         {
             "name": "phpdocumentor/reflection-docblock",
@@ -1032,12 +1032,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/phpspec.git",
-                "reference": "ab58f408ec7f19f2d7fa95830b8c5a96fef01b78"
+                "reference": "32ad01ca2ccf1080ce09367cef9a8aece1fdd18f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/ab58f408ec7f19f2d7fa95830b8c5a96fef01b78",
-                "reference": "ab58f408ec7f19f2d7fa95830b8c5a96fef01b78",
+                "url": "https://api.github.com/repos/phpspec/phpspec/zipball/32ad01ca2ccf1080ce09367cef9a8aece1fdd18f",
+                "reference": "32ad01ca2ccf1080ce09367cef9a8aece1fdd18f",
                 "shasum": ""
             },
             "require": {
@@ -1101,7 +1101,7 @@
                 "testing",
                 "tests"
             ],
-            "time": "2015-01-19 17:32:45"
+            "time": "2015-01-24 21:53:46"
         },
         {
             "name": "phpspec/prophecy",
@@ -1109,12 +1109,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "4f04a3b1c7192b39b2c04bb747f3a218b04c86d4"
+                "reference": "8a7ca9c1843eaaa174b9c43d9a3e1adc5b1a0595"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/4f04a3b1c7192b39b2c04bb747f3a218b04c86d4",
-                "reference": "4f04a3b1c7192b39b2c04bb747f3a218b04c86d4",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/8a7ca9c1843eaaa174b9c43d9a3e1adc5b1a0595",
+                "reference": "8a7ca9c1843eaaa174b9c43d9a3e1adc5b1a0595",
                 "shasum": ""
             },
             "require": {
@@ -1161,7 +1161,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2015-01-21 10:08:09"
+            "time": "2015-01-25 18:14:25"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1169,12 +1169,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "5aaadd58aab6fd96200596820994641cb685f4aa"
+                "reference": "34cc484af1ca149188d0d9e91412191e398e0b67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/5aaadd58aab6fd96200596820994641cb685f4aa",
-                "reference": "5aaadd58aab6fd96200596820994641cb685f4aa",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/34cc484af1ca149188d0d9e91412191e398e0b67",
+                "reference": "34cc484af1ca149188d0d9e91412191e398e0b67",
                 "shasum": ""
             },
             "require": {
@@ -1223,7 +1223,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-01-15 05:45:24"
+            "time": "2015-01-24 10:06:35"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1413,12 +1413,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9612396c0c3b988a136e70e72cb34d113ca5eea1"
+                "reference": "2047ae17f6e8cfd10fbde0b4535c97eb22d99cbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9612396c0c3b988a136e70e72cb34d113ca5eea1",
-                "reference": "9612396c0c3b988a136e70e72cb34d113ca5eea1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/2047ae17f6e8cfd10fbde0b4535c97eb22d99cbe",
+                "reference": "2047ae17f6e8cfd10fbde0b4535c97eb22d99cbe",
                 "shasum": ""
             },
             "require": {
@@ -1476,7 +1476,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-01-19 07:53:45"
+            "time": "2015-01-24 14:23:56"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1705,24 +1705,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/exporter.git",
-                "reference": "e0a5fdd64463a0d524305c733e3e4391c76cf739"
+                "reference": "35ab8d385eef068186c83e23ae83c96b0288b3ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/e0a5fdd64463a0d524305c733e3e4391c76cf739",
-                "reference": "e0a5fdd64463a0d524305c733e3e4391c76cf739",
+                "url": "https://api.github.com/repos/sebastianbergmann/exporter/zipball/35ab8d385eef068186c83e23ae83c96b0288b3ee",
+                "reference": "35ab8d385eef068186c83e23ae83c96b0288b3ee",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.3",
+                "sebastian/recursion-context": "~1.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.0"
+                "phpunit/phpunit": "~4.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -1762,7 +1763,7 @@
                 "export",
                 "exporter"
             ],
-            "time": "2015-01-01 09:36:15"
+            "time": "2015-01-24 09:57:24"
         },
         {
             "name": "sebastian/global-state",
@@ -1814,6 +1815,59 @@
                 "global state"
             ],
             "time": "2015-01-20 04:09:31"
+        },
+        {
+            "name": "sebastian/recursion-context",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/recursion-context.git",
+                "reference": "3989662bbb30a29d20d9faa04a846af79b276252"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/recursion-context/zipball/3989662bbb30a29d20d9faa04a846af79b276252",
+                "reference": "3989662bbb30a29d20d9faa04a846af79b276252",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Jeff Welch",
+                    "email": "whatthejeff@gmail.com"
+                },
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                },
+                {
+                    "name": "Adam Harvey",
+                    "email": "aharvey@php.net"
+                }
+            ],
+            "description": "Provides functionality to recursively process PHP variables",
+            "homepage": "http://www.github.com/sebastianbergmann/recursion-context",
+            "time": "2015-01-24 09:48:32"
         },
         {
             "name": "sebastian/version",
