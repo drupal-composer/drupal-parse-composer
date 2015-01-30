@@ -19,7 +19,10 @@ class InfoFile
      */
     private $info;
 
-    protected $core_components = [
+    /**
+     * @var array
+     */
+    protected $coreComponents = [
       7 => [
         'aggregator',
         'block',
@@ -83,9 +86,9 @@ class InfoFile
     {
         $this->filename = $filename;
         list($this->name, , $isYaml) = array_pad(
-          explode('.', $this->filename),
-          3,
-          false
+            explode('.', $this->filename),
+            3,
+            false
         );
         $this->info = $isYaml
           ? Yaml::parse($info)
@@ -113,12 +116,12 @@ class InfoFile
     {
         $matches = array();
         preg_match(
-          '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
-          $dependency,
-          $matches
+            '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
+            $dependency,
+            $matches
         );
         list($all, $project, $v, $versionConstraints) = array_pad($matches, 4,
-          '');
+        '');
         $project = trim($project);
         if (empty($versionConstraints)) {
             $constraint = "{$this->core}.*";
@@ -130,9 +133,9 @@ class InfoFile
 
         foreach (preg_split('/(,\s*)+/', $versionConstraints) as $versionConstraint) {
             preg_match(
-              '/([><!=]*)\s*([0-9a-z\.\-]*)/',
-              $versionConstraint,
-              $matches
+                '/([><!=]*)\s*([0-9a-z\.\-]*)/',
+                $versionConstraint,
+                $matches
             );
             list($all, $symbols, $version) = $matches;
 
@@ -182,9 +185,16 @@ class InfoFile
         return $this->info;
     }
 
+    /**
+     * Checks if the given project is a Drupal core component.
+     *
+     * @param string $name Machine name of the project
+     *
+     * @return bool Returns TRUE if its part of the given core.
+     */
     protected function isCoreComponent($name)
     {
-        $components = array_flip($this->core_components[$this->core]);
+        $components = array_flip($this->coreComponents[$this->core]);
 
         return isset($components[$name]);
     }
