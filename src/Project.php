@@ -2,6 +2,9 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Drupal project.
+ */
 class Project
 {
 
@@ -10,23 +13,38 @@ class Project
     private $isTheme;
     private $hasDrush;
 
+    /**
+     * @param string              $name
+     * @param FileFinderInterface $finder
+     * @param string              $core
+     * @param array               $releases
+     */
     public function __construct(
         $name,
         FileFinderInterface $finder,
         $core,
         array $releases = array()
-    ) {
+    )
+    {
         $this->name     = $name;
         $this->finder   = $finder;
         $this->core     = $core;
         $this->releaseFactory = new ReleaseInfoFactory;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Get composer information for Drupal project.
+     *
+     * @return array|void
+     */
     public function getDrupalInformation()
     {
         $projectMap = $composerMap = $make = array();
@@ -41,9 +59,11 @@ class Project
                     || array_slice($parts, -2) == ['info', 'yml']
                 ) {
                     $this->infoFiles[] = $path;
+
                     return true;
                 } elseif (end($parts) === 'make') {
                     $this->makeFiles[] = $path;
+
                     return true;
                 } elseif (end($parts) === 'module'
                 ) {
@@ -100,9 +120,17 @@ class Project
                 $composerMap[$top]['require']['drush/drush'] = '6.*';
             }
         }
+
         return $composerMap;
     }
 
+    /**
+     * Get release information for current project in given core version.
+     *
+     * @param string $core
+     *
+     * @return ReleaseInfo
+     */
     public function getReleaseInfo($core)
     {
         return $this->releaseFactory->getReleasesForCore($this->name, $core);

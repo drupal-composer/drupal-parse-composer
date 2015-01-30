@@ -4,12 +4,25 @@ namespace Drupal\ParseComposer;
 
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * Representation of a Drupal project's .info(.yml) file.
+ */
 class InfoFile
 {
+    /**
+     * @var string
+     */
     private $name;
+
+    /**
+     * @var array
+     */
     private $info;
 
-    protected $core_components = [
+    /**
+     * @var array
+     */
+    protected $coreComponents = [
       7 => [
         'aggregator',
         'block',
@@ -65,16 +78,17 @@ class InfoFile
     ];
 
     /**
-     * @param string $name machine name of Drupal project
-     * @param string $info valid Drupal .info file contents
+     * @param string  $filename File name of Drupal project main file
+     * @param string  $info     Valid Drupal .info file contents
+     * @param integer $core     Drupal core version.
      */
     public function __construct($filename, $info, $core)
     {
         $this->filename = $filename;
         list($this->name, , $isYaml) = array_pad(
-          explode('.', $this->filename),
-          3,
-          false
+            explode('.', $this->filename),
+            3,
+            false
         );
         $this->info = $isYaml
           ? Yaml::parse($info)
@@ -83,24 +97,31 @@ class InfoFile
         $this->versionFactory = new VersionFactory();
     }
 
+    /**
+     * @return string
+     */
     public function getProjectName()
     {
         return $this->name;
     }
 
     /**
-     * @param string $dependency a valid .info dependencies value
+     * Build composer constraint out of given dependency.
+     *
+     * @param string $dependency A valid .info dependency value
+     *
+     * @return array
      */
     public function constraint($dependency)
     {
         $matches = array();
         preg_match(
-          '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
-          $dependency,
-          $matches
+            '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
+            $dependency,
+            $matches
         );
         list($all, $project, $v, $versionConstraints) = array_pad($matches, 4,
-          '');
+        '');
         $project = trim($project);
         if (empty($versionConstraints)) {
             $constraint = "{$this->core}.*";
@@ -109,12 +130,12 @@ class InfoFile
               'drupal/'.$project => $constraint,
             );
         }
-        foreach (preg_split('/(,\s*)+/',
-          $versionConstraints) as $versionConstraint) {
+
+        foreach (preg_split('/(,\s*)+/', $versionConstraints) as $versionConstraint) {
             preg_match(
-              '/([><!=]*)\s*([0-9a-z\.\-]*)/',
-              $versionConstraint,
-              $matches
+                '/([><!=]*)\s*([0-9a-z\.\-]*)/',
+                $versionConstraint,
+                $matches
             );
             list($all, $symbols, $version) = $matches;
 
@@ -156,14 +177,24 @@ class InfoFile
         return $info;
     }
 
+    /**
+     * @return array
+     */
     public function drupalInfo()
     {
         return $this->info;
     }
 
+    /**
+     * Checks if the given project is a Drupal core component.
+     *
+     * @param string $name Machine name of the project
+     *
+     * @return bool Returns TRUE if its part of the given core.
+     */
     protected function isCoreComponent($name)
     {
-        $components = array_flip($this->core_components[$this->core]);
+        $components = array_flip($this->coreComponents[$this->core]);
 
         return isset($components[$name]);
     }

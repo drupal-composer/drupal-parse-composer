@@ -2,9 +2,11 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Factory for building release information for core or project.
+ */
 class ReleaseInfoFactory
 {
-
     private $releases = [
         '4'   => [],
         '4.7' => [],
@@ -15,14 +17,30 @@ class ReleaseInfoFactory
         '9'   => [],
     ];
 
+    /**
+     * Helper to convert composer name to drupal project name.
+     *
+     * @param string $name
+     *
+     * @return string
+     */
     private function drupalizeName($name)
     {
         if (strpos($name, '/')) {
             list(, $name) = explode('/', $name);
         }
+
         return $name;
     }
 
+    /**
+     * Retrieve release information for project in given core.
+     *
+     * @param string $name
+     * @param string $core
+     *
+     * @return ReleaseInfo
+     */
     public function getReleasesForCore($name, $core)
     {
         $core = "$core";
@@ -37,11 +55,21 @@ class ReleaseInfoFactory
                     ? $release
                     : false;
             }
+
             return $this->releases[$core][$name];
         }
+
         return false;
     }
 
+    /**
+     * Retrieve release information for project in multiple cores.
+     *
+     * @param string $name  Drupal project name
+     * @param array  $cores Array of core versions, defaults to all verions.
+     *
+     * @return ReleaseInfo[string]
+     */
     public function getReleaseInfo($name, array $cores = [])
     {
         $info   = [];
@@ -52,6 +80,7 @@ class ReleaseInfoFactory
                 $info[$core] = $releaseInfo;
             }
         }
+
         return $info;
     }
 }

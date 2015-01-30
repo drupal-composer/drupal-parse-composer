@@ -5,9 +5,17 @@ namespace Drupal\ParseComposer;
 use Composer\Repository\Vcs\GitDriver as BaseDriver;
 use Composer\Package\Version\VersionParser;
 
+/**
+ * Drupal.org specific Git driver.
+ */
 class GitDriver extends BaseDriver implements FileFinderInterface
 {
 
+    /**
+     * @var VersionFactory
+     *
+     * @todo Fix default and implementations below.
+     */
     private $versionFactory = false;
 
     /**
@@ -95,9 +103,19 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             unset($composer['suggest'][$composer['name']]);
             unset($composer['suggest']['drupal/drupal']);
         }
+
         return $composer;
     }
 
+    /**
+     * Get version object from reference.
+     *
+     * @param string $ref
+     *
+     * @return AbstractVersion
+     *
+     * @todo Specify parameters.
+     */
     private function getVersion($ref)
     {
         $version = false;
@@ -109,9 +127,18 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         } else {
             $version = $this->versionFactory->create($ref, $this->isCore);
         }
+
         return $version;
     }
 
+    /**
+     * Retrieve commit reference from any branch or tag reference.
+     *
+     * @param string $ref Branch or tag reference:
+     *   Defaults to the current identifier.
+     *
+     * @return string|null
+     */
     public function lookUpRef($ref = null)
     {
         $refMap = array_flip(array_merge(
@@ -119,6 +146,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             $this->getTags()
         ));
         $ref = $ref ?: $this->identifier;
+
         return isset($refMap[$ref]) ? $refMap[$ref] : null;
     }
 
@@ -133,11 +161,14 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 $tags[$version->getSemVer()] = $hash;
             }
         }
+
         return $tags;
     }
 
     /**
-     * Override parent to get all branches and filter out those without version.
+     * {@inheritdoc}
+     *
+     * Overrides parent to get all branches and filter out those without version.
      */
     public function getBranches()
     {
@@ -192,7 +223,13 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Check if the given version string can be parsed by composer.
+     *
+     * @param string $version Version string
+     *
+     * @return bool|string
+     *
+     * @todo: change name and return value.
      */
     private function validateTag($version)
     {
@@ -207,6 +244,11 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         return false;
     }
 
+    /**
+     * Retrieve list of paths for the current commit.
+     *
+     * @return string[]
+     */
     private function getPaths()
     {
         if (!isset($this->paths[$this->identifier])) {
@@ -217,9 +259,13 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             );
             $this->paths[$this->identifier] = $this->process->splitLines($out);
         }
+
         return $this->paths[$this->identifier];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function pathMatch($pattern)
     {
         $paths = array();
@@ -232,9 +278,13 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 $paths[] = $path;
             }
         }
+
         return $paths;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function fileContents($path)
     {
         $resource = sprintf("%s:%s", escapeshellarg($this->identifier), $path);
@@ -243,6 +293,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             $out,
             $this->repoDir
         );
+
         return $out;
     }
 }

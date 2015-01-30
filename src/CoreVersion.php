@@ -2,8 +2,14 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Version representation for Drupal core.
+ */
 class CoreVersion extends AbstractVersion
 {
+    /**
+     * {@inheritdoc}
+     */
     public static function valid($version)
     {
         return !!preg_match(
@@ -12,6 +18,9 @@ class CoreVersion extends AbstractVersion
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse($versionString)
     {
         list($version, $extra) = array_pad(explode('-', $versionString), 2, '');

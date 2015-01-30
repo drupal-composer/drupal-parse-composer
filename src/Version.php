@@ -2,8 +2,14 @@
 
 namespace Drupal\ParseComposer;
 
+/**
+ * Version information for a Drupal project.
+ */
 class Version extends AbstractVersion
 {
+    /**
+     * {@inheritdoc}
+     */
     public static function valid($version)
     {
         return !!preg_match(
@@ -16,6 +22,9 @@ class Version extends AbstractVersion
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function parse($versionString)
     {
         $this->core = null;
