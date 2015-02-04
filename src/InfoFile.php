@@ -142,7 +142,12 @@ class InfoFile
             preg_match('/^([0-9]+)\.x$/', $version, $matches);
             if (!empty($matches)) {
                 $version = $matches[1];
-                $constraints[] = $symbols.$this->core.'.'.$version.'.*';
+                if (empty($symbols)) {
+                    $constraints[] = $symbols.$this->core.'.'.$version.'.*';
+                }
+                else {
+                    $constraints[] = $symbols.$this->core.'.'.$version.'.0';
+                }
                 continue;
             }
 
