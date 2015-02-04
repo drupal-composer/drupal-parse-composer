@@ -144,8 +144,7 @@ class InfoFile
                 $version = $matches[1];
                 if (empty($symbols)) {
                     $constraints[] = $symbols.$this->core.'.'.$version.'.*';
-                }
-                else {
+                } else {
                     $constraints[] = $symbols.$this->core.'.'.$version.'.0';
                 }
                 continue;
