@@ -50,8 +50,10 @@ class Makefile
      */
     public function getDrupalProjects()
     {
+        $projects       = $this->getMakeInfo('projects');
+        $projects       = is_array($projects) ? $projects : [];
         $drupalProjects = [];
-        foreach ($this->getMakeInfo('projects') ?: [] as $projectName => $project) {
+        foreach ($projects as $projectName => $project) {
             $url = $this->getMakeInfo(
                 ['projects', $projectName, 'download', 'url']
             );
