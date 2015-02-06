@@ -8,10 +8,10 @@ namespace Drupal\ParseComposer;
 class Project
 {
 
-    private $makeFiles = [];
-    private $infoFiles = [];
-    private $isTheme;
-    private $hasDrush;
+    private $makeFiles  = [];
+    private $infoFiles  = [];
+    private $isTheme    = false;
+    private $hasDrush   = false;
 
     /**
      * @param string              $name
@@ -43,85 +43,88 @@ class Project
     /**
      * Get composer information for Drupal project.
      *
-     * @return array|void
+     * @return array|null
      */
     public function getDrupalInformation()
     {
         $projectMap = $composerMap = $make = array();
-        $this->hasDrush = $this->hasModule = false;
-        $this->finder->pathMatch(
-            function($path) {
-                if (strpos($path, 'test') !== false) {
-                    return false;
-                }
-                $parts = explode('.', basename($path));
-                if (end($parts) === 'info'
-                    || array_slice($parts, -2) == ['info', 'yml']
-                ) {
-                    $this->infoFiles[] = $path;
-
-                    return true;
-                } elseif (end($parts) === 'make') {
-                    $this->makeFiles[] = $path;
-
-                    return true;
-                } elseif (end($parts) === 'module'
-                ) {
-                    $this->hasModule = true;
-                } elseif (basename($path) === 'template.php') {
-                    $this->isTheme = true;
-                } elseif (array_slice($parts, -2) == ['drush', 'inc']
-                ) {
-                    $this->hasDrush = true;
-                }
-            }
-        );
-        foreach ($this->infoFiles as $infoPath) {
-            $info = new InfoFile(
-                basename($infoPath),
-                $this->finder->fileContents($infoPath),
-                $this->core
-            );
-            $projectMap[$info->getProjectName()] = $info;
-        }
-        foreach ($this->makeFiles as $makePath) {
-            $make[] = new Makefile(
-                $this->finder->fileContents($makePath)
-            );
-        }
-        if (empty($projectMap) && !$this->hasDrush) {
+        $this->finder->pathMatch($this->getPathMatcher());
+        if (empty($this->projectMap) && !$this->hasDrush) {
             return;
         }
         if ('drupal' === $this->name) {
             $projectMap['drupal'] = clone($projectMap['system']);
         }
-        foreach ($projectMap as $name => $info) {
-            $composerMap[$name] = $info->packageInfo();
-            foreach ($make as $makefile) {
-                foreach (($makefile->getDrupalProjects()) as $name => $project) {
-                    $composerMap[$this->name]['require']['drupal/'.$name] = $makefile->getConstraint($name);
-                }
-            }
+        foreach ($this->projectMap as $name => $info) {
+            $composerMap[$name] = $info;
         }
         $top = isset($composerMap[$this->name])
           ? $this->name
           : current(array_keys($composerMap));
-        if ('drupal' === $this->name) {
-            $composerMap[$top]['type'] = 'drupal-core';
-        } elseif ($releaseInfo = $this->getReleaseInfo($this->core)) {
-            $composerMap[$top]['type'] = $releaseInfo->getProjectType();
-            if ($composerMap[$top]['type'] === 'drupal-module'
-                && !$this->hasModule && !$this->isTheme && $this->hasDrush
-            ) {
-                if (!isset($composerMap[$top]['name'])) {
-                    $composerMap[$top]['name'] = $this->getName();
-                }
-                $composerMap[$top]['type'] = 'drupal-drush';
-                $composerMap[$top]['require']['drush/drush'] = '>=6';
+        foreach ($this->makeFiles as $makefile) {
+            foreach (($makefile->getDrupalProjects()) as $name => $project) {
+                $composerMap[$top]['require']['drupal/'.$name] = $makefile->getConstraint($name);
             }
+        }
+        if (!isset($composerMap[$top]['name'])) {
+            $composerMap[$top]['name'] = $this->getName();
+        }
+        $composerMap[$top]['type'] = $this->getProjectType($composerMap[$top]);
+        if ($composerMap[$top]['type'] === 'drupal-drush') {
+            $composerMap[$top]['require']['drush/drush'] = '>=6';
         }
 
         return $composerMap;
+    }
+
+    private function getPathMatcher()
+    {
+        return function($path) {
+            if (strpos($path, 'test') !== false) {
+                return false;
+            }
+            $parts = explode('.', basename($path));
+            if (end($parts) === 'info'
+                || array_slice($parts, -2) == ['info', 'yml']
+            ) {
+            $info = new InfoFile(
+                basename($path),
+                $this->finder->fileContents($path),
+                $this->core
+            );
+            $this->projectMap[$info->getProjectName()] = $info->packageInfo();
+            } elseif (end($parts) === 'make') {
+                $this->makeFiles[] = new Makefile(
+                    $this->finder->fileContents($path)
+                );
+            } elseif (end($parts) === 'module') {
+                $this->hasModule = true;
+            } elseif (basename($path) === 'template.php') {
+                $this->isTheme = true;
+            } elseif (array_slice($parts, -2) == ['drush', 'inc']
+            ) {
+            $this->hasDrush = true;
+            }
+        };
+    }
+
+    /**
+     * @return the type for the composer project
+     */
+    private function getProjectType()
+    {
+        if ('drupal' === $this->name) {
+            return 'drupal-core';
+        } elseif ($releaseInfo = $this->getReleaseInfo($this->core)) {
+            $type = $releaseInfo->getProjectType();
+            if ($type === 'drupal-module'
+                && !$this->hasModule && !$this->isTheme && $this->hasDrush
+            ) {
+                $type = 'drupal-drush';
+            }
+
+            return $type;
+        }
     }
 
     /**
