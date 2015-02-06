@@ -7,7 +7,7 @@ namespace Drupal\ParseComposer\DrupalOrg;
  * Value class that provides the dist URL for a given Drupal.org project and
  * version.
  */
-class DistURL
+class DistUrl
 {
     /**
      * @var String

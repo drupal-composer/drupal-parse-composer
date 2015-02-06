@@ -3,9 +3,8 @@
 namespace spec\Drupal\ParseComposer\DrupalOrg;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
-class DistURLSpec extends ObjectBehavior
+class DistUrlSpec extends ObjectBehavior
 {
     function it_translates_core_dev_branches()
     {

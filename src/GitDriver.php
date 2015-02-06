@@ -4,7 +4,7 @@ namespace Drupal\ParseComposer;
 
 use Composer\Repository\Vcs\GitDriver as BaseDriver;
 use Composer\Package\Version\VersionParser;
-use Drupal\ParseComposer\DrupalOrg\DistURL;
+use Drupal\ParseComposer\DrupalOrg\DistUrl;
 
 /**
  * Drupal.org specific Git driver.
@@ -217,7 +217,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         if ($distVersion) {
             return array(
                 'type' => 'zip',
-                'url' => (string) new DistURL(
+                'url' => (string) new DistUrl(
                     $this->drupalProjectName,
                     $distVersion
                 )
