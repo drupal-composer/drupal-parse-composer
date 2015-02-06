@@ -2,6 +2,7 @@
 
 namespace Drupal\ParseComposer;
 
+use Composer\Downloader\TransportException;
 use Composer\Repository\Vcs\GitDriver as BaseDriver;
 use Composer\Package\Version\VersionParser;
 
@@ -21,45 +22,65 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     private $versionFactory = false;
 
     /**
+     * @var string identifier
+     */
+    private $identifier = '';
+
+    /**
+     * @var string drupalProjectName
+     */
+    private $drupalProjectName = '';
+
+    /**
+     * @var bool isCore
+     */
+    private $isCore = false;
+
+    /**
+     * @var string[] paths
+     */
+    private $paths;
+
+    /**
      * {@inheritDoc}
      */
     public function getComposerInformation($identifier)
     {
         $this->identifier = $identifier;
-        try {
-            $composer = parent::getComposerInformation($identifier);
-        } catch (TransportException $e) {
-            // There is not composer.json file in the root
-        }
-        $composer = is_array($composer) ? $composer : array();
 
         $ref = strlen($this->identifier) == 40
             ? $this->lookUpRef($this->identifier)
             : $this->identifier;
         if ($version = $this->getVersion($ref)) {
             $core = $version->getCore();
-            $majorSlug = $this->isCore ? '' : "{$version->getMajor()}.x";
-            $devBranch = "dev-$core.x-$majorSlug";
-            $composer['extra']['branch-alias'][$devBranch] = $core.'.'
-                .($majorSlug ?: 'x').'-dev';
+            if ($core < 7) {
+                return [];
+            }
         } else {
             return [];
         }
-        // TODO: make configurable?
-        if ($core < 7) {
-            return [];
+
+        try {
+            $composer = parent::getComposerInformation($identifier);
+        } catch (TransportException $e) {
+            // There is not composer.json file in the root
         }
+        $composer = is_array($composer) ? $composer : array();
+        foreach (array('replace', 'require', 'suggest') as $link) {
+            $composer[$link] = isset($composer[$link])
+                ? $composer[$link]
+                : array();
+        }
+        $majorSlug = $this->isCore ? '' : "{$version->getMajor()}.x";
+        $devBranch = "dev-$core.x-$majorSlug";
+        $composer['extra']['branch-alias'][$devBranch] = $core.'.'
+            .($majorSlug ?: 'x').'-dev';
         $project = new Project($this->drupalProjectName, $this, $core);
         if (null != ($drupalInformation = $project->getDrupalInformation())) {
             if (isset($drupalInformation[$this->drupalProjectName])) {
                 $topInformation = $drupalInformation[$this->drupalProjectName];
             } else {
                 $topInformation = current($drupalInformation);
-            }
-            foreach (array('replace', 'require', 'suggest') as $link) {
-                $composer[$link] = isset($composer[$link])
-                    ? $composer[$link]
-                    : array();
             }
             foreach (array_keys($drupalInformation) as $name) {
                 if ($name != $this->drupalProjectName) {
@@ -105,7 +126,6 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             unset($composer['suggest'][$composer['name']]);
             unset($composer['suggest']['drupal/drupal']);
         }
-
         return $composer;
     }
 
@@ -182,9 +202,11 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 if ($branch
                     && !preg_match('{^ *[^/]+/HEAD }', $branch)
                     && preg_match('{^(?:\* )? *(\S+) *([a-f0-9]+) .*$}', $branch, $match)
-                    && $this->getVersion($name = @end(explode('/', $match[1])))
                 ) {
-                    $branches[$name] = $match[2];
+                    $parts = explode('/', $match[1]);
+                    if ($this->getVersion($name = end($parts))) {
+                        $branches[$name] = $match[2];
+                    }
                 }
             }
             $this->branches = $branches;
