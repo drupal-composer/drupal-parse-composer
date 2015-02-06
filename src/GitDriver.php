@@ -4,7 +4,6 @@ namespace Drupal\ParseComposer;
 
 use Composer\Repository\Vcs\GitDriver as BaseDriver;
 use Composer\Package\Version\VersionParser;
-
 use Drupal\ParseComposer\DrupalOrg\DistURL;
 
 /**
