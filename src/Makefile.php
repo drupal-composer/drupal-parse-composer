@@ -26,7 +26,7 @@ class Makefile
      *
      * @param string[] $path Array of keys to retrieve value from.
      *
-     * @return array|false
+     * @return string|array|false
      */
     public function getMakeInfo($path = array())
     {
@@ -159,7 +159,9 @@ class Makefile
      */
     private function getVersionFromPath(array $path)
     {
-        return $this->makeVersion($this->getMakeInfo($path), $path[1]);
+        if (is_string($version = $this->getMakeInfo($path))) {
+            return $this->makeVersion($version, $path[1]);
+        }
     }
 
     /**
