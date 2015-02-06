@@ -77,6 +77,9 @@ class Project
         return $composerMap;
     }
 
+    /**
+     * @return a function for use with FileFinderInterface::pathMatch()
+     */
     private function getPathMatcher()
     {
         return function($path) {
@@ -87,12 +90,12 @@ class Project
             if (end($parts) === 'info'
                 || array_slice($parts, -2) == ['info', 'yml']
             ) {
-            $info = new InfoFile(
-                basename($path),
-                $this->finder->fileContents($path),
-                $this->core
-            );
-            $this->projectMap[$info->getProjectName()] = $info->packageInfo();
+                $info = new InfoFile(
+                    basename($path),
+                    $this->finder->fileContents($path),
+                    $this->core
+                );
+                $this->projectMap[$info->getProjectName()] = $info->packageInfo();
             } elseif (end($parts) === 'make') {
                 $this->makeFiles[] = new Makefile(
                     $this->finder->fileContents($path)
@@ -103,7 +106,7 @@ class Project
                 $this->isTheme = true;
             } elseif (array_slice($parts, -2) == ['drush', 'inc']
             ) {
-            $this->hasDrush = true;
+                $this->hasDrush = true;
             }
         };
     }
