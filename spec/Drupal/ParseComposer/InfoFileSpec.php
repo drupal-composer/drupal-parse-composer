@@ -57,4 +57,17 @@ EOF;
         $this->constraint('menu (>7.11)')->shouldReturn(['drupal/menu' => '>7.11.0']);
         $this->constraint('not_core (>=7.53)')->shouldReturn(['drupal/not_core' => '>=7.7.53']);
     }
+
+    function it_adds_drupal_drupal_as_dependency()
+    {
+        $this->beConstructedWith('foo', '', 7);
+        $this->getRequirements()->shouldReturn(['drupal/drupal' => '7.*']);
+    }
+
+    function it_adds_drupal_core_as_dependency()
+    {
+        $this->beConstructedWith('foo', '', 8);
+        $this->getRequirements()->shouldReturn(['drupal/core' => '8.*']);
+    }
+
 }

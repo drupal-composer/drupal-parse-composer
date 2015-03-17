@@ -165,20 +165,41 @@ class InfoFile
      */
     public function packageInfo()
     {
-        $deps = isset($this->info['dependencies']) ? $this->info['dependencies'] : array();
-        $deps = is_array($deps) ? $deps : array($deps);
         $info = array(
           'name' => 'drupal/'.$this->name,
-          'require' => $this->constraint('drupal'),
+          'require' => $this->getRequirements(),
         );
+
         if (isset($this->info['description'])) {
             $info['description'] = $this->info['description'];
         }
-        foreach ($deps as $dep) {
-            $info['require'] += $this->constraint($dep);
-        }
 
         return $info;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequirements()
+    {
+        $requirements = array();
+        $deps = isset($this->info['dependencies']) ? $this->info['dependencies'] : array();
+        $deps = is_array($deps) ? $deps : array($deps);
+
+        switch ($this->core) {
+            case 7:
+                $requirements += $this->constraint('drupal');
+                break;
+            case 8:
+                $requirements += $this->constraint('core');
+                break;
+        }
+
+        foreach ($deps as $dep) {
+            $requirements += $this->constraint($dep);
+        }
+
+        return $requirements;
     }
 
     /**
