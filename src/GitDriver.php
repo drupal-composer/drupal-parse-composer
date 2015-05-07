@@ -60,12 +60,20 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                     ? $composer[$link]
                     : array();
             }
+            foreach (array('replace', 'require', 'suggest') as $link) {
+                if (isset($topInformation[$link])) {
+                    foreach ($topInformation[$link] as $package => $version) {
+                        if (!isset($composer[$link][$package])) {
+                            $composer[$link][$package] = $version;
+                        }
+                    }
+                }
+            }
             foreach (array_keys($drupalInformation) as $name) {
                 if ($name != $this->drupalProjectName) {
                     $composer['replace']["drupal/$name"] = 'self.version';
                 }
             }
-            $composer['require'] = $topInformation['require'];
             foreach ($drupalInformation as $info) {
                 if ($info['name'] != $topInformation['name']) {
                     foreach ($info['require'] as $package => $version) {
