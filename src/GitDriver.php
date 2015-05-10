@@ -108,6 +108,9 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             }
 
             $composer['name'] = 'drupal/' . $this->drupalProjectName;
+            $composer['homepage'] = 'https://www.drupal.org/project/' . $this->drupalProjectName;
+            $composer['support']['issues'] = 'https://www.drupal.org/project/issues/' . $this->drupalProjectName;
+            $composer['support']['source'] = 'http://cgit.drupalcode.org/' . $this->drupalProjectName;
             unset($composer['require'][$composer['name']]);
             unset($composer['suggest'][$composer['name']]);
             unset($composer['suggest']['drupal/drupal']);
