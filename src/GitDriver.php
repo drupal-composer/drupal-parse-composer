@@ -318,10 +318,10 @@ class GitDriver extends BaseDriver implements FileFinderInterface
      */
     public function mergeDefaultMetadata($package, Project $project) {
         if (!isset($package['homepage'])) {
-            $package['homepage'] = 'https://drupal.org/project/' . $project->getName();
+            $package['homepage'] = 'https://www.drupal.org/project/' . $project->getName();
         }
         if (!isset($package['support']['issues'])) {
-            $package['support']['issues'] = 'https://drupal.org/project/issues/' . $project->getName();
+            $package['support']['issues'] = 'https://www.drupal.org/project/issues/' . $project->getName();
         }
         if (!isset($package['support']['source'])) {
             $package['support']['source'] = 'http://cgit.drupalcode.org/' . $project->getName();
