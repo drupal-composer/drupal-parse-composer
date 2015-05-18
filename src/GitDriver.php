@@ -107,7 +107,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 $composer[$top] = isset($topInformation[$top]) ? $topInformation[$top] : $composer[$top];
             }
 
-            $composer['name'] = 'drupal/ ' . $this->drupalProjectName;
+            $composer['name'] = 'drupal/' . $this->drupalProjectName;
             $composer = $this->mergeDefaultMetadata($composer, $project);
             unset($composer['require'][$composer['name']]);
             unset($composer['suggest'][$composer['name']]);
