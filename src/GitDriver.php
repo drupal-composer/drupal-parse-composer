@@ -312,11 +312,12 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     /**
      * Add default metadata from drupal.org to the package definition.
      *
-     * @param $package
-     * @param \Drupal\ParseComposer\Project $project
+     * @param array   $package
+     * @param Project $project
      * @return array
      */
-    public function mergeDefaultMetadata($package, Project $project) {
+    public function mergeDefaultMetadata($package, Project $project)
+    {
         if (!isset($package['homepage'])) {
             $package['homepage'] = 'https://www.drupal.org/project/' . $project->getName();
         }
@@ -326,6 +327,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         if (!isset($package['support']['source'])) {
             $package['support']['source'] = 'http://cgit.drupalcode.org/' . $project->getName();
         }
+
         return $package;
     }
 }
