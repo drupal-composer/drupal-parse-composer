@@ -48,6 +48,7 @@ EOF;
 
         $this->constraint('bar (1.0)')->shouldReturn(['drupal/bar' => '7.1.0']);
         $this->constraint('bar (1.x)')->shouldReturn(['drupal/bar' => '7.1.*']);
+        $this->constraint('bar (7.x-1.x)')->shouldReturn(['drupal/bar' => '7.1.*']);
         $this->constraint('bar (>=1.x)')->shouldReturn(['drupal/bar' => '>=7.1.0']);
         $this->constraint('bar (>= 1.x)')->shouldReturn(['drupal/bar' => '>=7.1.0']);
         $this->constraint('bar (>1.0, <=3.2, !=3.0)')->shouldReturn(['drupal/bar' => '>7.1.0, <=7.3.2, !=7.3.0']);

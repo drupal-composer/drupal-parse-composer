@@ -139,9 +139,22 @@ class InfoFile
             );
             list($all, $symbols, $version) = $matches;
 
+            // Version: 1.x, > 1.x
             preg_match('/^([0-9]+)\.x$/', $version, $matches);
             if (!empty($matches)) {
                 $version = $matches[1];
+                if (empty($symbols)) {
+                    $constraints[] = $symbols.$this->core.'.'.$version.'.*';
+                } else {
+                    $constraints[] = $symbols.$this->core.'.'.$version.'.0';
+                }
+                continue;
+            }
+
+            // Version: 7.x-1.x, > 7.x-1.x
+            preg_match('/^([0-9]+)\.x-([0-9]+)\.x$/', $version, $matches);
+            if (!empty($matches)) {
+                $version = $matches[2];
                 if (empty($symbols)) {
                     $constraints[] = $symbols.$this->core.'.'.$version.'.*';
                 } else {
