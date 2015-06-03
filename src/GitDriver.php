@@ -165,8 +165,19 @@ class GitDriver extends BaseDriver implements FileFinderInterface
      */
     public function getTags()
     {
+        if (null === $this->tags) {
+            $this->tags = parent::getTags();
+
+            // Remove invalid tags.
+            foreach ($this->tags as $tag => $hash) {
+                if (!$this->getVersion($tag)) {
+                    unset($this->tags[$tag]);
+                }
+            }
+        }
+
         $tags = [];
-        foreach (parent::getTags() as $tag => $hash) {
+        foreach ($this->tags as $tag => $hash) {
             if ($version = $this->getVersion($tag)) {
                 $tags[$version->getSemVer()] = $hash;
             }
