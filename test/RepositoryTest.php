@@ -49,7 +49,12 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 'dev-7.x-1.x' => array(
                     'type' => 'drupal-module'
                 )
-            )
+            ),
+            'config_devel' => array(
+                'dev-8.x-1.x' => array(
+                    'type' => 'drupal-module'
+                ),
+            ),
         );
 
         $config = new Config();

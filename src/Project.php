@@ -108,7 +108,11 @@ class Project
           : current(array_keys($composerMap));
         if ('drupal' === $this->name) {
             $composerMap[$top]['type'] = 'drupal-core';
-        } elseif ($releaseInfo = $this->getReleaseInfo($this->core)) {
+        }
+        if (empty($composerMap[$top]['type']) && $this->core == 8) {
+            $composerMap[$top]['type'] = 'drupal-' . $info->drupalInfo()['type'];
+        }
+        if (empty($composerMap[$top]['type']) && $releaseInfo = $this->getReleaseInfo($this->core)) {
             $composerMap[$top]['type'] = $releaseInfo->getProjectType();
             if ($composerMap[$top]['type'] === 'drupal-module'
                 && !$this->hasModule && !$this->isTheme && $this->hasDrush
