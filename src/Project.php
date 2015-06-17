@@ -55,8 +55,8 @@ class Project
                     return false;
                 }
                 $parts = explode('.', basename($path));
-                if (end($parts) === 'info'
-                    || array_slice($parts, -2) == ['info', 'yml']
+                if (($this->core == 7 && end($parts) === 'info')
+                  || ($this->core == 8 && array_slice($parts, -2) == ['info', 'yml'])
                 ) {
                     $this->infoFiles[] = $path;
 
@@ -106,10 +106,11 @@ class Project
         $top = isset($composerMap[$this->name])
           ? $this->name
           : current(array_keys($composerMap));
+        $info = isset($projectMap[$top]) ? $projectMap[$top] : null;
         if ('drupal' === $this->name) {
             $composerMap[$top]['type'] = 'drupal-core';
         }
-        if (empty($composerMap[$top]['type']) && $this->core == 8) {
+        if (empty($composerMap[$top]['type']) && $this->core == 8 && isset($info) && isset($info->drupalInfo()['type'])) {
             $composerMap[$top]['type'] = 'drupal-' . $info->drupalInfo()['type'];
         }
         if (empty($composerMap[$top]['type']) && $releaseInfo = $this->getReleaseInfo($this->core)) {
