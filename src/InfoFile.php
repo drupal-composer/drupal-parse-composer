@@ -115,13 +115,27 @@ class InfoFile
     public function constraint($dependency)
     {
         $matches = array();
+        // Get the match string for each core version.
+        $match_string = $this->getMatchStrings();
+        $version_match_string = $match_string[$this->core];
         preg_match(
-            '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
+            $version_match_string['match_string'],
             $dependency,
             $matches
         );
         list($all, $project, $v, $versionConstraints) = array_pad($matches, 4,
-        '');
+            '');
+        // Parse the structure and test the matches.
+        foreach ($version_match_string['keys'] as $key => $value) {
+            if ($value) {
+                preg_match(
+                    $value,
+                    $$key,
+                    $$key
+                );
+                list($all, $$key) = array_pad($$key, 2, '');
+            }
+        }
         $project = trim($project);
         if (empty($versionConstraints)) {
             $constraint = "{$this->core}.*";
@@ -232,8 +246,41 @@ class InfoFile
      */
     protected function isCoreComponent($name)
     {
+        //todo: for drupal 8 there have to be checked if are core or non-core modules.
+        if ($this->core == 8) {
+            return null;
+        }
         $components = array_flip($this->coreComponents[$this->core]);
 
         return isset($components[$name]);
+    }
+
+    /**
+     * Returns match string for core versions.
+     */
+    protected function getMatchStrings()
+    {
+        // For each component of the matched string there attached another string for matching in case is required or
+        // false if it shouldn't use another match string.
+        return array(
+            7 => [
+                'match_string' => '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
+                'keys' => [
+                    'all' => FALSE,
+                    'project' => FALSE,
+                    'v' => FALSE,
+                    'versionConstraint' => FALSE,
+                ],
+            ],
+            8 => [
+                'match_string' => '/([a-z0-9_:]*)\s*(\(([^\)]+)*\))*/',
+                'keys' => [
+                    'all' => FALSE,
+                    'project' => '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
+                    'v' => FALSE,
+                    'versionConstraint' => FALSE,
+                ],
+            ],
+        );
     }
 }
