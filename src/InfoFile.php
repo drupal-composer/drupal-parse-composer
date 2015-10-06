@@ -116,17 +116,16 @@ class InfoFile
     {
         $matches = array();
         // Get the match string for each core version.
-        $match_string = $this->getMatchStrings();
-        $version_match_string = $match_string[$this->core];
+        $matchString = $this->getMatchStrings();
+        $versionMatchString = $matchString[$this->core];
         preg_match(
-            $version_match_string['match_string'],
+            $versionMatchString['match_string'],
             $dependency,
             $matches
         );
-        list($all, $project, $v, $versionConstraints) = array_pad($matches, 4,
-            '');
+        list($all, $project, $v, $versionConstraints) = array_pad($matches, 4, '');
         // Parse the structure and test the matches.
-        foreach ($version_match_string['keys'] as $key => $value) {
+        foreach ($versionMatchString['keys'] as $key => $value) {
             if ($value) {
                 preg_match(
                     $value,
@@ -257,6 +256,9 @@ class InfoFile
 
     /**
      * Returns match string for core versions.
+     *
+     * @return array
+     *  Return match string
      */
     protected function getMatchStrings()
     {
@@ -266,19 +268,19 @@ class InfoFile
             7 => [
                 'match_string' => '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
                 'keys' => [
-                    'all' => FALSE,
-                    'project' => FALSE,
-                    'v' => FALSE,
-                    'versionConstraint' => FALSE,
+                    'all' => false,
+                    'project' => false,
+                    'v' => false,
+                    'versionConstraint' => false,
                 ],
             ],
             8 => [
                 'match_string' => '/([a-z0-9_:]*)\s*(\(([^\)]+)*\))*/',
                 'keys' => [
-                    'all' => FALSE,
+                    'all' => false,
                     'project' => '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
-                    'v' => FALSE,
-                    'versionConstraint' => FALSE,
+                    'v' => false,
+                    'versionConstraint' => false,
                 ],
             ],
         );
