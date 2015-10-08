@@ -93,7 +93,6 @@ EOF;
 
         // Valid constraints in Drupal: https://www.drupal.org/node/542202#dependencies
         // Valid constraints in composer: https://getcomposer.org/doc/01-basic-usage.md#package-versions
-
         $this->constraint('foo:bar (1.0)')->shouldReturn(['drupal/foo' => '8.1.0']);
         $this->constraint('bar (1.x)')->shouldReturn(['drupal/bar' => '8.1.*']);
         $this->constraint('bar (8.x-1.x)')->shouldReturn(['drupal/bar' => '8.1.*']);
@@ -102,10 +101,9 @@ EOF;
         $this->constraint('bar (>1.0, <=3.2, !=3.0)')->shouldReturn(['drupal/bar' => '>8.1.0, <=8.3.2, !=8.3.0']);
         $this->constraint('bar (>1.0)')->shouldReturn(['drupal/bar' => '>8.1.0']);
         $this->constraint('bar (>8.x-1.5)')->shouldReturn(['drupal/bar' => '>8.1.5']);
-        // todo: The tests above still breaks because of core modules,
-        // $this->constraint('system (>=8.53)')->shouldReturn(['drupal/system' => '>=8.53.0']);
-        // $this->constraint('menu (>8.11)')->shouldReturn(['drupal/menu' => '>8.11.0']);
-        // $this->constraint('not_core (>=7.53)')->shouldReturn(['drupal/not_core' => '>=8.7.53']);
+         $this->constraint('system (>=8.53)')->shouldReturn(['drupal/system' => '>=8.53.0']);
+         $this->constraint('menu_link_content (>8.11)')->shouldReturn(['drupal/menu_link_content' => '>8.11.0']);
+         $this->constraint('not_core (>=7.53)')->shouldReturn(['drupal/not_core' => '>=8.7.53']);
     }
 
 }

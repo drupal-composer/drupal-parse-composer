@@ -22,60 +22,7 @@ class InfoFile
     /**
      * @var array
      */
-    protected $coreComponents = [
-      7 => [
-        'aggregator',
-        'block',
-        'blog',
-        'book',
-        'color',
-        'comment',
-        'contact',
-        'contextual',
-        'dashboard',
-        'dblog',
-        'field',
-        'field_sql_storage',
-        'list',
-        'number',
-        'options',
-        'text',
-        'field_ui',
-        'file',
-        'filter',
-        'forum',
-        'help',
-        'image',
-        'locale',
-        'menu',
-        'node',
-        'openid',
-        'overlay',
-        'path',
-        'php',
-        'poll',
-        'profile',
-        'rdf',
-        'search',
-        'shortcut',
-        'statistics',
-        'syslog',
-        'system',
-        'taxonomy',
-        'toolbar',
-        'tracker',
-        'translation',
-        'trigger',
-        'update',
-        'user',
-        'minimal',
-        'standard',
-        'bartik',
-        'garland',
-        'seven',
-        'stark',
-      ],
-    ];
+    protected $coreComponents;
 
     /**
      * @param string  $filename File name of Drupal project main file
@@ -95,6 +42,7 @@ class InfoFile
           : \drupal_parse_info_format($info);
         $this->core = $core;
         $this->versionFactory = new VersionFactory();
+        $this->coreComponents = Yaml::parse(file_get_contents('core_modules.yml'));
     }
 
     /**
@@ -245,10 +193,6 @@ class InfoFile
      */
     protected function isCoreComponent($name)
     {
-        //todo: for drupal 8 there have to be checked if are core or non-core modules.
-        if ($this->core == 8) {
-            return null;
-        }
         $components = array_flip($this->coreComponents[$this->core]);
 
         return isset($components[$name]);
