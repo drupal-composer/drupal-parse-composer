@@ -103,6 +103,9 @@ class Project
                 }
             }
         }
+        if (empty($composerMap)) {
+            return $composerMap;
+        }
         $top = isset($composerMap[$this->name])
           ? $this->name
           : current(array_keys($composerMap));
