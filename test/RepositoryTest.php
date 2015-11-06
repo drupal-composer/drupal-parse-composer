@@ -74,7 +74,37 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 new NullIO,
                 $config
             );
+            /** @var \Composer\Package\PackageInterface[] $packages */
             $packages = $repo->getPackages();
+
+            // Make sure that development versions do not get a distribution
+            // archive URL because Drupal.org does not produce archives for
+            // each commit.
+            // If the latest commit in a development branch happens to
+            // correspond to a tagged release the package does (and
+            // should!) receive a distribution archive URL. To make sure the
+            // test does not fail in this case we track the source
+            // references of all non-development versions.
+            /** @var \Composer\Package\PackageInterface[] $developmentPackages */
+            $developmentPackages = [];
+            $sourceReferences = [];
+            foreach ($packages as $package) {
+                if (substr($package->getVersion(), -2) === '.x') {
+                    $developmentPackages[] = $package;
+                }
+                else {
+                    $sourceReferences += [$package->getName() => []];
+                    $sourceReferences[$package->getName()][] = $package->getSourceReference();
+                }
+            }
+
+            foreach ($developmentPackages as $package) {
+                if (isset($sourceReferences[$package->getName()]) && in_array($package->getSourceReference(), $sourceReferences[$package->getName()], TRUE)) {
+                    continue;
+                }
+                $this->assertEquals('', $package->getDistUrl());
+            }
+
             foreach ($packages as $package) {
                 if (isset($expected[$package->getPrettyVersion()])) {
                     if (is_array($p = $expected[$package->getPrettyVersion()])) {
