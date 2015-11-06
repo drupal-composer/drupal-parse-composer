@@ -8,17 +8,13 @@
     ],
     "repositories": [
         {
-            "type": "composer",
-            "url": "http://packages.zendframework.com/"
-        },
-        {
             "type": "package",
             "package": {
                 "name": "drupal/drupal",
-                "version": "7.28.0",
+                "version": "7.41.0",
                 "dist":
                 {
-                    "url": "http://ftp.drupal.org/files/projects/drupal-7.28.zip",
+                    "url": "http://ftp.drupal.org/files/projects/drupal-7.41.zip",
                     "type": "zip"
                 }
             }
