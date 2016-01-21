@@ -38,7 +38,7 @@ projects[kalatheme][version] = 1.2
 projects[kalatheme][subdir] = contrib
 projects[kalatheme][type] = "theme"
 projects[kalatheme][download][type] = "get"
-projects[kalatheme][download][url] = "http://ftp.drupal.org/files/projects/kalatheme-7.x-1.2.tar.gz"
+projects[kalatheme][download][url] = "https://ftp.drupal.org/files/projects/kalatheme-7.x-1.2.tar.gz"
 
 libraries[jquery.cycle][download][type] = file
 libraries[jquery.cycle][download][url] = http://raw.github.com/malsup/cycle/master/jquery.cycle.all.js
