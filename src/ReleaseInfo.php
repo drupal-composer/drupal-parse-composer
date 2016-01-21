@@ -7,7 +7,7 @@ namespace Drupal\ParseComposer;
  */
 class ReleaseInfo
 {
-    private $releaseUrl = 'http://updates.drupal.org/release-history';
+    private $releaseUrl = 'https://updates.drupal.org/release-history';
     private $projectName;
     private $client;
     private $version;

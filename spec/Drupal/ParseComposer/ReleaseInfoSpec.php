@@ -11,7 +11,7 @@ class ReleaseInfoSpec extends ObjectBehavior
 {
     function it_downloads_release_info(Client $client)
     {
-        $get = $client->get('http://updates.drupal.org/release-history/foo/7.x');
+        $get = $client->get('https://updates.drupal.org/release-history/foo/7.x');
         $get->shouldBeCalled();
         $get->willReturn(file_get_contents(__DIR__.'/../../../res/update.xml'));
         $this->beConstructedWith('foo', 7, $client);
@@ -20,7 +20,7 @@ class ReleaseInfoSpec extends ObjectBehavior
 
     function it_translates_module_type_projects(Client $client)
     {
-        $client->get('http://updates.drupal.org/release-history/foo/7.x')
+        $client->get('https://updates.drupal.org/release-history/foo/7.x')
             ->willReturn(
                 new \SimpleXMLElement(
                     file_get_contents(__DIR__.'/../../../res/update.xml')
@@ -32,7 +32,7 @@ class ReleaseInfoSpec extends ObjectBehavior
 
     function it_translates_theme_type_projects(Client $client)
     {
-        $client->get('http://updates.drupal.org/release-history/foo-theme/7.x')
+        $client->get('https://updates.drupal.org/release-history/foo-theme/7.x')
             ->willReturn(
                 new \SimpleXMLElement(
                     file_get_contents(__DIR__.'/../../../res/update-theme.xml')
