@@ -24,20 +24,20 @@
   <version_patch>7</version_patch>
   <status>published</status>
   <release_link>https://drupal.org/node/1965242</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.7.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.7.tar.gz</download_link>
   <date>1365499237</date>
   <mdhash>3f36f0d13f3b724d719f6729cbc110ba</mdhash>
   <filesize>1639539</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.7.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.7.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>3f36f0d13f3b724d719f6729cbc110ba</md5>
     <size>1639539</size>
     <filedate>1365499237</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.7.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.7.zip</url>
     <archive_type>zip</archive_type>
     <md5>c764bcc139e3698b24f4bfcc531542e4</md5>
     <size>1878608</size>
@@ -56,20 +56,20 @@
   <version_patch>6</version_patch>
   <status>published</status>
   <release_link>https://drupal.org/node/1948354</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.6.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.6.tar.gz</download_link>
   <date>1363810217</date>
   <mdhash>1531a1ece3970332db1559b854f5dcc9</mdhash>
   <filesize>1639219</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.6.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.6.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>1531a1ece3970332db1559b854f5dcc9</md5>
     <size>1639219</size>
     <filedate>1363810217</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.6.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.6.zip</url>
     <archive_type>zip</archive_type>
     <md5>0d7c7de301caa52670869060e22d1ef3</md5>
     <size>1878465</size>
@@ -88,20 +88,20 @@
   <version_patch>5</version_patch>
   <status>published</status>
   <release_link>https://drupal.org/node/1751522</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.5.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.5.tar.gz</download_link>
   <date>1345829395</date>
   <mdhash>fba70998d4ebcca5116ef5ee90117738</mdhash>
   <filesize>1632919</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.5.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.5.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>fba70998d4ebcca5116ef5ee90117738</md5>
     <size>1632919</size>
     <filedate>1345829395</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.5.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.5.zip</url>
     <archive_type>zip</archive_type>
     <md5>8b1102f6cd54949eee147c63c4fd352b</md5>
     <size>1866348</size>
@@ -120,20 +120,20 @@
   <version_patch>4</version_patch>
   <status>published</status>
   <release_link>https://drupal.org/node/1742778</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.4.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.4.tar.gz</download_link>
   <date>1345559303</date>
   <mdhash>72bd0f35ac467aed74e533c10a76c93f</mdhash>
   <filesize>1632803</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.4.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.4.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>72bd0f35ac467aed74e533c10a76c93f</md5>
     <size>1632803</size>
     <filedate>1345559303</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.4.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.4.zip</url>
     <archive_type>zip</archive_type>
     <md5>0e92dc862bea87904d507af72e710af7</md5>
     <size>1866193</size>
@@ -153,20 +153,20 @@
   <version_patch>3</version_patch>
   <status>published</status>
   <release_link>https://drupal.org/node/1451068</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.3.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.3.tar.gz</download_link>
   <date>1329946249</date>
   <mdhash>70f24086dc7acfa7fc23c6148c7f8e00</mdhash>
   <filesize>1583249</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.3.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.3.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>70f24086dc7acfa7fc23c6148c7f8e00</md5>
     <size>1583249</size>
     <filedate>1329946249</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.3.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.3.zip</url>
     <archive_type>zip</archive_type>
     <md5>e8b5f8d4de7526d2919993bb3a34c0bf</md5>
     <size>1803054</size>
@@ -185,20 +185,20 @@
   <version_patch>2</version_patch>
   <status>published</status>
   <release_link>https://drupal.org/node/1447408</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.2.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.2.tar.gz</download_link>
   <date>1329778551</date>
   <mdhash>c350603991445ca69b30eddf3befe887</mdhash>
   <filesize>1582617</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.2.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.2.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>c350603991445ca69b30eddf3befe887</md5>
     <size>1582617</size>
     <filedate>1329778551</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.2.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.2.zip</url>
     <archive_type>zip</archive_type>
     <md5>641a7c36bc39d5c17b997ff5babf6d47</md5>
     <size>1801836</size>
@@ -217,20 +217,20 @@
   <version_patch>1</version_patch>
   <status>published</status>
   <release_link>https://drupal.org/node/1407192</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.1.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.1.tar.gz</download_link>
   <date>1326750948</date>
   <mdhash>e158435dc66d1d89a0df587c39ef1a23</mdhash>
   <filesize>1575585</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.1.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.1.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>e158435dc66d1d89a0df587c39ef1a23</md5>
     <size>1575585</size>
     <filedate>1326750948</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.1.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.1.zip</url>
     <archive_type>zip</archive_type>
     <md5>43999fc1888c1aa88f1d20288aace84c</md5>
     <size>1792932</size>
@@ -249,20 +249,20 @@
   <version_patch>0</version_patch>
   <status>published</status>
   <release_link>https://drupal.org/node/1374132</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.0.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.0.tar.gz</download_link>
   <date>1324170451</date>
   <mdhash>1be8cbd6fd3f37bfd1493693dfa95d8d</mdhash>
   <filesize>1461460</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>1be8cbd6fd3f37bfd1493693dfa95d8d</md5>
     <size>1461460</size>
     <filedate>1324170451</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0.zip</url>
     <archive_type>zip</archive_type>
     <md5>99769e8808519ae36171fa619cf00997</md5>
     <size>1672723</size>
@@ -282,20 +282,20 @@
   <version_extra>rc3</version_extra>
   <status>published</status>
   <release_link>https://drupal.org/node/1343786</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.0-rc3.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.0-rc3.tar.gz</download_link>
   <date>1321467945</date>
   <mdhash>b3e58f4195308e37621155d3c843e53f</mdhash>
   <filesize>1456218</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-rc3.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-rc3.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>b3e58f4195308e37621155d3c843e53f</md5>
     <size>1456218</size>
     <filedate>1321467945</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-rc3.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-rc3.zip</url>
     <archive_type>zip</archive_type>
     <md5>502f84cfadb4bf4744b6c452fc01f2d6</md5>
     <size>1665759</size>
@@ -316,20 +316,20 @@
   <version_extra>rc1</version_extra>
   <status>published</status>
   <release_link>https://drupal.org/node/1192186</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.0-rc1.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.0-rc1.tar.gz</download_link>
   <date>1308341221</date>
   <mdhash>e158db78ae2f8cc615edb910a09384b0</mdhash>
   <filesize>1481151</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-rc1.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-rc1.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>e158db78ae2f8cc615edb910a09384b0</md5>
     <size>1481151</size>
     <filedate>1308341221</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-rc1.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-rc1.zip</url>
     <archive_type>zip</archive_type>
     <md5>941111b41371084230bc82374ebcae19</md5>
     <size>1682522</size>
@@ -350,20 +350,20 @@
   <version_extra>beta3</version_extra>
   <status>published</status>
   <release_link>https://drupal.org/node/1107716</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.0-beta3.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.0-beta3.tar.gz</download_link>
   <date>1301301971</date>
   <mdhash>114c76f201523ef3e50b9a1d431b0364</mdhash>
   <filesize>1469580</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-beta3.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-beta3.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>114c76f201523ef3e50b9a1d431b0364</md5>
     <size>1469580</size>
     <filedate>1301301971</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-beta3.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-beta3.zip</url>
     <archive_type>zip</archive_type>
     <md5>d69e051c8b4fa2066575c28e3ae197ba</md5>
     <size>1671930</size>
@@ -383,20 +383,20 @@
   <version_extra>beta2</version_extra>
   <status>published</status>
   <release_link>https://drupal.org/node/1106386</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.0-beta2.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.0-beta2.tar.gz</download_link>
   <date>1301158871</date>
   <mdhash>c39fab1e76e55b15291fecf2c10386c2</mdhash>
   <filesize>1469243</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-beta2.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-beta2.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>c39fab1e76e55b15291fecf2c10386c2</md5>
     <size>1469243</size>
     <filedate>1301158871</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-beta2.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-beta2.zip</url>
     <archive_type>zip</archive_type>
     <md5>cd30442906e8d9e9bffc7ea8b28f3702</md5>
     <size>1671405</size>
@@ -416,20 +416,20 @@
   <version_extra>beta1</version_extra>
   <status>published</status>
   <release_link>https://drupal.org/node/1105946</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.0-beta1.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.0-beta1.tar.gz</download_link>
   <date>1301099796</date>
   <mdhash>6ee4495cbdf0a8d19bd214f57bef0bf4</mdhash>
   <filesize>1468892</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-beta1.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-beta1.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>6ee4495cbdf0a8d19bd214f57bef0bf4</md5>
     <size>1468892</size>
     <filedate>1301099796</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-beta1.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-beta1.zip</url>
     <archive_type>zip</archive_type>
     <md5>36acc8675052e2dcb0c933e1ac8eab1d</md5>
     <size>1670997</size>
@@ -450,20 +450,20 @@
   <version_extra>alpha1</version_extra>
   <status>published</status>
   <release_link>https://drupal.org/node/1016580</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.0-alpha1.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.0-alpha1.tar.gz</download_link>
   <date>1294276882</date>
   <mdhash>8635e5b0c03fed4516abae25489a5a5c</mdhash>
   <filesize>1561161</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-alpha1.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-alpha1.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>8635e5b0c03fed4516abae25489a5a5c</md5>
     <size>1561161</size>
     <filedate>1294276882</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.0-alpha1.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.0-alpha1.zip</url>
     <archive_type>zip</archive_type>
     <md5>f5ffc235849f2a3a5f66b66f84a73aac</md5>
     <size>1772425</size>
@@ -482,20 +482,20 @@
   <version_extra>dev</version_extra>
   <status>published</status>
   <release_link>https://drupal.org/node/608852</release_link>
-  <download_link>http://ftp.drupal.org/files/projects/views-7.x-3.x-dev.tar.gz</download_link>
+  <download_link>https://ftp.drupal.org/files/projects/views-7.x-3.x-dev.tar.gz</download_link>
   <date>1396007643</date>
   <mdhash>b4f03ed047e545a74f4509f43eda4681</mdhash>
   <filesize>1646295</filesize>
   <files>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.x-dev.tar.gz</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.x-dev.tar.gz</url>
     <archive_type>tar.gz</archive_type>
     <md5>b4f03ed047e545a74f4509f43eda4681</md5>
     <size>1646295</size>
     <filedate>1396007643</filedate>
    </file>
    <file>
-    <url>http://ftp.drupal.org/files/projects/views-7.x-3.x-dev.zip</url>
+    <url>https://ftp.drupal.org/files/projects/views-7.x-3.x-dev.zip</url>
     <archive_type>zip</archive_type>
     <md5>99919be0e90eb8b22fb83ad337f07c9e</md5>
     <size>1884819</size>

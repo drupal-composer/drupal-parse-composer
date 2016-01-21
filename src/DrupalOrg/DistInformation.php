@@ -33,7 +33,7 @@ class DistInformation
         $version = preg_replace('/(\.x)$/', '$1-dev', $refName, -1, $count);
         if ($count == 0) {
             $this->url = sprintf(
-                'http://ftp.drupal.org/files/projects/%s-%s.zip',
+                'https://ftp.drupal.org/files/projects/%s-%s.zip',
                 $projectName,
                 $version
             );
