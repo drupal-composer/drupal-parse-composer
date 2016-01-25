@@ -60,6 +60,11 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                     'type' => 'library'
                 ),
             ),
+            'panels' => array(
+                'dev-8.x-3.x' => array(
+                    'type' => 'drupal-module'
+                ),
+            ),
         );
 
         $config = new Config();

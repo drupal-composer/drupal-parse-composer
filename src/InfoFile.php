@@ -232,6 +232,9 @@ class InfoFile
      */
     protected function isCoreComponent($name)
     {
+        if (!isset($this->coreComponents[$this->core])) {
+            return false;
+        }
         $components = array_flip($this->coreComponents[$this->core]);
 
         return isset($components[$name]);
