@@ -22,60 +22,7 @@ class InfoFile
     /**
      * @var array
      */
-    protected $coreComponents = [
-      7 => [
-        'aggregator',
-        'block',
-        'blog',
-        'book',
-        'color',
-        'comment',
-        'contact',
-        'contextual',
-        'dashboard',
-        'dblog',
-        'field',
-        'field_sql_storage',
-        'list',
-        'number',
-        'options',
-        'text',
-        'field_ui',
-        'file',
-        'filter',
-        'forum',
-        'help',
-        'image',
-        'locale',
-        'menu',
-        'node',
-        'openid',
-        'overlay',
-        'path',
-        'php',
-        'poll',
-        'profile',
-        'rdf',
-        'search',
-        'shortcut',
-        'statistics',
-        'syslog',
-        'system',
-        'taxonomy',
-        'toolbar',
-        'tracker',
-        'translation',
-        'trigger',
-        'update',
-        'user',
-        'minimal',
-        'standard',
-        'bartik',
-        'garland',
-        'seven',
-        'stark',
-      ],
-    ];
+    protected $coreComponents;
 
     /**
      * @param string  $filename File name of Drupal project main file
@@ -95,6 +42,7 @@ class InfoFile
           : \drupal_parse_info_format($info);
         $this->core = $core;
         $this->versionFactory = new VersionFactory();
+        $this->coreComponents = Yaml::parse(file_get_contents('core_modules.yml'));
     }
 
     /**
@@ -115,13 +63,26 @@ class InfoFile
     public function constraint($dependency)
     {
         $matches = array();
+        // Get the match string for each core version.
+        $matchString = $this->getMatchStrings();
+        $versionMatchString = $matchString[$this->core];
         preg_match(
-            '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
+            $versionMatchString['match_string'],
             $dependency,
             $matches
         );
-        list($all, $project, $v, $versionConstraints) = array_pad($matches, 4,
-        '');
+        list($all, $project, $v, $versionConstraints) = array_pad($matches, 4, '');
+        // Parse the structure and test the matches.
+        foreach ($versionMatchString['keys'] as $key => $value) {
+            if ($value) {
+                preg_match(
+                    $value,
+                    $$key,
+                    $$key
+                );
+                list($all, $$key) = array_pad($$key, 2, '');
+            }
+        }
         $project = trim($project);
         if (empty($versionConstraints)) {
             $constraint = "{$this->core}.*";
@@ -238,5 +199,37 @@ class InfoFile
         $components = array_flip($this->coreComponents[$this->core]);
 
         return isset($components[$name]);
+    }
+
+    /**
+     * Returns match string for core versions.
+     *
+     * @return array
+     *  Return match string
+     */
+    protected function getMatchStrings()
+    {
+        // For each component of the matched string there attached another string for matching in case is required or
+        // false if it shouldn't use another match string.
+        return array(
+            7 => [
+                'match_string' => '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
+                'keys' => [
+                    'all' => false,
+                    'project' => false,
+                    'v' => false,
+                    'versionConstraint' => false,
+                ],
+            ],
+            8 => [
+                'match_string' => '/([a-z0-9_:]*)\s*(\(([^\)]+)*\))*/',
+                'keys' => [
+                    'all' => false,
+                    'project' => '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
+                    'v' => false,
+                    'versionConstraint' => false,
+                ],
+            ],
+        );
     }
 }
