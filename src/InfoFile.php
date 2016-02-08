@@ -116,13 +116,16 @@ class InfoFile
     {
         $matches = array();
         preg_match(
-            '/([a-z0-9_]*)\s*(\(([^\)]+)*\))*/',
+            '/([a-z0-9_:]*)\s*(\(([^\)]+)*\))*/',
             $dependency,
             $matches
         );
-        list($all, $project, $v, $versionConstraints) = array_pad($matches, 4,
-        '');
-        $project = trim($project);
+        list($all, $project, $v, $versionConstraints) = array_pad(
+            $matches,
+            4,
+            ''
+        );
+        $project = $this->extractPackageName($project);
         if (empty($versionConstraints)) {
             $constraint = "{$this->core}.*";
 
@@ -232,11 +235,40 @@ class InfoFile
      */
     protected function isCoreComponent($name)
     {
+        if ($this->core === 7 && $name === 'drupal') {
+            return TRUE;
+        }
+        elseif ($this->core === 8 && $name === 'core') {
+            return TRUE;
+        }
+
         if (!isset($this->coreComponents[$this->core])) {
             return false;
         }
         $components = array_flip($this->coreComponents[$this->core]);
 
         return isset($components[$name]);
+    }
+
+    /**
+     * Get project namespace from dependency.
+     *
+     * @param string $dependency Machine name of the project (with project namespace)
+     *
+     * @return string Namespace of the project
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function extractPackageName($dependency) {
+        $package = explode(':', trim($dependency));
+        if (count($package) === 1 || count($package) === 2) {
+            $namespace = $package[0];
+            // Rewrite all packages with namespace drupal: to drupal/core
+            if ($this->core === 8 && $namespace === 'drupal') {
+                return 'core';
+            }
+            return $namespace;
+        }
+        throw new \InvalidArgumentException('Invalid dependency name');
     }
 }

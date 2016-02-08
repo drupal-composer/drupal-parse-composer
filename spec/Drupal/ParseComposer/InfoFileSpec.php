@@ -71,4 +71,39 @@ EOF;
         $this->getRequirements()->shouldReturn(['drupal/core' => '8.*']);
     }
 
+    function it_understands_project_namespaces_in_d7()
+    {
+        $fooInfo = '';
+        $this->beConstructedWith('foo', $fooInfo, 7);
+        // Valid constraints in Drupal: https://www.drupal.org/node/542202#dependencies
+        // Valid constraints in composer: https://getcomposer.org/doc/01-basic-usage.md#package-versions
+        $this->constraint('foo:bar (1.0)')->shouldReturn(['drupal/foo' => '7.1.0']);
+        $this->constraint('drupal:bar (7.53)')->shouldReturn(['drupal/drupal' => '7.53.0']);
+        $this->constraint('pathauto:pathauto (1.0)')->shouldReturn(['drupal/pathauto' => '7.1.0']);
+        $this->constraint('i18n:i18n_node (1.0)')->shouldReturn(['drupal/i18n' => '7.1.0']);
+        $this->constraint('i18n:i18n_node (>1.0, <=3.2, !=3.0)')->shouldReturn(['drupal/i18n' => '>7.1.0, <=7.3.2, !=7.3.0']);
+    }
+
+    function it_understands_project_namespaces_in_d8()
+    {
+        $fooInfo = '';
+        $this->beConstructedWith('foo', $fooInfo, 8);
+        // Valid constraints in Drupal: https://www.drupal.org/node/542202#dependencies
+        // Valid constraints in composer: https://getcomposer.org/doc/01-basic-usage.md#package-versions
+        $this->constraint('foo:bar (1.0)')->shouldReturn(['drupal/foo' => '8.1.0']);
+        $this->constraint('drupal:bar (8.1)')->shouldReturn(['drupal/core' => '8.1.0']);
+        $this->constraint('pathauto:pathauto (1.0)')->shouldReturn(['drupal/pathauto' => '8.1.0']);
+        $this->constraint('i18n:i18n_node (1.0)')->shouldReturn(['drupal/i18n' => '8.1.0']);
+        $this->constraint('i18n:bar (1.x)')->shouldReturn(['drupal/i18n' => '8.1.*']);
+        $this->constraint('i18n:bar (8.x-1.x)')->shouldReturn(['drupal/i18n' => '8.1.*']);
+        $this->constraint('i18n:bar (>=1.x)')->shouldReturn(['drupal/i18n' => '>=8.1.0']);
+        $this->constraint('i18n:bar (>= 1.x)')->shouldReturn(['drupal/i18n' => '>=8.1.0']);
+        $this->constraint('i18n:bar (>1.0, <=3.2, !=3.0)')->shouldReturn(['drupal/i18n' => '>8.1.0, <=8.3.2, !=8.3.0']);
+        $this->constraint('i18n:bar (>1.0)')->shouldReturn(['drupal/i18n' => '>8.1.0']);
+        $this->constraint('i18n:bar (>8.x-1.5)')->shouldReturn(['drupal/i18n' => '>8.1.5']);
+        $this->constraint('drupal:system (>=8.53)')->shouldReturn(['drupal/core' => '>=8.53.0']);
+        $this->constraint('drupal:menu_link_content (>8.11)')->shouldReturn(['drupal/core' => '>8.11.0']);
+        $this->constraint('i18n:not_core (>=7.53)')->shouldReturn(['drupal/i18n' => '>=8.7.53']);
+    }
+
 }
