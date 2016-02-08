@@ -62,12 +62,14 @@ EOF;
     function it_adds_drupal_drupal_as_dependency()
     {
         $this->beConstructedWith('foo', '', 7);
+        $this->core->shouldReturn(7);
         $this->getRequirements()->shouldReturn(['drupal/drupal' => '7.*']);
     }
 
     function it_adds_drupal_core_as_dependency()
     {
         $this->beConstructedWith('foo', '', 8);
+        $this->core->shouldReturn(8);
         $this->getRequirements()->shouldReturn(['drupal/core' => '8.*']);
     }
 
@@ -104,6 +106,12 @@ EOF;
         $this->constraint('drupal:system (>=8.53)')->shouldReturn(['drupal/core' => '>=8.53.0']);
         $this->constraint('drupal:menu_link_content (>8.11)')->shouldReturn(['drupal/core' => '>8.11.0']);
         $this->constraint('i18n:not_core (>=7.53)')->shouldReturn(['drupal/i18n' => '>=8.7.53']);
+    }
+
+    function it_has_core_version_as_integer()
+    {
+        $this->beConstructedWith('foo', '', "8");
+        $this->core->shouldReturn(8);
     }
 
 }

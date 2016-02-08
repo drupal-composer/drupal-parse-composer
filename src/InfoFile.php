@@ -93,7 +93,7 @@ class InfoFile
         $this->info = $isYaml
           ? Yaml::parse($info)
           : \drupal_parse_info_format($info);
-        $this->core = $core;
+        $this->core = (int) $core;
         $this->versionFactory = new VersionFactory();
     }
 
