@@ -5,4 +5,6 @@ res/registry_rebuild
 res/config_devel
 res/coder
 res/panels
+res/private_taxonomy
+res/grammar_parser_lib
 vendor
