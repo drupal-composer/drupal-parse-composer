@@ -93,7 +93,7 @@ class InfoFile
         $this->info = $isYaml
           ? Yaml::parse($info)
           : \drupal_parse_info_format($info);
-        $this->core = $core;
+        $this->core = (int) $core;
         $this->versionFactory = new VersionFactory();
     }
 
@@ -236,10 +236,9 @@ class InfoFile
     protected function isCoreComponent($name)
     {
         if ($this->core === 7 && $name === 'drupal') {
-            return TRUE;
-        }
-        elseif ($this->core === 8 && $name === 'core') {
-            return TRUE;
+            return true;
+        } elseif ($this->core === 8 && $name === 'core') {
+            return true;
         }
 
         if (!isset($this->coreComponents[$this->core])) {
@@ -259,7 +258,8 @@ class InfoFile
      *
      * @throws \InvalidArgumentException
      */
-    protected function extractPackageName($dependency) {
+    protected function extractPackageName($dependency)
+    {
         $package = explode(':', trim($dependency));
         if (count($package) === 1 || count($package) === 2) {
             $namespace = $package[0];
@@ -267,6 +267,7 @@ class InfoFile
             if ($this->core === 8 && $namespace === 'drupal') {
                 return 'core';
             }
+
             return $namespace;
         }
         throw new \InvalidArgumentException('Invalid dependency name');
