@@ -166,6 +166,15 @@ class InfoFile
                 continue;
             }
 
+            // Version: 8.0.1, > 8.0.1, 8.0.1-beta1
+            if ($this->core >= 8) {
+                preg_match('/^([0-9]+.[0-9]+.[0-9]+)(-.*)?$/', $version, $matches);
+                if (!empty($matches)) {
+                    $constraints[] = $symbols.$version;
+                    continue;
+                }
+            }
+
             $versionString = $this->versionFactory
               ->create([$this->core, $version], $this->isCoreComponent($project))
               ->getSemVer();

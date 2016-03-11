@@ -59,6 +59,15 @@ EOF;
         $this->constraint('not_core (>=7.53)')->shouldReturn(['drupal/not_core' => '>=7.7.53']);
     }
 
+    function it_understands_operators_in_constraints_in_d8()
+    {
+        $fooInfo = '';
+        $this->beConstructedWith('foo', $fooInfo, 8);
+        $this->constraint('foo (>=1.5)')->shouldReturn(['drupal/foo' => '>=8.1.5']);
+        $this->constraint('system (>=8.0.5)')->shouldReturn(['drupal/system' => '>=8.0.5']);
+        $this->constraint('system (>=8.1.0-beta1)')->shouldReturn(['drupal/system' => '>=8.1.0-beta1']);
+    }
+
     function it_adds_drupal_drupal_as_dependency()
     {
         $this->beConstructedWith('foo', '', 7);
