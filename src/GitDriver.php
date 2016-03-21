@@ -4,6 +4,7 @@ namespace Drupal\ParseComposer;
 
 use Composer\Repository\Vcs\GitDriver as BaseDriver;
 use Composer\Package\Version\VersionParser;
+use Composer\Util\ProcessExecutor;
 use Drupal\ParseComposer\DrupalOrg\DistInformation;
 
 /**
@@ -108,7 +109,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             }
 
             $composer['name'] = 'drupal/' . $this->drupalProjectName;
-            $composer = $this->mergeDefaultMetadata($composer, $project);
+            $composer = $this->mergeDefaultMetadata($composer, $project, $identifier);
             unset($composer['require'][$composer['name']]);
             unset($composer['suggest'][$composer['name']]);
             unset($composer['suggest']['drupal/drupal']);
@@ -329,9 +330,10 @@ class GitDriver extends BaseDriver implements FileFinderInterface
      *
      * @param array   $package
      * @param Project $project
+     * @param string  $identifier
      * @return array
      */
-    public function mergeDefaultMetadata($package, Project $project)
+    public function mergeDefaultMetadata($package, Project $project, $identifier)
     {
         if (!isset($package['homepage'])) {
             $package['homepage'] = 'https://www.drupal.org/project/' . $project->getName();
@@ -341,6 +343,17 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         }
         if (!isset($package['support']['source'])) {
             $package['support']['source'] = 'http://cgit.drupalcode.org/' . $project->getName();
+        }
+        if (!isset($package['time'])) {
+            $output = null;
+            $this->process->execute(sprintf('git log -1 --format=%%at %s', ProcessExecutor::escape($identifier)), $output, $this->repoDir);
+            $date = new \DateTime('@'.trim($output), new \DateTimeZone('UTC'));
+            $package['time'] = $date->format('Y-m-d H:i:s');
+        }
+        if (!isset($package['license'])) {
+            $package['license'] = [
+                'GPL-2.0+'
+            ];
         }
 
         return $package;
