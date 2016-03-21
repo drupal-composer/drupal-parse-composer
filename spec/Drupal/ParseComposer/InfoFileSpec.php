@@ -64,6 +64,7 @@ EOF;
         $fooInfo = '';
         $this->beConstructedWith('foo', $fooInfo, 8);
         $this->constraint('foo (>=1.5)')->shouldReturn(['drupal/foo' => '>=8.1.5']);
+        $this->constraint('system (>=8.1)')->shouldReturn(['drupal/system' => '>=8.1.0']);
         $this->constraint('system (>=8.0.5)')->shouldReturn(['drupal/system' => '>=8.0.5']);
         $this->constraint('system (>=8.1.0-beta1)')->shouldReturn(['drupal/system' => '>=8.1.0-beta1']);
     }

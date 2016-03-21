@@ -75,6 +75,9 @@ class InfoFile
         'seven',
         'stark',
       ],
+      8 => [
+        'system',
+      ],
     ];
 
     /**
