@@ -99,7 +99,11 @@ class Project
             $composerMap[$name] = $info->packageInfo();
             foreach ($make as $makefile) {
                 foreach (($makefile->getDrupalProjects()) as $name => $project) {
-                    $composerMap[$this->name]['require']['drupal/'.$name] = $makefile->getConstraint($name);
+                    $constraint = $makefile->getConstraint($name);
+                    if ($this->core === 8 && $name == 'drupal') {
+                        $name = 'core';
+                    }
+                    $composerMap[$this->name]['require']['drupal/'.$name] = $constraint;
                 }
             }
         }
