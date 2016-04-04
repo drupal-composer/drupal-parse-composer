@@ -47,33 +47,38 @@ class CoreVersion extends AbstractVersion
      */
     public function parse($versionString)
     {
-        $this->core = NULL;
+        $this->core = null;
         $this->major = 0;
         $this->minor = 0;
-        $this->extra = NULL;
+        $this->extra = null;
 
         list($version, $extra) = array_pad(explode('-', $versionString), 2, '');
         list($this->core, $this->major, $this->minor) = array_pad(explode('.', $version), 3, 0);
         if ($this->major === 'x' || $this->minor === 'x') {
             $this->extra = 'dev';
-        }
-        elseif ($extra) {
+        } elseif ($extra) {
             $this->extra = $extra;
         }
         $this->core = intval($this->core);
     }
 
     /**
-     * @param $version
+     * @param string $version A version string
      * @return bool
      */
     protected static function isSupportedCoreVersion($version)
     {
         $core = intval($version[0]);
+
         return ($core === 8 || $core === 7);
     }
 
-    protected static function buildRegex($regex) {
+    /**
+     * @param array $regex An array of regex strings.
+     * @return string
+     */
+    protected static function buildRegex(array $regex)
+    {
         return '/' . implode('|', $regex) . '/';
     }
 
