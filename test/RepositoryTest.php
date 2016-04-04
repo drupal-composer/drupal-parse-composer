@@ -72,7 +72,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 '7.43.0' => [
                     'type' => 'drupal-core'
                 ],
-                '8.0.x' => [
+                '8.0.x-dev' => [
                     'type' => 'drupal-core'
                 ],
                 '8.1.x-dev' => [
