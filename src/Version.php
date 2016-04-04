@@ -2,6 +2,8 @@
 
 namespace Drupal\ParseComposer;
 
+use Naneau\SemVer\Parser;
+
 /**
  * Version information for a Drupal project.
  */
@@ -12,6 +14,15 @@ class Version extends AbstractVersion
      */
     public static function valid($version)
     {
+        try {
+            if ($version[0] == 8) {
+                Parser::parse($version);
+                return true;
+            }
+        } catch (\InvalidArgumentException $e) {
+
+        }
+
         return !!preg_match(
             sprintf(
                 '/^%s(-\d+\.[0-9x]+)%s$/',
@@ -27,6 +38,21 @@ class Version extends AbstractVersion
      */
     public function parse($versionString)
     {
+        if ($versionString[0] == 8) {
+            if (preg_match('/([[:digit:]])\.([[:digit:]])\.([[:digit:]]|x)(?:-([[:alnum:]]+))?/', $versionString, $match)) {
+                $this->core = intval($match[1]);
+                $this->major = $match[2];
+                $this->minor = $match[3];
+                if ($this->minor === 'x') {
+                    $this->extra = 'dev';
+                }
+                else {
+                    $this->extra = isset($match[4]) ? $match[4] : NULL;
+                }
+                return;
+            }
+        }
+
         $this->core = null;
         $this->major = 0;
         $this->minor = 0;

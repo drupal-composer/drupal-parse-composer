@@ -65,6 +65,29 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                     'type' => 'drupal-module'
                 ),
             ),
+            'drupal' => array(
+                '7.43.0' => [
+                    'type' => 'drupal-core'
+                ],
+                'dev-8.0.x' => [
+                    'type' => 'drupal-project'
+                ],
+                'dev-8.1.x' => [
+                    'type' => 'drupal-project'
+                ],
+                'dev-8.2.x' => [
+                    'type' => 'drupal-project'
+                ],
+                '8.0.5' => [
+                    'type' => 'druapl-project'
+                ],
+                '8.1.0-beta1' => [
+                    'type' => 'druapl-project'
+                ],
+                '8.1.0-beta2' => [
+                    'type' => 'druapl-project'
+                ],
+            ),
         );
 
         $config = new Config();
