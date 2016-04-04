@@ -27,18 +27,6 @@ class VersionSpec extends ObjectBehavior
 
         $this->parse('6.x-2.16-rc1');
         $this->getSemver()->shouldReturn('6.2.16-rc1');
-
-        $this->parse('8.0.0');
-        $this->getSemver()->shouldReturn('8.0.0');
-
-        $this->parse('8.1.0');
-        $this->getSemver()->shouldReturn('8.1.0');
-
-        $this->parse('8.1.0-beta1');
-        $this->getSemver()->shouldReturn('8.1.0-beta1');
-
-        $this->parse('8.2.x');
-        $this->getSemver()->shouldReturn('8.2.x-dev');
     }
 
 }
