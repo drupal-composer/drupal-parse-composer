@@ -79,13 +79,13 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                     'type' => 'drupal-project'
                 ],
                 '8.0.5' => [
-                    'type' => 'druapl-project'
+                    'type' => 'drupal-project'
                 ],
                 '8.1.0-beta1' => [
-                    'type' => 'druapl-project'
+                    'type' => 'drupal-project'
                 ],
                 '8.1.0-beta2' => [
-                    'type' => 'druapl-project'
+                    'type' => 'drupal-project'
                 ],
             ),
         );
