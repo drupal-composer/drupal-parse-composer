@@ -18,6 +18,7 @@ class VersionFactorySpec extends ObjectBehavior
         $this->fromSemVer('8.0.0', true)->shouldReturnSemVer('8.0.0');
         $this->fromSemVer('8.0.5', true)->shouldReturnSemVer('8.0.5');
         $this->fromSemVer('8.1.0-rc1', true)->shouldReturnSemVer('8.1.0-rc1');
+        $this->fromSemVer('8.2.0-alpha2', true)->shouldReturnSemVer('8.2.0-alpha2');
     }
 
     public function getMatchers() {

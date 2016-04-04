@@ -7,13 +7,15 @@ namespace Drupal\ParseComposer;
  */
 class CoreVersion extends AbstractVersion
 {
+    const D8_CORE_PATTERN = '/(8)\.([[:digit:]])\.([[:digit:]]|x)(?:-([[:alnum:]]+))?/';
+
     /**
      * {@inheritdoc}
      */
     public static function valid($version)
     {
         // D8
-        $match = preg_match('/(8)\.([[:digit:]])\.([[:digit:]]|x)(?:-([[:alnum:]]+))?/',$version);
+        $match = preg_match(static::D8_CORE_PATTERN,$version);
         if ($match) {
             return true;
         }
@@ -31,7 +33,7 @@ class CoreVersion extends AbstractVersion
     public function parse($versionString)
     {
         // D8
-        if (preg_match('/(8)\.([[:digit:]])\.([[:digit:]]|x)(?:-([[:alnum:]]+))?/', $versionString, $match)) {
+        if (preg_match(static::D8_CORE_PATTERN, $versionString, $match)) {
             $this->core = intval($match[1]);
             $this->major = $match[2];
             $this->minor = $match[3];
