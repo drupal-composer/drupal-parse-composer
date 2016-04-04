@@ -31,7 +31,8 @@
     "require": {
         "php": ">=5.4",
         "drupal/drupal": "7.*",
-        "guzzle/guzzle": "*"
+        "guzzle/guzzle": "*",
+        "naneau/semver": "^0.0.7"
     },
     "minimum-stability": "dev",
     "require-dev": {
