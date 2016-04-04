@@ -38,6 +38,11 @@ class Version extends AbstractVersion
      */
     public function parse($versionString)
     {
+        $this->core = null;
+        $this->major = 0;
+        $this->minor = 0;
+        $this->extra = null;
+
         if ($versionString[0] == 8) {
             if (preg_match('/([[:digit:]])\.([[:digit:]])\.([[:digit:]]|x)(?:-([[:alnum:]]+))?/', $versionString, $match)) {
                 $this->core = intval($match[1]);
@@ -52,11 +57,6 @@ class Version extends AbstractVersion
                 return;
             }
         }
-
-        $this->core = null;
-        $this->major = 0;
-        $this->minor = 0;
-        $this->extra = null;
 
         switch (count($parts = explode('-', $versionString))) {
             case 2:
