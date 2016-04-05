@@ -2,21 +2,13 @@
 
 namespace Drupal\ParseComposer;
 
+use Composer\Semver\VersionParser;
+
 /**
  * Version representation for Drupal core.
  */
 class CoreVersion extends AbstractVersion
 {
-    const D8_CORE_PATTERN = [
-        '(8)\.([[:digit:]]+)\.([[:digit:]]+|x)(?:-([[:alnum:]]+))?',
-        '(8)\.([[:digit:]]+|x)(?:-([[:alnum:]]+))?'
-    ];
-
-    const D7_CORE_PATTERN = [
-        '(7)\.([[:digit:]]+)\.([[:digit:]]|x)(?:-([[:alnum:]]+))?',
-        '(7)\.([[:digit:]]+|x)(?:-([[:alnum:]]+))?'
-    ];
-
 
     /**
      * {@inheritdoc}
@@ -27,19 +19,14 @@ class CoreVersion extends AbstractVersion
             return false;
         }
 
-        // D8
-        $match = preg_match(static::buildRegex(static::D8_CORE_PATTERN), $version);
-        if ($match) {
+        $parser = new VersionParser();
+        try {
+            $parser->normalize($version);
             return true;
         }
-
-        // D7
-        $match = preg_match(static::buildRegex(static::D7_CORE_PATTERN), $version);
-        if ($match) {
-            return true;
+        catch (\UnexpectedValueException $e) {
+            return false;
         }
-
-        return false;
     }
 
     /**
