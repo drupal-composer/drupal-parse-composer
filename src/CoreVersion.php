@@ -22,11 +22,13 @@ class CoreVersion extends AbstractVersion
         $parser = new VersionParser();
         try {
             $parser->normalize($version);
+
             return true;
+        } catch (\UnexpectedValueException $e) {
+            // Invalid version.
         }
-        catch (\UnexpectedValueException $e) {
-            return false;
-        }
+
+        return false;
     }
 
     /**
