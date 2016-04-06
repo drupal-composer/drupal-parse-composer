@@ -2,6 +2,7 @@
 
 namespace Drupal\ParseComposer;
 
+use Composer\Downloader\TransportException;
 use Composer\Repository\Vcs\GitDriver as BaseDriver;
 use Composer\Package\Version\VersionParser;
 use Composer\Util\ProcessExecutor;
@@ -21,6 +22,21 @@ class GitDriver extends BaseDriver implements FileFinderInterface
     private $versionFactory = false;
 
     /**
+     * @var AbstractVersion
+     */
+    private $drupalProjectVersion;
+
+    /**
+     * @var string
+     */
+    private $drupalProjectName;
+
+    /**
+     * @var string The identifier to a specific branch/tag/commit
+     */
+    private $identifier;
+
+    /**
      * {@inheritDoc}
      */
     public function getComposerInformation($identifier)
@@ -38,10 +54,7 @@ class GitDriver extends BaseDriver implements FileFinderInterface
             : $this->identifier;
         if ($version = $this->getVersion($ref)) {
             $core = $version->getCore();
-            $majorSlug = $this->isCore ? '' : "{$version->getMajor()}.x";
-            $devBranch = "dev-$core.x-$majorSlug";
-            $composer['extra']['branch-alias'][$devBranch] = $core.'.'
-                .($majorSlug ?: 'x').'-dev';
+            $this->drupalProjectVersion = $version;
         } else {
             return [];
         }
@@ -335,6 +348,12 @@ class GitDriver extends BaseDriver implements FileFinderInterface
      */
     public function mergeDefaultMetadata($package, Project $project, $identifier)
     {
+        $version = $this->drupalProjectVersion;
+        $core = $this->drupalProjectVersion->getCore();
+        $majorSlug = $this->isCore ? '' : "{$version->getMajor()}.x";
+        $devBranch = "dev-$core.x-$majorSlug";
+        $package['extra']['branch-alias'][$devBranch] = $core . '.' . ($majorSlug ?: 'x') . '-dev';
+
         if (!isset($package['homepage'])) {
             $package['homepage'] = 'https://www.drupal.org/project/' . $project->getName();
         }
