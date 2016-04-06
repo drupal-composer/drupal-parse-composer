@@ -2,17 +2,26 @@
 
 namespace Drupal\ParseComposer;
 
+use Composer\Semver\VersionParser;
+
 /**
  * Version representation for Drupal core.
  */
 class CoreVersion extends AbstractVersion
 {
-    const CORE_VESION_PATTERNS = [
-        '(8)\.([[:digit:]]+)\.([[:digit:]]+|x)(?:-([[:alnum:]]+))?',
-        '(8)\.([[:digit:]]+|x)(?:-([[:alnum:]]+))?',
-        '(7)\.([[:digit:]]+)\.([[:digit:]]|x)(?:-([[:alnum:]]+))?',
-        '(7)\.([[:digit:]]+|x)(?:-([[:alnum:]]+))?'
-    ];
+
+    /**
+     * Get allowed version patterns for all core versions.
+     *
+     * @return array
+     */
+    protected static function getCorePatterns()
+    {
+        return [
+            '(8).([0-9]+).([0-9]+|x)' . static::EXTRA_PATTERN,
+            static::CORE_PATTERN . static::EXTRA_PATTERN
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -26,12 +35,13 @@ class CoreVersion extends AbstractVersion
         $parser = new VersionParser();
         try {
             $parser->normalize($version);
+
             return true;
         } catch (\UnexpectedValueException $e) {
-
+            // Invalid version
         }
 
-        return !!preg_match(static::buildRegex(static::CORE_VESION_PATTERNS), $version);
+        return !!preg_match(static::buildRegex(static::getCorePatterns()), $version);
     }
 
     /**
@@ -71,7 +81,9 @@ class CoreVersion extends AbstractVersion
      */
     protected static function buildRegex(array $regex)
     {
-        return '/' . implode('|', $regex) . '/';
+        $regex = '/^(' . implode(')|(', $regex) . ')$/';
+
+        return $regex;
     }
 
 }

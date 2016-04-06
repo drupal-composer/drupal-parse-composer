@@ -10,6 +10,8 @@ class CoreVersionSpec extends ObjectBehavior
     function it_understands_validation() {
         $this->beConstructedWith('8.0.0');
 
+        $this::valid('7.0.0-alpha1')->shouldReturn(true);
+        $this::valid('7.x-dev')->shouldReturn(true);
         $this::valid('7.41')->shouldReturn(true);
         $this::valid('7.41.0')->shouldReturn(true);
         $this->valid('8.0.0')->shouldReturn(true);
@@ -21,6 +23,10 @@ class CoreVersionSpec extends ObjectBehavior
         $this->valid('8.10.3-rc2')->shouldReturn(true);
         $this->valid('8.10.34-rc2')->shouldReturn(true);
         $this->valid('8.42-rc2')->shouldReturn(true);
+
+        $this->valid('8.1.x')->shouldReturn(true);
+        $this->valid('8.2.x')->shouldReturn(true);
+        $this->valid('8.42.x')->shouldReturn(true);
 
         // D9 is intentionally disabled.
         $this->valid('9.0.0')->shouldReturn(false);
