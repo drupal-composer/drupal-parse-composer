@@ -2,13 +2,17 @@
 
 namespace Drupal\ParseComposer;
 
-use Composer\Semver\VersionParser;
-
 /**
  * Version representation for Drupal core.
  */
 class CoreVersion extends AbstractVersion
 {
+    const CORE_VESION_PATTERNS = [
+        '(8)\.([[:digit:]]+)\.([[:digit:]]+|x)(?:-([[:alnum:]]+))?',
+        '(8)\.([[:digit:]]+|x)(?:-([[:alnum:]]+))?',
+        '(7)\.([[:digit:]]+)\.([[:digit:]]|x)(?:-([[:alnum:]]+))?',
+        '(7)\.([[:digit:]]+|x)(?:-([[:alnum:]]+))?'
+    ];
 
     /**
      * {@inheritdoc}
@@ -22,13 +26,12 @@ class CoreVersion extends AbstractVersion
         $parser = new VersionParser();
         try {
             $parser->normalize($version);
-
             return true;
         } catch (\UnexpectedValueException $e) {
-            // Invalid version.
+
         }
 
-        return false;
+        return !!preg_match(static::buildRegex(static::CORE_VESION_PATTERNS), $version);
     }
 
     /**
