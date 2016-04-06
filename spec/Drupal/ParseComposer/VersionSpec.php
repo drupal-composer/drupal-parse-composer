@@ -7,6 +7,18 @@ use Prophecy\Argument;
 
 class VersionSpec extends ObjectBehavior
 {
+    function it_understands_validation()
+    {
+        $this->beConstructedWith('7.x-1.1');
+
+        $this->valid('7.x-2.x-dev')->shouldReturn(true);
+        $this->valid('7.x-2.4-beta3')->shouldReturn(true);
+
+        $this->valid('7.x-2.4-rc1')->shouldReturn(true);
+        $this->valid('7.x-2.5')->shouldReturn(true);
+
+        $this->valid('8.x-1.5')->shouldReturn(true);
+    }
 
     function it_understands_full_versions()
     {

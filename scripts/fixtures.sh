@@ -7,3 +7,4 @@ git clone https://git.drupal.org/project/config_devel res/config_devel
 git clone https://git.drupal.org/project/coder res/coder
 git clone https://git.drupal.org/project/panels res/panels
 git clone https://git.drupal.org/project/private_taxonomy res/private_taxonomy
+git clone https://git.drupal.org/project/drupal res/drupal

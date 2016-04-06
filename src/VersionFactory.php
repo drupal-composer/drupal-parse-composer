@@ -48,17 +48,16 @@ class VersionFactory
      */
     public function fromSemVer($semver, $isCore = false)
     {
-        list($core, $major, $minor, $extra) = array_pad(
-            preg_split('/[\.-]/', $semver),
-            4,
-            ''
-        );
         if ($isCore) {
-            $versionString = "$core.$major" . ($extra ? "-$extra" : '');
-            if (CoreVersion::valid($versionString)) {
-                return new CoreVersion($versionString);
+            if (CoreVersion::valid($semver)) {
+                return new CoreVersion($semver);
             }
         } else {
+            list($core, $major, $minor, $extra) = array_pad(
+                preg_split('/[\.-]/', $semver),
+                4,
+                ''
+            );
             $versionString = "$core.x-$major.$minor" . ($extra ? "-$extra" : '');
             if (Version::valid($versionString)) {
                 return new Version($versionString);
