@@ -62,4 +62,13 @@ class CoreVersion extends AbstractVersion
         return ($core === 8 || $core === 7);
     }
 
+    /**
+     * @param array $regex An array of regex strings.
+     * @return string
+     */
+    protected static function buildRegex(array $regex)
+    {
+        return '/' . implode('|', $regex) . '/';
+    }
+
 }
