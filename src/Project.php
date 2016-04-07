@@ -12,6 +12,7 @@ class Project
     private $infoFiles = [];
     private $isTheme;
     private $hasDrush;
+    private $hasModule;
 
     /**
      * @param string              $name
@@ -89,7 +90,7 @@ class Project
                 $this->finder->fileContents($makePath)
             );
         }
-        if (empty($projectMap) && !$this->hasDrush) {
+        if (empty($projectMap) && !$this->hasModule && !$this->isTheme && $this->hasDrush) {
             return;
         }
         if ('drupal' === $this->name) {
@@ -106,6 +107,12 @@ class Project
                     $composerMap[$this->name]['require']['drupal/'.$name] = $constraint;
                 }
             }
+        }
+        if (empty($composerMap) && $this->hasDrush && !empty($this->getName())) {
+            $info = new InfoFile($this->getName(), '', $this->core);
+            $composerMap[$this->getName()] = $info->packageInfo();
+            $composerMap[$this->getName()]['type'] = 'drupal-drush';
+            $composerMap[$this->getName()]['require']['drush/drush'] = '>=6';
         }
         if (empty($composerMap)) {
             return $composerMap;

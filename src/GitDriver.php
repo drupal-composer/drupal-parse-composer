@@ -7,12 +7,15 @@ use Composer\Repository\Vcs\GitDriver as BaseDriver;
 use Composer\Package\Version\VersionParser;
 use Composer\Util\ProcessExecutor;
 use Drupal\ParseComposer\DrupalOrg\DistInformation;
+use Drupal\ParseComposer\FileFinder\FileFinderTrait;
 
 /**
  * Drupal.org specific Git driver.
  */
 class GitDriver extends BaseDriver implements FileFinderInterface
 {
+
+    use FileFinderTrait;
 
     /**
      * @var VersionFactory
@@ -302,25 +305,6 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         }
 
         return $this->paths[$this->identifier];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function pathMatch($pattern)
-    {
-        $paths = array();
-        foreach ($this->getPaths() as $path) {
-            if (is_callable($pattern)) {
-                if ($pattern($path)) {
-                    $paths[] = $path;
-                }
-            } elseif (preg_match($pattern, $path)) {
-                $paths[] = $path;
-            }
-        }
-
-        return $paths;
     }
 
     /**
