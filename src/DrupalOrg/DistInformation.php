@@ -30,6 +30,9 @@ class DistInformation
      */
     public function __construct($projectName, $refName)
     {
+        // Correct projects that had invalid short names fixed. @see https://www.drupal.org/node/2240255
+        $projectName = str_replace('-', '_', $projectName);
+
         $version = preg_replace('/(\.x)$/', '$1-dev', $refName, -1, $count);
         if ($count == 0) {
             $this->url = sprintf(
