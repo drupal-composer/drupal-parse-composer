@@ -178,11 +178,15 @@ class InfoFile
                 }
             }
 
-            $versionString = $this->versionFactory
-              ->create([$this->core, $version], $this->isCoreComponent($project))
-              ->getSemVer();
-            $version = str_replace('unstable', 'patch', $versionString);
-            $constraints[] = $symbols.$version;
+            try {
+                $versionString = $this->versionFactory
+                  ->create([$this->core, $version], $this->isCoreComponent($project))
+                  ->getSemver();
+                $version = str_replace('unstable', 'patch', $versionString);
+                $constraints[] = $symbols.$version;
+            } catch (InvalidVersionException $e) {
+                $constraints[] =  '*';
+            }
         }
 
         return array('drupal/'.$project => implode(', ', $constraints));
