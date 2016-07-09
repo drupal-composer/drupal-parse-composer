@@ -16,6 +16,8 @@ class VersionFactory
      *
      * @return AbstractVersion
      *
+     * @throws \Drupal\ParseComposer\InvalidVersionException
+     *
      * @todo Replace array syntax with constraint?
      */
     public function create($versionInfo, $isCore = false)
@@ -36,6 +38,7 @@ class VersionFactory
         } elseif (!$isCore && Version::valid($drupalVersion)) {
             return new Version($drupalVersion);
         }
+        throw new InvalidVersionException();
     }
 
     /**

@@ -142,14 +142,17 @@ class GitDriver extends BaseDriver implements FileFinderInterface
      */
     private function getVersion($ref)
     {
-        $version = false;
         if (!$this->versionFactory) {
             $this->versionFactory = new VersionFactory();
         }
-        if ($this->validateTag($ref)) {
-            $version = $this->versionFactory->fromSemVer($ref, $this->isCore);
-        } else {
-            $version = $this->versionFactory->create($ref, $this->isCore);
+        try {
+            if ($this->validateTag($ref)) {
+                $version = $this->versionFactory->fromSemVer($ref, $this->isCore);
+            } else {
+                $version = $this->versionFactory->create($ref, $this->isCore);
+            }
+        } catch (InvalidVersionException $e) {
+            $version = false;
         }
 
         return $version;
