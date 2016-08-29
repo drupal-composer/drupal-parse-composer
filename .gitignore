@@ -8,4 +8,7 @@ res/panels
 res/private_taxonomy
 res/grammar_parser_lib
 res/drupal
+res/drupal
+res/df
+res/search_api_solr
 vendor

@@ -91,6 +91,20 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                     'type' => 'drupal-core'
                 ],
             ),
+             'search_api_solr' => [
+                 '8.1.0-alpha4' => [
+                     'require' => [
+                        'solarium/solarium' => '3.5.1'
+                     ]
+                 ],
+             ],
+             'df' => [
+                 '8.1.0-beta6' => [
+                     'require' => [
+                         'drupal/crop' => '8.1.0'
+                     ]
+                 ],
+             ]
         );
 
         $config = new Config();
@@ -122,15 +136,14 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             foreach ($packages as $package) {
                 if (substr($package->getVersion(), -2) === '.x') {
                     $developmentPackages[] = $package;
-                }
-                else {
+                } else {
                     $sourceReferences += [$package->getName() => []];
                     $sourceReferences[$package->getName()][] = $package->getSourceReference();
                 }
             }
 
             foreach ($developmentPackages as $package) {
-                if (isset($sourceReferences[$package->getName()]) && in_array($package->getSourceReference(), $sourceReferences[$package->getName()], TRUE)) {
+                if (isset($sourceReferences[$package->getName()]) && in_array($package->getSourceReference(), $sourceReferences[$package->getName()], true)) {
                     continue;
                 }
                 $this->assertEquals('', $package->getDistUrl());
@@ -139,6 +152,11 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             foreach ($packages as $package) {
                 if (isset($expected[$package->getPrettyVersion()])) {
                     if (is_array($p = $expected[$package->getPrettyVersion()])) {
+                        $require = isset($p['require']) ? $p['require'] : [];
+                        unset($p['require']);
+                        foreach ($require as $package_name => $version) {
+                            $this->assertEquals($version, $package->getRequires()[$package_name]->getPrettyConstraint());
+                        }
                         $this->assertEmpty(array_diff_assoc(
                             $p, $this->dumper->dump($package)
                         ));
