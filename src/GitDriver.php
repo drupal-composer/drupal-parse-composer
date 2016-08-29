@@ -107,11 +107,6 @@ class GitDriver extends BaseDriver implements FileFinderInterface
                 $composer['require'],
                 array_combine($keys, $keys)
             );
-            foreach ($composer['require'] as $name => $constraint) {
-                if (preg_match('/^\d+\.\d+\.\d+$/', $constraint)) {
-                    $composer['require'][$name] = "~$constraint";
-                }
-            }
             $composer += array(
                 'description' => null,
                 'require' => array(),
