@@ -94,6 +94,8 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
              'search_api_solr' => [
                  '8.1.0-alpha4' => [
                      'require' => [
+                        'drupal/search_api' => '8.*',
+                        'drupal/core' => '8.*',
                         'solarium/solarium' => '3.5.1'
                      ]
                  ],
@@ -101,7 +103,11 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
              'df' => [
                  '8.1.0-beta6' => [
                      'require' => [
-                         'drupal/crop' => '8.1.0'
+                         'drupal/crop' => '8.1.0',
+                         'desandro/masonry' => '3.3.1',
+                         'drupal/address' => '8.1.0-beta3',
+                         'cweagans/composer-patches' => '^1.5.0',
+                         'drupal/core' => '8.*'
                      ]
                  ],
              ]
