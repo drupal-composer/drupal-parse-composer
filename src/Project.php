@@ -12,24 +12,30 @@ class Project
     private $infoFiles = [];
     private $isTheme;
     private $hasDrush;
+    private $discoverMakeFiles = true;
 
     /**
      * @param string              $name
      * @param FileFinderInterface $finder
      * @param string              $core
      * @param array               $releases
+     * @param array               $options
      */
     public function __construct(
         $name,
         FileFinderInterface $finder,
         $core,
-        array $releases = array()
+        array $releases = array(),
+        array $options = array()
     )
     {
         $this->name     = $name;
         $this->finder   = $finder;
         $this->core     = $core;
         $this->releaseFactory = new ReleaseInfoFactory;
+        if (isset($options['discoverMakeFiles'])) {
+            $this->discoverMakeFiles = $options['discoverMakeFiles'];
+        }
     }
 
     /**
@@ -61,7 +67,7 @@ class Project
                     $this->infoFiles[] = $path;
 
                     return true;
-                } elseif (end($parts) === 'make') {
+                } elseif (end($parts) === 'make' && $this->discoverMakeFiles) {
                     $this->makeFiles[] = $path;
 
                     return true;
