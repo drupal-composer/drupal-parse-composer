@@ -62,7 +62,11 @@ class GitDriver extends BaseDriver implements FileFinderInterface
         if ($core < 7) {
             return [];
         }
-        $project = new Project($this->drupalProjectName, $this, $core);
+        $options = [];
+        if (isset($composer['extra']['packagist.drupal-composer.org']['discover-make-files'])) {
+            $options['discoverMakeFiles'] = $composer['extra']['packagist.drupal-composer.org']['discover-make-files'];
+        }
+        $project = new Project($this->drupalProjectName, $this, $core, [], $options);
         if (null != ($drupalInformation = $project->getDrupalInformation())) {
             if (isset($drupalInformation[$this->drupalProjectName])) {
                 $topInformation = $drupalInformation[$this->drupalProjectName];
