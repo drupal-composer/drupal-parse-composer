@@ -8,13 +8,14 @@ namespace Drupal\ParseComposer;
 class VersionFactory
 {
     /**
-     * Creates a version object from version information.
+     * Creates a version object from version information. Returns null if the
+     * given inforation is nonsense.
      *
      * @param string|array $versionInfo Either a version string or an array of
      *                                  core version and rest of version string.
      * @param bool         $isCore      Indicator if version is core.
      *
-     * @return AbstractVersion
+     * @return VersionInterface|null
      *
      * @throws \Drupal\ParseComposer\InvalidVersionException
      *

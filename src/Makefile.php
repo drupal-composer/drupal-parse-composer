@@ -9,6 +9,11 @@ class Makefile
 {
 
     /**
+     * @var array
+     */
+    private $makeInfo;
+
+    /**
      * @param string $data Content from makefile.
      */
     public function __construct($data)
@@ -21,7 +26,7 @@ class Makefile
      *
      * @param string[] $path Array of keys to retrieve value from.
      *
-     * @return array|bool
+     * @return string|array|false
      */
     public function getMakeInfo($path = array())
     {
@@ -45,8 +50,10 @@ class Makefile
      */
     public function getDrupalProjects()
     {
+        $projects       = $this->getMakeInfo('projects');
+        $projects       = is_array($projects) ? $projects : [];
         $drupalProjects = [];
-        foreach ($this->getMakeInfo('projects') ?: [] as $projectName => $project) {
+        foreach ($projects as $projectName => $project) {
             $url = $this->getMakeInfo(
                 ['projects', $projectName, 'download', 'url']
             );
@@ -148,23 +155,22 @@ class Makefile
      *
      * @param array $path Nested keys to retrieve value from.
      *
-     * @return bool|AbstractVersion|string
+     * @return false|string
      *
      * @todo Specify return type
      */
     private function getVersionFromPath(array $path)
     {
-        if ($versionString = $this->getMakeInfo($path)) {
-            return $this->makeVersion($versionString, $path[1]);
+        if (is_string($version = $this->getMakeInfo($path))) {
+            return $this->makeVersion($version, $path[1]);
         }
-
-        return false;
     }
 
     /**
+     * Creates a SemVer string
      * @param string $versionString
      * @param string $name
-     * @return AbstractVersion|string
+     * @return string|null
      *
      * @todo: Better description.
      * @todo Specify return type
