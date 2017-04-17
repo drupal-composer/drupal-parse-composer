@@ -214,19 +214,14 @@ class InfoFile
      */
     public function getRequirements()
     {
-        $requirements = array();
-        $deps = isset($this->info['dependencies']) ? $this->info['dependencies'] : array();
-        $deps = is_array($deps) ? $deps : array($deps);
-
-        switch ($this->core) {
-            case 7:
-                $requirements += $this->constraint('drupal');
-                break;
-            case 8:
-                $requirements += $this->constraint('core');
-                break;
+        if ($this->core == 8) {
+            // Drupal 8 projects are responsible for their own requirements.
+            return [];
         }
 
+        $requirements = $this->constraint('drupal');
+        $deps = isset($this->info['dependencies']) ? $this->info['dependencies'] : array();
+        $deps = is_array($deps) ? $deps : array($deps);
         foreach ($deps as $dep) {
             $requirements += $this->constraint($dep);
         }
